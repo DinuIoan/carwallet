@@ -8,4 +8,6 @@
     <color name="colorPrimaryReplyBlueDark">#232F34</color>
     <color name="colorPrimaryReplyBlueAccent">#4A6572</color>
     <color name="colorSecondaryReplyOrange">#F9AA33</color>
+
+    <color name="background">#EEEEEE</color>
 </resources>
