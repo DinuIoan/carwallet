@@ -7,7 +7,7 @@
     <string name="hint_model">Model</string>
     <string name="hint_shape">Vehicle type</string>
     <string name="hint_engine">Engine capacity</string>
-    <string name="hint_power">Engine power</string>
+    <string name="hint_power">Vehicle power</string>
     <string name="hint_year">Year</string>
     <string name="hint_vin">VIN</string>
     <string name="hint_fuel">Fuel type</string>
