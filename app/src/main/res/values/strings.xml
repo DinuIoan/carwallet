@@ -3,4 +3,15 @@
     <string name="service">Service</string>
     <string name="alerts">Alerts</string>
     <string name="car">Cars</string>
+    <string name="hint_manufacturer">Manufacturer</string>
+    <string name="hint_model">Model</string>
+    <string name="hint_shape">Vehicle type</string>
+    <string name="hint_engine">Engine capacity</string>
+    <string name="hint_power">Engine power</string>
+    <string name="hint_year">Year</string>
+    <string name="hint_vin">VIN</string>
+    <string name="hint_fuel">Fuel type</string>
+    <string name="hint_mileage">Mileage</string>
+    <string name="hint_license_no">License no</string>
+    <string name="btn_add_car">Add</string>
 </resources>

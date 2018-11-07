@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.bestapps.carwallet.cars.CarsFragment;
 import com.bestapps.carwallet.service.ServiceFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_alerts:
                     return true;
                 case R.id.navigation_cars:
+                    changeFragment(new CarsFragment());
                     return true;
             }
             return false;

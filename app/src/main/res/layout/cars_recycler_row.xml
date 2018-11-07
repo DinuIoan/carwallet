@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:elevation="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="3">
+        <TextView
+            android:id="@+id/manufacturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="MANUFACTURER"
+            android:textStyle="bold"
+            android:textAlignment="textStart"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:text="Model"
+            android:textAlignment="textStart"
+            android:textSize="20sp"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_green_car"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/license_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="License no: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Year: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/mileage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mileage: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/shape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle type: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/engine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Engine capacity: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Power: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/fuel_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fuel type: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+        <TextView
+            android:id="@+id/vin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIN: "
+            android:textStyle="italic"
+            android:textSize="17dp"/>
+    </LinearLayout>
+
+</LinearLayout>

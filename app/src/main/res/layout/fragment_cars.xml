@@ -18,4 +18,10 @@
         app:fabCustomSize="50dp"
         app:srcCompat="@drawable/ic_add" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cars_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+
 </FrameLayout>
