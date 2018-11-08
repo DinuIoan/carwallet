@@ -25,13 +25,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
 
-                <EditText
+                <Spinner
                     android:id="@+id/input_manufacturer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:hint="@string/hint_manufacturer" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -39,13 +36,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
-
-                <EditText
+                <Spinner
                     android:id="@+id/input_model"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="@string/hint_model" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

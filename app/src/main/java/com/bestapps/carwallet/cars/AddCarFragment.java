@@ -6,15 +6,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.data.StaticData;
+import com.bestapps.carwallet.model.CarType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddCarFragment extends Fragment {
-    private EditText manufacturerEdt;
-    private EditText modelEdt;
+    private Spinner manufacturerSpinner;
+    private Spinner modelSpinner;
     private Spinner shapeEdt;
     private EditText yearEdt;
     private EditText mileageEdt;
@@ -57,6 +64,7 @@ public class AddCarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_car, container, false);
         initializeViews(view);
+        modelSpinner.setEnabled(false);
         setClickListeners();
 
         return view;
@@ -73,26 +81,52 @@ public class AddCarFragment extends Fragment {
                 }
             }
         });
+
+        manufacturerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String manufacturerSelected = adapterView.getItemAtPosition(i).toString();
+                modelSpinner.setEnabled(true);
+                for (CarType carType: StaticData.getCarTypes()) {
+                    if (carType.getManufacturer().equals(manufacturerSelected)) {
+                        Object[] stringArray = carType.getModels().toArray();
+                        ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(getContext(),
+                                android.R.layout.simple_spinner_item, stringArray);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        modelSpinner.setAdapter(arrayAdapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                adapterView.setSelection(0);
+            }
+        });
     }
 
     private boolean validate() {
         boolean isValid = true;
-        String manufacturer = manufacturerEdt.getText().toString();
         vin = vinEdt.getText().toString();
         engine = engineEdt.getText().toString();
         fuelType = fuelTypeEdt.getText().toString();
 
-        if (manufacturer.isEmpty()) {
+        if (manufacturerSpinner.isSelected()) {
             isValid = setError(layoutManufacturer);
         } else {
             layoutManufacturer.setErrorEnabled(false);
+            manufacturer = manufacturerSpinner.getSelectedItem().toString();
         }
-        if (modelEdt.getText().toString().isEmpty()) {
-            isValid = setError(layoutModel);
+
+
+        if (modelSpinner.isSelected()) {
+            isValid = setError(layoutManufacturer);
         } else {
-            layoutModel.setErrorEnabled(false);
-            model = modelEdt.getText().toString();
+            layoutManufacturer.setErrorEnabled(false);
+            model = manufacturerSpinner.getSelectedItem().toString();
         }
+
+
         if (licenseNoEdt.getText().toString().isEmpty()) {
             isValid = setError(layoutLicenseNo);
         } else {
@@ -124,8 +158,9 @@ public class AddCarFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
-        manufacturerEdt = view.findViewById(R.id.input_manufacturer);
-        modelEdt = view.findViewById(R.id.input_model);
+        manufacturerSpinner = view.findViewById(R.id.input_manufacturer);
+        setSpinnerAdapter(manufacturerSpinner, R.array.manufacturers);
+        modelSpinner = view.findViewById(R.id.input_model);
         shapeEdt = view.findViewById(R.id.input_shape);
         yearEdt = view.findViewById(R.id.input_year);
         mileageEdt = view.findViewById(R.id.input_mileage);
@@ -146,6 +181,13 @@ public class AddCarFragment extends Fragment {
         layoutShape = view.findViewById(R.id.input_layout_shape);
         layoutVin = view.findViewById(R.id.input_layout_vin);
         layoutYear = view.findViewById(R.id.input_layout_year);
+    }
+
+    private void setSpinnerAdapter(Spinner spinner, int resId) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                resId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     private boolean setError(TextInputLayout textInputLayout) {
