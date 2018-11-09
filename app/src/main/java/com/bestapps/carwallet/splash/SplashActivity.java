@@ -66,10 +66,19 @@ public class SplashActivity extends AppCompatActivity {
                     models.add(line);
                 }
             }
+            StaticData.getCarTypes().add(carType);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Other car type
+        CarType carType = new CarType();
+        carType.setManufacturer("Other...");
+        List<String> otherList = new ArrayList<>();
+        otherList.add("Other...");
+        carType.setModels(otherList);
+        StaticData.getCarTypes().add(carType);
     }
 }
