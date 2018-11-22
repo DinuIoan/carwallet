@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorSecondaryReplyOrange"
+        app:backgroundTint="@color/colorPrimaryReplyBlue"
         app:elevation="10dp"
         app:fabCustomSize="50dp"
         app:srcCompat="@drawable/ic_add" />

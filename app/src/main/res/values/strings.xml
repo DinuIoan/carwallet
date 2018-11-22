@@ -6,12 +6,33 @@
     <string name="hint_manufacturer">Manufacturer</string>
     <string name="hint_model">Model</string>
     <string name="hint_shape">Vehicle type</string>
-    <string name="hint_engine">Engine capacity</string>
-    <string name="hint_power">Vehicle power</string>
+    <string name="hint_engine">Engine capacity (cmc)</string>
+    <string name="hint_power">Vehicle power (CP)</string>
     <string name="hint_year">Year</string>
     <string name="hint_vin">VIN</string>
     <string name="hint_fuel">Fuel type</string>
-    <string name="hint_mileage">Mileage</string>
+    <string name="hint_mileage">Mileage (km)</string>
     <string name="hint_license_no">License no</string>
     <string name="btn_add_car">Add</string>
+
+    <string-array name="shapes">
+        <item>Select vehicle type...</item>
+        <item>Cabriolet</item>
+        <item>Estate Car</item>
+        <item>SUV</item>
+        <item>Saloon</item>
+        <item>Hatchbakck</item>
+        <item>Coupe</item>
+        <item>Van / Minibus</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="fuelTypes">
+        <item>Select fuel type...</item>
+        <item>Petrol</item>
+        <item>Diesel</item>
+        <item>Electric</item>
+        <item>Hybrid</item>
+        <item>LPG</item>
+        <item>Natural Gas</item>
+    </string-array>
 </resources>

@@ -8,13 +8,15 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:elevation="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:elevation="10dp">
+        android:elevation="8dp"
+        android:background="@color/colorSecondaryReplyOrange">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,10 +29,11 @@
             android:textSize="25sp"
             android:text="MANUFACTURER"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textAlignment="textStart"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"/>
 
         <TextView
@@ -39,31 +42,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:text="Model"
             android:textAlignment="textStart"
             android:textSize="20sp"/>
         </LinearLayout>
+
         <ImageView
             android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_green_car"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@mipmap/ic_green_car" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/license_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="License no: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -71,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Year: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -78,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mileage: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -85,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vehicle type: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -92,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Engine capacity: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -99,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Power: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -106,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fuel type: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
         <TextView
@@ -113,8 +126,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="VIN: "
+            android:textColor="@color/colorPrimaryReplyBlue"
             android:textStyle="italic"
             android:textSize="17dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:padding="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:translationZ="10dp"
+            android:text="Edit"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="@color/colorPrimaryReplyBlue"
+            android:background="@drawable/button_car_card_view_style"/>
+        <Button
+            android:id="@+id/set_active_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:padding="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:translationZ="10dp"
+            android:text="Set active"
+            android:textSize="17sp"
+            android:textColor="@color/colorPrimaryReplyBlue"
+            android:textStyle="bold"
+            android:background="@drawable/button_car_card_view_style"/>
+
     </LinearLayout>
 
 </LinearLayout>

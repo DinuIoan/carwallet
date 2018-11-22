@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,10 @@ import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
+import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.CarType;
+import com.bestapps.carwallet.service.ServiceFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +30,8 @@ import java.util.List;
 public class AddCarFragment extends Fragment {
     private Spinner manufacturerSpinner;
     private Spinner modelSpinner;
-    private Spinner shapeEdt;
+    private Spinner shapeSpinner;
+    private Spinner fuelTypeSpinner;
     private EditText manufacturerEdt;
     private EditText modelEdt;
     private EditText yearEdt;
@@ -33,7 +40,6 @@ public class AddCarFragment extends Fragment {
     private EditText licenseNoEdt;
     private EditText engineEdt;
     private EditText powerEdt;
-    private EditText fuelTypeEdt;
     private Button addCar;
     private TextInputLayout layoutManufacturer;
     private TextInputLayout edtLayoutManufacturer;
@@ -59,6 +65,8 @@ public class AddCarFragment extends Fragment {
     private String fuelType;
     private String shape;
     private boolean isOther = false;
+    private DatabaseHandler databaseHandler;
+    private FragmentManager fragmentManager;
 
 
     @Override
@@ -71,8 +79,10 @@ public class AddCarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_car, container, false);
         initializeViews(view);
+        handleOnBackPressed(view);
         modelSpinner.setEnabled(false);
         setClickListeners();
+        databaseHandler = new DatabaseHandler(getContext());
 
         return view;
     }
@@ -82,9 +92,8 @@ public class AddCarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    
-                } else {
-                    
+                    databaseHandler.addCar(buildCar());
+                    changeFragment(new CarsFragment());
                 }
             }
         });
@@ -139,11 +148,25 @@ public class AddCarFragment extends Fragment {
         });
     }
 
+    private Car buildCar() {
+        Car car = new Car();
+        car.setManufacturer(manufacturer);
+        car.setModel(model);
+        car.setMileage(mileage);
+        car.setLicenseNo(licenseNo);
+        car.setFuelType(fuelType);
+        car.setVin(vin);
+        car.setYear(year);
+        car.setEngine(engine);
+        car.setShape(shape);
+        car.setPower(power);
+        return car;
+    }
+
     private boolean validate() {
         boolean isValid = true;
         vin = vinEdt.getText().toString();
         engine = engineEdt.getText().toString();
-        fuelType = fuelTypeEdt.getText().toString();
 
         if (manufacturerSpinner.getSelectedItem().toString().equals("Select manufacturer...")) {
             TextView errorText = (TextView)manufacturerSpinner.getSelectedView();
@@ -166,49 +189,79 @@ public class AddCarFragment extends Fragment {
             layoutManufacturer.setErrorEnabled(false);
             model = modelSpinner.getSelectedItem().toString();
         }
+        if (shapeSpinner.getSelectedItem().toString().equals("Select vehicle type...")) {
+            isValid = setError(layoutShape);
+            TextView errorText = (TextView)shapeSpinner.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("Select vehicle type...");
+        } else {
+            layoutShape.setErrorEnabled(false);
+            shape = shapeSpinner.getSelectedItem().toString();
+        }
 
         if (licenseNoEdt.getText().toString().isEmpty()) {
-            isValid = setError(layoutLicenseNo);
+//            isValid = setError(layoutLicenseNo);
+            isValid = false;
+            licenseNoEdt.setError("");
         } else {
             layoutLicenseNo.setErrorEnabled(false);
             licenseNo = licenseNoEdt.getText().toString();
         }
-        if (shapeEdt.isSelected()) {
-            layoutShape.setErrorEnabled(false);
-            shape = shapeEdt.getSelectedItem().toString();
+        if (!engineEdt.getText().toString().isEmpty()) {
+            engine = engineEdt.getText().toString();
         } else {
-            isValid = setError(layoutShape);
+            isValid = false;
+            engineEdt.setError("");
         }
+
         if (!powerEdt.getText().toString().isEmpty()) {
             power = Integer.parseInt(powerEdt.getText().toString());
+        } else {
+            isValid = false;
+            powerEdt.setError("");
         }
         if (yearEdt.getText().toString().isEmpty()) {
-            isValid = setError(layoutYear);
+//            isValid = setError(layoutYear);
+            isValid = false;
+            yearEdt.setError("");
         } else {
             layoutYear.setErrorEnabled(false);
             year = Integer.parseInt(yearEdt.getText().toString());
         }
         if (mileageEdt.getText().toString().isEmpty()) {
-            isValid = setError(layoutMileage);
+//            isValid = setError(layoutMileage);
+            isValid = false;
+            mileageEdt.setError("");
         } else {
             layoutMileage.setErrorEnabled(false);
             mileage = Integer.parseInt(mileageEdt.getText().toString());
+        }
+
+        if (fuelTypeSpinner.getSelectedItem().toString().equals("Select fuel type...")) {
+            isValid = setError(layoutFuelType);
+            TextView errorText = (TextView)fuelTypeSpinner.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("Select fuel type...");
+        } else {
+            layoutFuelType.setErrorEnabled(false);
+            fuelType = fuelTypeSpinner.getSelectedItem().toString();
         }
         return isValid;
     }
 
     private void initializeViews(View view) {
         manufacturerSpinner = view.findViewById(R.id.input_manufacturer);
-        setManufacturerSpinnerAdapter(manufacturerSpinner);
         modelSpinner = view.findViewById(R.id.input_model);
-        shapeEdt = view.findViewById(R.id.input_shape);
+        shapeSpinner = view.findViewById(R.id.input_shape);
         yearEdt = view.findViewById(R.id.input_year);
         mileageEdt = view.findViewById(R.id.input_mileage);
         vinEdt = view.findViewById(R.id.input_vin);
         licenseNoEdt = view.findViewById(R.id.input_license);
         engineEdt = view.findViewById(R.id.input_engine);
         powerEdt = view.findViewById(R.id.input_power);
-        fuelTypeEdt = view.findViewById(R.id.input_fuel_type);
+        fuelTypeSpinner = view.findViewById(R.id.input_fuel_type);
         addCar = view.findViewById(R.id.btn_add_car);
 
         manufacturerEdt = view.findViewById(R.id.input_edt_manufacturer);
@@ -228,14 +281,35 @@ public class AddCarFragment extends Fragment {
         edtLayoutModel = view.findViewById(R.id.input_edt_layout_model);
         edtLayoutManufacturer.setVisibility(View.GONE);
         edtLayoutModel.setVisibility(View.GONE);
+
+        setManufacturerSpinnerAdapter();
+        setShapeSpinnerAdapter();
+        setFuelTypeSpinnerAdapter();
+        
     }
 
-    private void setManufacturerSpinnerAdapter(Spinner spinner) {
+    private void setFuelTypeSpinnerAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.fuelTypes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fuelTypeSpinner.setAdapter(adapter);
+        fuelTypeSpinner.setSelection(0);
+    }
+
+    private void setManufacturerSpinnerAdapter() {
         ArrayAdapter<Object> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, createManufacturersList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
+        manufacturerSpinner.setAdapter(adapter);
+        manufacturerSpinner.setSelection(0);
+    }
+
+    private void setShapeSpinnerAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.shapes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shapeSpinner.setAdapter(adapter);
+        shapeSpinner.setSelection(0);
     }
 
     private Object[] createManufacturersList() {
@@ -249,5 +323,28 @@ public class AddCarFragment extends Fragment {
     private boolean setError(TextInputLayout textInputLayout) {
         textInputLayout.setErrorEnabled(true);
         return false;
+    }
+
+    private void changeFragment(Fragment fragment) {
+        fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void handleOnBackPressed(View view) {
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

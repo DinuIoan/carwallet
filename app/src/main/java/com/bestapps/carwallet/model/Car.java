@@ -13,7 +13,7 @@ public class Car {
     private String fuelType;
     private String licenseNo;
     private int active;
-    private int timestamp;
+    private long timestamp;
     private int image;
 
     public Long getId() {
@@ -112,11 +112,11 @@ public class Car {
         this.active = active;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

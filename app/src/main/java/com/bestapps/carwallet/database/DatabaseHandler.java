@@ -7,7 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bestapps.carwallet.model.Car;
 
+import java.sql.SQLData;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -55,7 +59,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + CAR_IMAGE+ " integer " +
                 " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
-        sqLiteDatabase.close();
     }
 
     @Override
@@ -66,6 +69,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addCar(Car car) {
         SQLiteDatabase database = getWritableDatabase();
+        car.setTimestamp(Calendar.getInstance().getTime().getTime());
         String ADD_CAR = "insert into " + CAR_TABLE +
                 " values(null, '"
                 + car.getManufacturer() + "', '"
@@ -105,12 +109,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             car.setFuelType(cursor.getString(9));
             car.setLicenseNo(cursor.getString(10));
             car.setActive(cursor.getInt(11));
-            car.setTimestamp(cursor.getInt(12));
+            car.setTimestamp(cursor.getLong(12));
             car.setImage(cursor.getInt(13));
             cars.add(car);
         }
         cursor.close();
         database.close();
         return cars;
+    }
+
+    public void updateCarSetActive(Long id, int active) {
+        SQLiteDatabase database = getWritableDatabase();
+        String UPDATE_CAR_SET_ACTIVE = "update " + CAR_TABLE +
+                " set " + CAR_ACTIVE + " = " + active +
+                " where " + ID + " = " + id;
+        database.execSQL(UPDATE_CAR_SET_ACTIVE);
+        database.close();
     }
 }
