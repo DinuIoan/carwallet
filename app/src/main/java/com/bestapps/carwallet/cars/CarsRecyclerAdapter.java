@@ -1,6 +1,11 @@
 package com.bestapps.carwallet.cars;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.alertdialog.AlertDialogFragment;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 
@@ -20,6 +26,7 @@ public class CarsRecyclerAdapter
         extends RecyclerView.Adapter<CarsRecyclerAdapter.MyViewHolder>  {
     private List<Car> cars;
     private DatabaseHandler databaseHandler;
+    private FragmentManager fragmentManager;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -60,9 +67,12 @@ public class CarsRecyclerAdapter
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CarsRecyclerAdapter(List<Car> cars, DatabaseHandler databaseHandler) {
+    public CarsRecyclerAdapter(List<Car> cars,
+                               DatabaseHandler databaseHandler,
+                               FragmentManager fragmentManager) {
         this.cars = cars;
         this.databaseHandler = databaseHandler;
+        this.fragmentManager = fragmentManager;
     }
 
     // Create new views (invoked by the layout manager)
@@ -116,21 +126,9 @@ public class CarsRecyclerAdapter
         holder.setActiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Car> carList = databaseHandler.findAllCars();
-                for (Car car: carList) {
-                    if (car.getLicenseNo().equals(cars.get(position).getLicenseNo())) {
-                        if (car.getManufacturer().equals(cars.get(position).getManufacturer())) {
-                            if (car.getModel().equals(cars.get(position).getModel())) {
-                                if (car.getMileage() == cars.get(position).getMileage()) {
-                                    databaseHandler.updateCarSetActive(car.getId(), 1);
-                                }
-                            }
-                        }
-                    }
-                    if (car.getActive() == 1) {
-                        databaseHandler.updateCarSetActive(car.getId(), 0);
-                    }
-                }
+
+                changeFragment(new AlertDialogFragment(), cars.get(position));
+
             }
         });
 
@@ -140,5 +138,15 @@ public class CarsRecyclerAdapter
     @Override
     public int getItemCount() {
         return cars.size();
+    }
+
+    private void changeFragment(Fragment fragment, Car car) {
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("car", car);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
+        fragmentTransaction.commit();
     }
 }

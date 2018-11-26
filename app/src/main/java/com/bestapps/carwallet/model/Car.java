@@ -1,6 +1,8 @@
 package com.bestapps.carwallet.model;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     private Long id;
     private String manufacturer;
     private String model;

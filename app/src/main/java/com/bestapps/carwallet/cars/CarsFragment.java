@@ -22,7 +22,7 @@ public class CarsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager ;
     private DatabaseHandler databaseHandler;
     private Button setActiveButton;
 
@@ -37,8 +37,8 @@ public class CarsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cars, container, false);
         serviceFab = view.findViewById(R.id.service_fab);
-        setActiveButton = view.findViewById(R.id.set_active_button);
         databaseHandler = new DatabaseHandler(getContext());
+        fragmentManager = getActivity().getSupportFragmentManager();
         StaticData.setCars(databaseHandler.findAllCars());
         setClickListeners(view);
 
@@ -51,7 +51,7 @@ public class CarsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CarsRecyclerAdapter(StaticData.getCars(), databaseHandler);
+        mAdapter = new CarsRecyclerAdapter(StaticData.getCars(), databaseHandler, fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
@@ -64,15 +64,9 @@ public class CarsFragment extends Fragment {
                 changeFragment(new AddCarFragment());
             }
         });
-        setActiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
     }
 
     private void changeFragment(Fragment fragment) {
-        fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);

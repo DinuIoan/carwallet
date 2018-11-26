@@ -35,4 +35,7 @@
         <item>LPG</item>
         <item>Natural Gas</item>
     </string-array>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="changeActiveCar">Atention</string>
 </resources>
