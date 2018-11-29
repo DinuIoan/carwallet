@@ -126,4 +126,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.execSQL(UPDATE_CAR_SET_ACTIVE);
         database.close();
     }
+
+    public void deleteCar(Long id) {
+        SQLiteDatabase database = getWritableDatabase();
+        String DELETE_CAR = "delete from " + CAR_TABLE +
+                " where id = " + id;
+        database.execSQL(DELETE_CAR);
+        database.close();
+    }
 }

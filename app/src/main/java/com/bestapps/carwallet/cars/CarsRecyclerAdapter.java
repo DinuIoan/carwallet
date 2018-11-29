@@ -1,7 +1,5 @@
 package com.bestapps.carwallet.cars;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
-import com.bestapps.carwallet.alertdialog.AlertDialogFragment;
+import com.bestapps.carwallet.alertdialog.ClearAlertDialog;
+import com.bestapps.carwallet.alertdialog.SetActiveAlertDialogFragment;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 
@@ -47,6 +46,7 @@ public class CarsRecyclerAdapter
 
         public Button editButton;
         public Button setActiveButton;
+        public Button clearButton;
 
         public MyViewHolder(LinearLayout v) {
             super(v);
@@ -63,6 +63,7 @@ public class CarsRecyclerAdapter
             image = v.findViewById(R.id.image);
             editButton = v.findViewById(R.id.edit_button);
             setActiveButton = v.findViewById(R.id.set_active_button);
+            clearButton = v.findViewById(R.id.clear);
         }
     }
 
@@ -126,9 +127,15 @@ public class CarsRecyclerAdapter
         holder.setActiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                changeFragment(new SetActiveAlertDialogFragment(), cars.get(position));
 
-                changeFragment(new AlertDialogFragment(), cars.get(position));
+            }
+        });
 
+        holder.clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new ClearAlertDialog(), cars.get(position));
             }
         });
 

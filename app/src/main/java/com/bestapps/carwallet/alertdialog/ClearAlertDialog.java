@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.bestapps.carwallet.model.Car;
 
 import java.util.List;
 
-public class AlertDialogFragment extends Fragment {
+public class ClearAlertDialog extends Fragment {
     private FragmentManager fragmentManager;
     private Car car;
     private DatabaseHandler databaseHandler;
@@ -34,8 +35,10 @@ public class AlertDialogFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alert_dialog, container, false);
         fragmentManager = getActivity().getSupportFragmentManager();
+        handleOnBackPressed(view);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         databaseHandler = new DatabaseHandler(getContext());
+
         builder.setMessage(buildMessage(car))
                 .setTitle(R.string.changeActiveCar);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -45,14 +48,12 @@ public class AlertDialogFragment extends Fragment {
                     if (dbCar.getLicenseNo().equals(car.getLicenseNo())) {
                         if (dbCar.getManufacturer().equals(car.getManufacturer())) {
                             if (dbCar.getModel().equals(car.getModel())) {
-                                if (dbCar.getMileage() == car.getMileage()) {
-                                    databaseHandler.updateCarSetActive(dbCar.getId(), 1);
+                                if (dbCar.getActive() == 1) {
+                                    setActiveFirstCar(carList);
                                 }
+                                databaseHandler.deleteCar(dbCar.getId());
                             }
                         }
-                    }
-                    if (dbCar.getActive() == 1) {
-                        databaseHandler.updateCarSetActive(dbCar.getId(), 0);
                     }
                 }
                 changeFragment(new CarsFragment());
@@ -68,14 +69,20 @@ public class AlertDialogFragment extends Fragment {
         return view;
     }
 
+    private void setActiveFirstCar(List<Car> carList) {
+        if (carList.size() != 0) {
+            databaseHandler.updateCarSetActive(carList.get(0).getId(), 1);
+        }
+    }
+
     private String buildMessage(Car car) {
-        return "Are you sure that "
+        return "Are you sure you want to delete "
                 + car.getManufacturer()
                 + " "
                 + car.getModel()
-                + " with license no: "
+                + "("
                 + car.getLicenseNo()
-                + " should be the active car?";
+                + ") ?";
     }
 
     private void changeFragment(Fragment fragment) {
@@ -83,5 +90,20 @@ public class AlertDialogFragment extends Fragment {
                 fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void handleOnBackPressed(View view) {
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

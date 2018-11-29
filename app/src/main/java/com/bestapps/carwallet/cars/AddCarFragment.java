@@ -14,9 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
@@ -25,13 +27,26 @@ import com.bestapps.carwallet.model.CarType;
 import com.bestapps.carwallet.service.ServiceFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddCarFragment extends Fragment {
+    private static Integer[] imageIconDatabase = {
+            R.mipmap.ic_black_car, R.mipmap.ic_blue_car, R.mipmap.ic_dark_green_car,
+            R.mipmap.ic_dark_grey_car, R.mipmap.ic_dark_purple_car, R.mipmap.ic_green_car,
+            R.mipmap.ic_grey_car, R.mipmap.ic_orange_car, R.mipmap.ic_pink_car, R.mipmap.ic_purple_car,
+            R.mipmap.ic_red_car
+    };
+    private String[] imageNameDatabase = { "Black", "Blue", "Dark green", "Dark grey",
+            "Dark purple", "Green", "Grey", "Orange", "Pink", "Purple", "Red" };
+    private Map<String, Object> imageMap;
+    private List<Map<String, Object>> imageList;
     private Spinner manufacturerSpinner;
     private Spinner modelSpinner;
     private Spinner shapeSpinner;
     private Spinner fuelTypeSpinner;
+    private Spinner imageSpinner;
     private EditText manufacturerEdt;
     private EditText modelEdt;
     private EditText yearEdt;
@@ -40,6 +55,7 @@ public class AddCarFragment extends Fragment {
     private EditText licenseNoEdt;
     private EditText engineEdt;
     private EditText powerEdt;
+    private Integer imageResource;
     private Button addCar;
     private TextInputLayout layoutManufacturer;
     private TextInputLayout edtLayoutManufacturer;
@@ -160,6 +176,7 @@ public class AddCarFragment extends Fragment {
         car.setEngine(engine);
         car.setShape(shape);
         car.setPower(power);
+        car.setImage(imageResource);
         return car;
     }
 
@@ -263,6 +280,7 @@ public class AddCarFragment extends Fragment {
         powerEdt = view.findViewById(R.id.input_power);
         fuelTypeSpinner = view.findViewById(R.id.input_fuel_type);
         addCar = view.findViewById(R.id.btn_add_car);
+        imageSpinner = view.findViewById(R.id.input_image);
 
         manufacturerEdt = view.findViewById(R.id.input_edt_manufacturer);
         modelEdt = view.findViewById(R.id.input_edt_model);
@@ -285,7 +303,38 @@ public class AddCarFragment extends Fragment {
         setManufacturerSpinnerAdapter();
         setShapeSpinnerAdapter();
         setFuelTypeSpinnerAdapter();
-        
+        setImageSpinnerAdapter();
+    }
+
+    private void setImageSpinnerAdapter() {
+        CustomSpinnerAdapter mCustomAdapter = new CustomSpinnerAdapter(getActivity(), imageNameDatabase, imageIconDatabase);
+        imageSpinner.setAdapter(mCustomAdapter);
+        imageResource = imageIconDatabase[0];
+        imageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView adapterView, View view, int i, long l) {
+                imageResource = imageIconDatabase[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView adapterView) {
+
+            }
+        });
+    }
+
+    private void initializeImageList() {
+        // TODO Auto-generated method stub
+        for (int i = 0; i < imageNameDatabase.length; i++) {
+            imageMap = new HashMap<String, Object>();
+
+            imageMap.put("Name", imageNameDatabase[i]);
+            imageMap.put("Icon", imageIconDatabase[i]);
+            imageList.add(imageMap);
+        }
+        ImageView imageView = new ImageView(getContext());
+        imageView.setBackgroundResource((Integer) (imageList.get(0).get("Icon")));
+        imageList.get(0).get("Name");
     }
 
     private void setFuelTypeSpinnerAdapter() {
