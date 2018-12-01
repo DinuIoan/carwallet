@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Car Wallet</string>
     <string name="service">Service</string>
-    <string name="alerts">Alerts</string>
+    <string name="maintenance">Maintenance</string>
     <string name="car">Cars</string>
     <string name="hint_manufacturer">Manufacturer</string>
     <string name="hint_model">Model</string>
@@ -14,6 +14,7 @@
     <string name="hint_mileage">Mileage (km)</string>
     <string name="hint_license_no">License no</string>
     <string name="btn_add_car">Add</string>
+    <string name="btn_add_car_edit">Edit</string>
 
     <string-array name="shapes">
         <item>Select vehicle type...</item>
@@ -37,5 +38,7 @@
     </string-array>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">Ok, got it</string>
     <string name="changeActiveCar">Atention</string>
+    <string name="licenseNoUniquieConstraint">You can`t have two cars with same license no. License no must be unique.</string>
 </resources>

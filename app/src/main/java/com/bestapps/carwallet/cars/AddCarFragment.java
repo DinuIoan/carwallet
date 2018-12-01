@@ -1,5 +1,7 @@
 package com.bestapps.carwallet.cars;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -83,11 +85,18 @@ public class AddCarFragment extends Fragment {
     private boolean isOther = false;
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
-
+    private Car editCar;
+    private boolean isEdit = false;
+    private List<String> manufacturers = new ArrayList<>();
+    private Object[] modelsArray;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.editCar = (Car) getArguments().getSerializable("car");
+            isEdit = true;
+        }
     }
 
     @Override
@@ -98,9 +107,68 @@ public class AddCarFragment extends Fragment {
         handleOnBackPressed(view);
         modelSpinner.setEnabled(false);
         setClickListeners();
+        if (isEdit) {
+            addCar.setText(R.string.btn_add_car_edit);
+            intializaEditTextView();
+        } else {
+            addCar.setText(R.string.btn_add_car);
+        }
         databaseHandler = new DatabaseHandler(getContext());
 
         return view;
+    }
+
+    private void intializaEditTextView() {
+        int count = 0;
+        for (String manufacturerFromList: manufacturers) {
+            if (manufacturerFromList.equals(editCar.getManufacturer())) {
+                manufacturerSpinner.setSelection(count);
+            }
+            count++;
+        }
+        count = 0;
+        setModelSpinner(editCar.getManufacturer());
+        List<String> modelsStringList = new ArrayList<>();
+        for (Object modelObject: modelsArray) {
+            modelsStringList.add(modelObject.toString());
+        }
+        for (String modelFromList: modelsStringList) {
+            if (modelFromList.equals(editCar.getModel())) {
+                modelSpinner.setSelection(count);
+            }
+            count++;
+        }
+        count = 0;
+        String[] shapes = getResources().getStringArray(R.array.shapes);
+        for (String shapeFromArray: shapes) {
+            if (shapeFromArray.equals(editCar.getShape())) {
+                shapeSpinner.setSelection(count);
+            }
+            count++;
+        }
+        count = 0;
+        String[] fuelTypes = getResources().getStringArray(R.array.fuelTypes);
+        for(String fuelTypeFromArray: fuelTypes) {
+            if (fuelTypeFromArray.equals(editCar.getFuelType())) {
+                fuelTypeSpinner.setSelection(count);
+            }
+            count++;
+        }
+        count = 0;
+        for (Integer imageResourceId: imageIconDatabase) {
+            if (imageResourceId == editCar.getImage()) {
+                imageSpinner.setSelection(count);
+                count = 0;
+            }
+            count++;
+        }
+        yearEdt.setText("" + editCar.getYear());
+        engineEdt.setText(editCar.getEngine());
+        licenseNoEdt.setText(editCar.getLicenseNo());
+        mileageEdt.setText("" + editCar.getMileage());
+        powerEdt.setText("" + editCar.getPower());
+        vinEdt.setText(editCar.getVin());
+
     }
 
     private void setClickListeners() {
@@ -108,8 +176,22 @@ public class AddCarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    databaseHandler.addCar(buildCar());
-                    changeFragment(new CarsFragment());
+                    Car newCar = buildCar();
+                    if (isEdit) {
+                        if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, true)) {
+                            createAlertDialogExistingLicenseNo();
+                        } else {
+                            databaseHandler.updateCar(newCar);
+                            changeFragment(new CarsFragment());
+                        }
+                    } else {
+                        if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, false)) {
+                            createAlertDialogExistingLicenseNo();
+                        } else {
+                            databaseHandler.addCar(newCar);
+                            changeFragment(new CarsFragment());
+                        }
+                    }
                 }
             }
         });
@@ -119,15 +201,7 @@ public class AddCarFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 manufacturer = adapterView.getItemAtPosition(i).toString();
                 modelSpinner.setEnabled(true);
-                for (CarType carType: StaticData.getCarTypes()) {
-                    if (carType.getManufacturer().equals(manufacturer)) {
-                        Object[] stringArray = carType.getModels().toArray();
-                        ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(getContext(),
-                                android.R.layout.simple_spinner_item, stringArray);
-                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        modelSpinner.setAdapter(arrayAdapter);
-                    }
-                }
+                setModelSpinner(manufacturer);
                 if (manufacturer.equals("Other...")) {
                     isOther = true;
                     manufacturerSpinner.setVisibility(View.VISIBLE);
@@ -164,8 +238,37 @@ public class AddCarFragment extends Fragment {
         });
     }
 
+    private void setModelSpinner(String manufacturer) {
+        for (CarType carType: StaticData.getCarTypes()) {
+            if (carType.getManufacturer().equals(manufacturer)) {
+                modelsArray = carType.getModels().toArray();
+                ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(getContext(),
+                        android.R.layout.simple_spinner_item, modelsArray);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                modelSpinner.setAdapter(arrayAdapter);
+            }
+        }
+    }
+
+    private void createAlertDialogExistingLicenseNo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.licenseNoUniquieConstraint)
+                .setTitle(R.string.changeActiveCar);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private Car buildCar() {
         Car car = new Car();
+        if (isEdit) {
+            car.setId(editCar.getId());
+            car.setActive(editCar.getActive());
+            car.setTimestamp(editCar.getTimestamp());
+        }
         car.setManufacturer(manufacturer);
         car.setModel(model);
         car.setMileage(mileage);
@@ -362,7 +465,7 @@ public class AddCarFragment extends Fragment {
     }
 
     private Object[] createManufacturersList() {
-        List<String> manufacturers = new ArrayList<>();
+        manufacturers = new ArrayList<>();
         for (CarType carType: StaticData.getCarTypes()) {
             manufacturers.add(carType.getManufacturer());
         }

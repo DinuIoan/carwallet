@@ -132,6 +132,13 @@ public class CarsRecyclerAdapter
             }
         });
 
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new AddCarFragment(), cars.get(position));
+            }
+        });
+
         holder.clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -38,7 +38,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_CAR_TABLE = "create table " + CAR_TABLE +
@@ -67,7 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addCar(Car car) {
+    public boolean addCar(Car car) {
         SQLiteDatabase database = getWritableDatabase();
         car.setTimestamp(Calendar.getInstance().getTime().getTime());
         String ADD_CAR = "insert into " + CAR_TABLE +
@@ -86,7 +85,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + car.getTimestamp() + "', '"
                 + car.getImage() + "') ";
         database.execSQL(ADD_CAR);
-        database.close();
+        return true;
     }
 
     public List<Car> findAllCars() {
@@ -118,6 +117,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cars;
     }
 
+    public void updateCar(Car car) {
+        SQLiteDatabase database = getWritableDatabase();
+        String UPDATE_CAR = "update " + CAR_TABLE + " set " +
+                CAR_MANUFACTURER + " = '" + car.getManufacturer() + "', " +
+                CAR_MODEL + " = '" + car.getModel() + "', " +
+                CAR_SHAPE + " = '" + car.getShape() + "', " +
+                CAR_ENGINE + " = '" + car.getEngine() + "', " +
+                CAR_POWER + " = " + car.getPower() + ", " +
+                CAR_YEAR + " = " + car.getYear() + ", " +
+                CAR_VIN + " = '" + car.getVin() + "', " +
+                CAR_MILEAGE + " = " + car.getMileage() + ", " +
+                CAR_FUEL + " = '" + car.getFuelType() + "', " +
+                CAR_LICENSE_NO + " = '" + car.getLicenseNo() + "', " +
+                CAR_ACTIVE + " = " + car.getActive() + ", " +
+                CAR_TIMESTAMP + " = " + car.getTimestamp() + ", " +
+                CAR_IMAGE + " = " + car.getImage() +
+                " where " + ID + " = " + car.getId();
+        database.execSQL(UPDATE_CAR);
+        database.close();
+    }
+
     public void updateCarSetActive(Long id, int active) {
         SQLiteDatabase database = getWritableDatabase();
         String UPDATE_CAR_SET_ACTIVE = "update " + CAR_TABLE +
@@ -133,5 +153,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " where id = " + id;
         database.execSQL(DELETE_CAR);
         database.close();
+    }
+
+    public boolean checkLicenseNoUniqueConstraint(Car car, boolean isEdit) {
+        List<Car> carList = findAllCars();
+        if (isEdit) {
+            for (Car carFromDb : carList) {
+                if (!carFromDb.getId().equals(car.getId()) &&
+                        carFromDb.getLicenseNo().toLowerCase().equals(car.getLicenseNo().toLowerCase())) {
+                    return false;
+                }
+            }
+        } else {
+            for (Car carFromDb : carList) {
+                if (carFromDb.getLicenseNo().toLowerCase().equals(car.getLicenseNo().toLowerCase())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
