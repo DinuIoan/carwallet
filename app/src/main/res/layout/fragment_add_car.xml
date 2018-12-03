@@ -19,7 +19,7 @@
             android:paddingRight="20dp"
             android:paddingTop="60dp">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,8 +29,8 @@
                     android:id="@+id/input_manufacturer"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_edt_layout_manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,9 +41,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="@string/hint_manufacturer" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,9 +54,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="50dp" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_edt_layout_model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,9 +67,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="@string/hint_model" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_shape"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,9 +81,9 @@
                     android:layout_height="50dp"
                     android:inputType="text"
                     android:hint="@string/hint_shape" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_engine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,9 +95,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:hint="@string/hint_engine" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_power"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,9 +109,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:hint="@string/hint_power" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,9 +123,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:hint="@string/hint_year" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_vin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,9 +137,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="@string/hint_vin" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_mileage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,9 +151,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:hint="@string/hint_mileage" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_fuel_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,9 +164,9 @@
                     android:layout_height="50dp"
                     android:inputType="text"
                     android:hint="@string/hint_shape" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_license"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,9 +178,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="@string/hint_license_no" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                     android:id="@+id/input_image"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <Button android:id="@+id/btn_add_car"

@@ -1,17 +1,16 @@
 package com.bestapps.carwallet;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.bestapps.carwallet.cars.CarsFragment;
 import com.bestapps.carwallet.service.ServiceFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected( MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_service:
                     changeFragment(new ServiceFragment());
@@ -51,5 +50,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
     }
-
 }

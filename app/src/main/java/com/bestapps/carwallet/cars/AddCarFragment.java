@@ -4,10 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +16,21 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.CarType;
-import com.bestapps.carwallet.service.ServiceFragment;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class AddCarFragment extends Fragment {
     private static Integer[] imageIconDatabase = {

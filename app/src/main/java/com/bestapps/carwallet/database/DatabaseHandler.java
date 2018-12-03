@@ -6,12 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.ServiceEntry;
 
-import java.sql.SQLData;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -33,6 +31,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String CAR_MILEAGE = "mileage";
     private static final String CAR_TIMESTAMP = "timestamp";
     private static final String CAR_FUEL = "fuel_type";
+
+    private static final String SERVICE_ENTRY_TABLE = "service_entry";
+    private static final String SERVICE_ENTRY_TITLE = "title";
+    private static final String SERVICE_ENTRY_DESCRIPTION = "description";
+    private static final String SERVICE_ENTRY_PRICE = "price";
+    private static final String SERVICE_ENTRY_DATE = "date";
+    private static final String SERVICE_ENTRY_CAR_ID = "car_id";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,7 +62,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + CAR_TIMESTAMP+ " integer, "
                 + CAR_IMAGE+ " integer " +
                 " ) ";
+        String CREATE_SERVICE_ENTRY = "create table " + SERVICE_ENTRY_TABLE +
+                " ( "
+                + ID + " integer primary key autoincrement, "
+                + SERVICE_ENTRY_TITLE + "text, "
+                + SERVICE_ENTRY_DESCRIPTION + "text, "
+                + SERVICE_ENTRY_PRICE + "text, "
+                + SERVICE_ENTRY_DATE + "text, "
+                + SERVICE_ENTRY_CAR_ID + "integer " +
+                " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
+        sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
     }
 
     @Override
@@ -98,22 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Car> cars = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Car car = new Car();
-            car.setId(cursor.getLong(0));
-            car.setManufacturer(cursor.getString(1));
-            car.setModel(cursor.getString(2));
-            car.setShape(cursor.getString(3));
-            car.setEngine(cursor.getString(4));
-            car.setPower(cursor.getInt(5));
-            car.setYear(cursor.getInt(6));
-            car.setVin(cursor.getString(7));
-            car.setMileage(cursor.getInt(8));
-            car.setFuelType(cursor.getString(9));
-            car.setLicenseNo(cursor.getString(10));
-            car.setActive(cursor.getInt(11));
-            car.setTimestamp(cursor.getLong(12));
-            car.setImage(cursor.getInt(13));
-            cars.add(car);
+            cars.add(buildCarFromCursor(cursor));
         }
         cursor.close();
         return cars;
@@ -174,5 +174,62 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         }
         return true;
+    }
+
+    public Car getActiveCar() {
+        SQLiteDatabase database = getWritableDatabase();
+        String GET_ACTIVE_CAR = "select * from " + CAR_TABLE +
+                " where " + CAR_ACTIVE + " = " + 1;
+        Cursor cursor = database.rawQuery(GET_ACTIVE_CAR, null);
+        if (cursor.moveToNext()) {
+           Car car = buildCarFromCursor(cursor);
+           cursor.close();
+           return car;
+        }
+        cursor.close();
+        return null;
+    }
+
+    public List<ServiceEntry> findAllServiceEntriesByCarId(Long id) {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_SERVICE_ENTRIES_BY_CAR_ID = "select * from " + SERVICE_ENTRY_TABLE +
+                " where " + SERVICE_ENTRY_CAR_ID + " = " + id;
+        Cursor cursor = database.rawQuery(FIND_ALL_SERVICE_ENTRIES_BY_CAR_ID, null);
+        List<ServiceEntry> serviceEntries = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            serviceEntries.add(buildServiceEntryFromCursor(cursor));
+        }
+        cursor.close();
+        return serviceEntries;
+    }
+
+    private ServiceEntry buildServiceEntryFromCursor(Cursor cursor) {
+        ServiceEntry serviceEntry = new ServiceEntry();
+        serviceEntry.setTitle(cursor.getString(0));
+        serviceEntry.setDescription(cursor.getString(1));
+        serviceEntry.setPrice(cursor.getString(2));
+        serviceEntry.setDate(cursor.getString(3));
+        serviceEntry.setCarId(cursor.getLong(4));
+        return serviceEntry;
+    }
+
+    private Car buildCarFromCursor(Cursor cursor) {
+        Car car = new Car();
+        car.setId(cursor.getLong(0));
+        car.setManufacturer(cursor.getString(1));
+        car.setModel(cursor.getString(2));
+        car.setShape(cursor.getString(3));
+        car.setEngine(cursor.getString(4));
+        car.setPower(cursor.getInt(5));
+        car.setYear(cursor.getInt(6));
+        car.setVin(cursor.getString(7));
+        car.setMileage(cursor.getInt(8));
+        car.setFuelType(cursor.getString(9));
+        car.setLicenseNo(cursor.getString(10));
+        car.setActive(cursor.getInt(11));
+        car.setTimestamp(cursor.getLong(12));
+        car.setImage(cursor.getInt(13));
+        return car;
     }
 }
