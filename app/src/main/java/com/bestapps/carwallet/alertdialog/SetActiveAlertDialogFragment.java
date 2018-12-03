@@ -48,6 +48,10 @@ public class SetActiveAlertDialogFragment extends Fragment {
                         if (dbCar.getManufacturer().equals(car.getManufacturer())) {
                             if (dbCar.getModel().equals(car.getModel())) {
                                 if (dbCar.getMileage() == car.getMileage()) {
+                                    List<Car> cars = databaseHandler.findAllCars();
+                                    for (Car car: cars) {
+                                        databaseHandler.updateCarSetActive(car.getId(), 0);
+                                    }
                                     databaseHandler.updateCarSetActive(dbCar.getId(), 1);
                                 }
                             }

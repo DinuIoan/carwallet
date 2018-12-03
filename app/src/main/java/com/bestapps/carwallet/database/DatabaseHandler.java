@@ -68,6 +68,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public boolean addCar(Car car) {
         SQLiteDatabase database = getWritableDatabase();
+        if (findAllCars().size() == 0) {
+            car.setActive(1);
+        }
         car.setTimestamp(Calendar.getInstance().getTime().getTime());
         String ADD_CAR = "insert into " + CAR_TABLE +
                 " values(null, '"
@@ -113,7 +116,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cars.add(car);
         }
         cursor.close();
-        database.close();
         return cars;
     }
 

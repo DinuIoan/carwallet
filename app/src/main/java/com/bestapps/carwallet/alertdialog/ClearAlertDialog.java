@@ -48,10 +48,10 @@ public class ClearAlertDialog extends Fragment {
                     if (dbCar.getLicenseNo().equals(car.getLicenseNo())) {
                         if (dbCar.getManufacturer().equals(car.getManufacturer())) {
                             if (dbCar.getModel().equals(car.getModel())) {
-                                if (dbCar.getActive() == 1) {
-                                    setActiveFirstCar(carList);
-                                }
                                 databaseHandler.deleteCar(dbCar.getId());
+                                if (dbCar.getActive() == 1) {
+                                    setActiveFirstCar();
+                                }
                             }
                         }
                     }
@@ -69,7 +69,8 @@ public class ClearAlertDialog extends Fragment {
         return view;
     }
 
-    private void setActiveFirstCar(List<Car> carList) {
+    private void setActiveFirstCar() {
+        List<Car> carList = databaseHandler.findAllCars();
         if (carList.size() != 0) {
             databaseHandler.updateCarSetActive(carList.get(0).getId(), 1);
         }
