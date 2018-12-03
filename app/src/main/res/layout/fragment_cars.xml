@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -35,6 +36,7 @@
                 android:id="@+id/cars_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="15dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:scrollbars="vertical" />
 
