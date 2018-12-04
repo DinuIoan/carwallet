@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
@@ -104,6 +105,8 @@ public class AddCarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_car, container, false);
         initializeViews(view);
         handleOnBackPressed(view);
+        MainActivity.backCount = 0;
+
         modelSpinner.setEnabled(false);
         setClickListeners();
         if (isEdit) {

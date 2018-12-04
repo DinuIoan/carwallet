@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
@@ -39,6 +40,7 @@ public class CarsFragment extends Fragment {
         serviceFab = view.findViewById(R.id.service_fab);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
+        MainActivity.backCount = 0;
         StaticData.setCars(databaseHandler.findAllCars());
         setClickListeners(view);
 

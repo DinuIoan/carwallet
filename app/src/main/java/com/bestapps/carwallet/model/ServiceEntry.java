@@ -4,6 +4,7 @@ public class ServiceEntry {
     private Long id;
     private String title;
     private String description;
+    private int mileage;
     private String price;
     private String date;
     private Long carId;
@@ -30,6 +31,14 @@ public class ServiceEntry {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
     }
 
     public String getPrice() {

@@ -1,7 +1,9 @@
 package com.bestapps.carwallet;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bestapps.carwallet.cars.CarsFragment;
 import com.bestapps.carwallet.service.ServiceFragment;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
+    public static int backCount = 0;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fragmentManager = getSupportFragmentManager();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -50,4 +52,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        backCount++;
+
+        if (backCount == 2) {
+            finish();
+        }
+    }
+
 }

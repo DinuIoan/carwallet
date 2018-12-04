@@ -35,6 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SERVICE_ENTRY_TABLE = "service_entry";
     private static final String SERVICE_ENTRY_TITLE = "title";
     private static final String SERVICE_ENTRY_DESCRIPTION = "description";
+    private static final String SERVICE_ENTRY_MILEAGE = "mileage";
     private static final String SERVICE_ENTRY_PRICE = "price";
     private static final String SERVICE_ENTRY_DATE = "date";
     private static final String SERVICE_ENTRY_CAR_ID = "car_id";
@@ -65,11 +66,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_SERVICE_ENTRY = "create table " + SERVICE_ENTRY_TABLE +
                 " ( "
                 + ID + " integer primary key autoincrement, "
-                + SERVICE_ENTRY_TITLE + "text, "
-                + SERVICE_ENTRY_DESCRIPTION + "text, "
-                + SERVICE_ENTRY_PRICE + "text, "
-                + SERVICE_ENTRY_DATE + "text, "
-                + SERVICE_ENTRY_CAR_ID + "integer " +
+                + SERVICE_ENTRY_TITLE + " text, "
+                + SERVICE_ENTRY_DESCRIPTION + " text, "
+                + SERVICE_ENTRY_MILEAGE + " integer, "
+                + SERVICE_ENTRY_PRICE + " text, "
+                + SERVICE_ENTRY_DATE + " text, "
+                + SERVICE_ENTRY_CAR_ID + " integer " +
                 " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
@@ -208,9 +210,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ServiceEntry serviceEntry = new ServiceEntry();
         serviceEntry.setTitle(cursor.getString(0));
         serviceEntry.setDescription(cursor.getString(1));
-        serviceEntry.setPrice(cursor.getString(2));
-        serviceEntry.setDate(cursor.getString(3));
-        serviceEntry.setCarId(cursor.getLong(4));
+        serviceEntry.setMileage(cursor.getInt(2));
+        serviceEntry.setPrice(cursor.getString(3));
+        serviceEntry.setDate(cursor.getString(4));
+        serviceEntry.setCarId(cursor.getLong(5));
         return serviceEntry;
     }
 
