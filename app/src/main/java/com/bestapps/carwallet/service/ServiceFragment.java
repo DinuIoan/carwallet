@@ -55,7 +55,9 @@ public class ServiceFragment extends Fragment {
 
         if (car != null) {
             licenseNoTextView.setText(car.getLicenseNo());
-            imageView.setImageResource(car.getImage());
+            if (getActivity().getResources().getResourceName(car.getImage()) != null) {
+                imageView.setImageResource(car.getImage());
+            }
             List<ServiceEntry> serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
 
             mRecyclerView = view.findViewById(R.id.service_recycler_view);

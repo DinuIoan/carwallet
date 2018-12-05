@@ -15,6 +15,10 @@
     <string name="hint_license_no">License no</string>
     <string name="btn_add_car">Add</string>
     <string name="btn_add_car_edit">Edit</string>
+    <string name="hint_service_title">Title</string>
+    <string name="hint_service_description">Description</string>
+    <string name="hint_service_price">Price</string>
+    <string name="hint_service_date">Date</string>
 
     <string-array name="shapes">
         <item>Select vehicle type...</item>
