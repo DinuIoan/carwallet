@@ -3,6 +3,7 @@ package com.bestapps.carwallet.service;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.model.ServiceEntry;
@@ -13,13 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyViewHolder> {
-    List<ServiceEntry> serviceEntries;
+    private List<ServiceEntry> serviceEntries;
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
+        public TextView title;
+        public TextView description;
+        public TextView price;
+        public TextView mileage;
 
         public MyViewHolder(LinearLayout v) {
             super(v);
+            title = v.findViewById(R.id.recycler_view_item_title);
+            description = v.findViewById(R.id.recycler_view_item_description);
+            price = v.findViewById(R.id.recycler_view_item_price);
+            mileage = v.findViewById(R.id.recycler_view_item_mileage);
         }
     }
 
@@ -37,7 +46,12 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-
+        String mileageText = "Mileage: " + serviceEntries.get(i).getMileage() + " km";
+        String priceText = "" + serviceEntries.get(i).getMileage() + "$";
+        myViewHolder.title.setText(serviceEntries.get(i).getTitle());
+        myViewHolder.description.setText(serviceEntries.get(i).getDescription());
+        myViewHolder.mileage.setText(mileageText);
+        myViewHolder.price.setText(priceText);
     }
 
     @Override

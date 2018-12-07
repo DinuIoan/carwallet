@@ -1,10 +1,12 @@
 package com.bestapps.carwallet.service;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.ServiceEntry;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -30,7 +34,13 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private EditText dateEdt;
     private ImageView calendarImage;
     private DatePickerDialog dpd;
+    private Button btnAdd;
 
+    private String title;
+    private String description;
+    private int mileage;
+    private double price;
+    private String date;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,51 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                 clickListenerDate();
             }
         });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validate()) {
+                    Car car = databaseHandler.getActiveCar();
+                    ServiceEntry serviceEntry = new ServiceEntry();
+                    serviceEntry.setTitle(title);
+                    serviceEntry.setDescription(description);
+                    serviceEntry.setMileage(mileage);
+                    serviceEntry.setPrice(price);
+                    serviceEntry.setDate(dateEdt.getText().toString());
+                    serviceEntry.setCarId(car.getId());
+                    databaseHandler.addServiceEntry(serviceEntry);
+                    changeFragment(new ServiceFragment());
+                }
+            }
+        });
+
+    }
+
+    private boolean validate() {
+        title = titleEdt.getText().toString();
+        description = descriptionEdt.getText().toString();
+        boolean isValid = true;
+
+        if (title.isEmpty()) {
+            isValid = false;
+            titleEdt.setError("");
+        }
+
+        if (mileageEdt.getText().toString().isEmpty()) {
+            isValid = false;
+            mileageEdt.setError("");
+        } else {
+            mileage = Integer.parseInt(mileageEdt.getText().toString());
+        }
+
+        if (priceEdt.getText().toString().isEmpty()) {
+            isValid = false;
+            priceEdt.setError("");
+        } else {
+            price = Double.parseDouble(priceEdt.getText().toString());
+        }
+
+        return isValid;
     }
 
     private void clickListenerDate() {
@@ -86,6 +141,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         dateEdt = view.findViewById(R.id.input_date);
         dateEdt.setText(buildNowDate());
         calendarImage = view.findViewById(R.id.calendar_image);
+        btnAdd = view.findViewById(R.id.btn_add_service_entry);
     }
 
     private String buildNowDate() {

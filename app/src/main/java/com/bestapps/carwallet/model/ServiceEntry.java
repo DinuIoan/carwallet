@@ -5,7 +5,7 @@ public class ServiceEntry {
     private String title;
     private String description;
     private int mileage;
-    private String price;
+    private double price;
     private String date;
     private Long carId;
 
@@ -41,11 +41,11 @@ public class ServiceEntry {
         this.mileage = mileage;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Space;
 
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.ServiceEntry;
@@ -69,7 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + SERVICE_ENTRY_TITLE + " text, "
                 + SERVICE_ENTRY_DESCRIPTION + " text, "
                 + SERVICE_ENTRY_MILEAGE + " integer, "
-                + SERVICE_ENTRY_PRICE + " text, "
+                + SERVICE_ENTRY_PRICE + " integer, "
                 + SERVICE_ENTRY_DATE + " text, "
                 + SERVICE_ENTRY_CAR_ID + " integer " +
                 " ) ";
@@ -206,14 +207,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return serviceEntries;
     }
 
+    public void addServiceEntry(ServiceEntry serviceEntry) {
+        SQLiteDatabase database = getWritableDatabase();
+        String ADD_SERVICE_ENTRY = "insert into " + SERVICE_ENTRY_TABLE +
+                " values(null, '"
+                + serviceEntry.getTitle() + "', '"
+                + serviceEntry.getDescription() + "', '"
+                + serviceEntry.getMileage() + "', '"
+                + serviceEntry.getPrice() + "', '"
+                + serviceEntry.getDate() + "', '"
+                + serviceEntry.getCarId() + "')";
+        database.execSQL(ADD_SERVICE_ENTRY);
+
+    }
+
     private ServiceEntry buildServiceEntryFromCursor(Cursor cursor) {
         ServiceEntry serviceEntry = new ServiceEntry();
-        serviceEntry.setTitle(cursor.getString(0));
-        serviceEntry.setDescription(cursor.getString(1));
-        serviceEntry.setMileage(cursor.getInt(2));
-        serviceEntry.setPrice(cursor.getString(3));
-        serviceEntry.setDate(cursor.getString(4));
-        serviceEntry.setCarId(cursor.getLong(5));
+        serviceEntry.setId(cursor.getLong(0));
+        serviceEntry.setTitle(cursor.getString(1));
+        serviceEntry.setDescription(cursor.getString(2));
+        serviceEntry.setMileage(cursor.getInt(3));
+        serviceEntry.setPrice(cursor.getDouble(4));
+        serviceEntry.setDate(cursor.getString(5));
+        serviceEntry.setCarId(cursor.getLong(6));
         return serviceEntry;
     }
 
