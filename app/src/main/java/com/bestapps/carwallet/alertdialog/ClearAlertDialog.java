@@ -50,7 +50,7 @@ public class ClearAlertDialog extends Fragment {
                         if (dbCar.getManufacturer().equals(car.getManufacturer())) {
                             if (dbCar.getModel().equals(car.getModel())) {
                                 databaseHandler.deleteCar(dbCar.getId());
-                                databaseHandler.deleteServiceEntrysForCarId(dbCar.getId());
+                                databaseHandler.deleteServiceEntriesForCarId(dbCar.getId());
                                 if (dbCar.getActive() == 1) {
                                     setActiveFirstCar();
                                 }
