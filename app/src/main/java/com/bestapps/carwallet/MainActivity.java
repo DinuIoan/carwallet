@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(0);
+        navigation.setSelectedItemId(R.id.navigation_service);
     }
 
     private void changeFragment(Fragment fragment) {
