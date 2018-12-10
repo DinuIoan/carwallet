@@ -1,8 +1,11 @@
 package com.bestapps.carwallet.service;
 
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
@@ -22,13 +25,16 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
         public TextView description;
         public TextView price;
         public TextView mileage;
+        public RelativeLayout background, foreground;
 
-        public MyViewHolder(LinearLayout v) {
+        public MyViewHolder(FrameLayout v) {
             super(v);
             title = v.findViewById(R.id.recycler_view_item_title);
             description = v.findViewById(R.id.recycler_view_item_description);
             price = v.findViewById(R.id.recycler_view_item_price);
             mileage = v.findViewById(R.id.recycler_view_item_mileage);
+            background = v.findViewById(R.id.view_background);
+            foreground = v.findViewById(R.id.view_foreground);
         }
     }
 
@@ -38,7 +44,7 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
 
     @Override
     public ServiceRecyclerView.MyViewHolder onCreateViewHolder( ViewGroup parent, int i) {
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
+        FrameLayout v = (FrameLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.service_recycler_row, parent, false);
 
         return new MyViewHolder(v);
@@ -52,6 +58,16 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
         myViewHolder.description.setText(serviceEntries.get(i).getDescription());
         myViewHolder.mileage.setText(mileageText);
         myViewHolder.price.setText(priceText);
+    }
+
+    public void removeItem(int position) {
+        serviceEntries.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(ServiceEntry item, int position) {
+        serviceEntries.add(position, item);
+        notifyItemInserted(position);
     }
 
     @Override

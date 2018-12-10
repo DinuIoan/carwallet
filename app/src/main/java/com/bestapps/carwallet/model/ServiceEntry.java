@@ -1,6 +1,8 @@
 package com.bestapps.carwallet.model;
 
-public class ServiceEntry {
+import java.io.Serializable;
+
+public class ServiceEntry implements Serializable {
     private Long id;
     private String title;
     private String description;

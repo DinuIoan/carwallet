@@ -1,40 +1,56 @@
 package com.bestapps.carwallet.service;
 
+import android.app.Service;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.alertdialog.DeleteServiceEntryDialog;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ServiceFragment extends Fragment {
+public class ServiceFragment extends Fragment implements RecyclerItemTouchHelperListener {
     private TextView licenseNoTextView;
     private ImageView imageView;
     private FloatingActionButton serviceFab;
 
     private DatabaseHandler databaseHandler;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ServiceRecyclerView mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
     private int backCount = 0;
+    private Paint p = new Paint();
+    private List<ServiceEntry> serviceEntries = new ArrayList<>();
+    private FrameLayout rootLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +75,7 @@ public class ServiceFragment extends Fragment {
             if (getActivity().getResources().getResourceName(car.getImage()) != null) {
                 imageView.setImageResource(car.getImage());
             }
-            List<ServiceEntry> serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
+            serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
 
             mRecyclerView = view.findViewById(R.id.service_recycler_view);
 
@@ -68,21 +84,39 @@ public class ServiceFragment extends Fragment {
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                    DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
             mAdapter = new ServiceRecyclerView(serviceEntries);
             mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                    DividerItemDecoration.VERTICAL));
+
+            ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+
+            new ItemTouchHelper(item).attachToRecyclerView(mRecyclerView);
         }
         return view;
+    }
+
+    @Override
+    public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
+            String title = serviceEntries.get(viewHolder.getAdapterPosition()).getTitle();
+
+            ServiceEntry deletedServiceEntry = serviceEntries.get(viewHolder.getAdapterPosition());
+            int deleteIndex = viewHolder.getAdapterPosition();
+
+            mAdapter.removeItem(deleteIndex);
+            changeFragment(new DeleteServiceEntryDialog(), deletedServiceEntry);
+        }
     }
 
     private void initializeOnClickListeners() {
         serviceFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(new AddServiceEntryFragment());
+                changeFragment(new AddServiceEntryFragment(), null);
             }
         });
     }
@@ -91,11 +125,15 @@ public class ServiceFragment extends Fragment {
         licenseNoTextView = view.findViewById(R.id.active_car_license_no);
         imageView = view.findViewById(R.id.active_car_image);
         serviceFab = view.findViewById(R.id.service_fab);
+        rootLayout = view.findViewById(R.id.root_layout);
     }
 
-    private void changeFragment(Fragment fragment) {
+    private void changeFragment(Fragment fragment, ServiceEntry serviceEntry) {
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("serviceEntry", serviceEntry);
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
     }

@@ -259,4 +259,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.execSQL(DELETE_CAR);
         database.close();
     }
+
+    public void deleteServiceEntry(Long id) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String DELETE_SERVICE_ENTRY = "delete from " + SERVICE_ENTRY_TABLE +
+                " where " + ID + " = " + id;
+        sqLiteDatabase.execSQL(DELETE_SERVICE_ENTRY);
+    }
 }
