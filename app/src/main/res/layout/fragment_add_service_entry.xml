@@ -19,6 +19,12 @@
             android:paddingRight="20dp"
             android:paddingTop="60dp">
 
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ic_build_orange"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_title"
                 android:layout_width="match_parent"
