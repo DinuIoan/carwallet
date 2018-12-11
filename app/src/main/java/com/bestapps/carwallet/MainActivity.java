@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bestapps.carwallet.cars.CarsFragment;
+import com.bestapps.carwallet.maintenance.MaintenanceFragment;
 import com.bestapps.carwallet.service.ServiceFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                     changeFragment(new ServiceFragment());
                     return true;
                 case R.id.navigation_alerts:
+                    changeFragment(new MaintenanceFragment());
                     return true;
                 case R.id.navigation_cars:
                     changeFragment(new CarsFragment());
