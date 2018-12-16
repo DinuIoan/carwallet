@@ -12,6 +12,7 @@
     <string name="hint_vin">VIN</string>
     <string name="hint_fuel">Fuel type</string>
     <string name="hint_mileage">Mileage (km)</string>
+    <string name="hint_at_mileage">At mileage (km)</string>
     <string name="hint_license_no">License no</string>
     <string name="btn_add_car">Add</string>
     <string name="btn_add_car_edit">Edit</string>

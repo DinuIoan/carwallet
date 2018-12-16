@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Space;
 
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.model.ServiceEntry;
 
 import java.util.ArrayList;
@@ -41,6 +42,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SERVICE_ENTRY_DATE = "date";
     private static final String SERVICE_ENTRY_CAR_ID = "car_id";
 
+    private static final String MAINTENANCE_TABLE = "maintenance";
+    private static final String MAINTENANCE_TITLE= "title";
+    private static final String MAINTENANCE_DESCRIPTION = "description";
+    private static final String MAINTENANCE_MILEAGE = "mileage";
+    private static final String MAINTENANCE_PRICE = "price";
+    private static final String MAINTENANCE_DATE = "date";
+    private static final String MAINTENANCE_NOTIFICATIONS = "notification_active";
+    private static final String MAINTENANCE_CAR_ID = "car_id";
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -74,13 +84,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + SERVICE_ENTRY_DATE + " text, "
                 + SERVICE_ENTRY_CAR_ID + " integer " +
                 " ) ";
+
+        String CREATE_MAINTENANCE_TABLE = "create table " + MAINTENANCE_TABLE +
+                " ( "
+                + ID + " integer primary key autoincrement, "
+                + MAINTENANCE_TITLE + " text, "
+                + MAINTENANCE_DESCRIPTION + " text, "
+                + MAINTENANCE_MILEAGE + " integer, "
+                + MAINTENANCE_PRICE + " integer, "
+                + MAINTENANCE_DATE + " text, "
+                + MAINTENANCE_NOTIFICATIONS + " integer, "
+                + MAINTENANCE_CAR_ID + " integer " + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
+        sqLiteDatabase.execSQL(CREATE_MAINTENANCE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("drop table if exists " + CAR_TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + SERVICE_ENTRY_TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + MAINTENANCE_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -265,5 +289,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String DELETE_SERVICE_ENTRY = "delete from " + SERVICE_ENTRY_TABLE +
                 " where " + ID + " = " + id;
         sqLiteDatabase.execSQL(DELETE_SERVICE_ENTRY);
+    }
+
+    public void addMaintenance(Maintenance maintenance) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String ADD_MAINTENANCE = "insert into " + MAINTENANCE_TABLE +
+                " values(null, '"
+                + maintenance.getTitle() + "', '"
+                + maintenance.getDescription() + "', '"
+                + maintenance.getMileage() + "', '"
+                + maintenance.getPrice() + "', '"
+                + maintenance.getDate() + "', '"
+                + maintenance.isNotificationActive() + "', '"
+                + maintenance.getCarId() + "')";
+        sqLiteDatabase.execSQL(ADD_MAINTENANCE);
+    }
+
+    public List<Maintenance> findAllMaintenance(Long id) {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_MAINTENANCE_BY_CAR_ID = "select * from " + MAINTENANCE_TABLE +
+                " where " + MAINTENANCE_CAR_ID + " = " + id;
+        Cursor cursor = database.rawQuery(FIND_ALL_MAINTENANCE_BY_CAR_ID, null);
+        List<Maintenance> maintenanceList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            maintenanceList.add(buildMaintenanceFromCursor(cursor));
+        }
+        cursor.close();
+        return maintenanceList;
+    }
+
+    private Maintenance buildMaintenanceFromCursor(Cursor cursor) {
+        Maintenance maintenance = new Maintenance();
+        maintenance.setId(cursor.getLong(0));
+        maintenance.setTitle(cursor.getString(1));
+        maintenance.setDescription(cursor.getString(2));
+        maintenance.setMileage(cursor.getInt(3));
+        maintenance.setPrice(cursor.getDouble(4));
+        maintenance.setDate(cursor.getString(5));
+        maintenance.setNotificationActive(cursor.getInt(6));
+        maintenance.setCarId(cursor.getLong(7));
+        return maintenance;
     }
 }

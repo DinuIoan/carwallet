@@ -1,6 +1,5 @@
 package com.bestapps.carwallet.service;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
@@ -58,13 +56,13 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         handleOnBackPressed(view);
         createCalendar();
         initializeViews(view);
-        handleClikcListeners();
+        handleClickListeners();
 
 
         return view;
     }
 
-    private void handleClikcListeners() {
+    private void handleClickListeners() {
         dateEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
