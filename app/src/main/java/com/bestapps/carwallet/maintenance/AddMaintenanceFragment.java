@@ -160,11 +160,8 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     }
 
     private void clickListenerDate() {
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.set(Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.DAY_OF_MONTH);
-        dpd.setMaxDate(tomorrow);
+        Calendar today = Calendar.getInstance();
+        dpd.setMinDate(today);
         dpd.show(fragmentManager, "Datepickerdialog");
     }
 

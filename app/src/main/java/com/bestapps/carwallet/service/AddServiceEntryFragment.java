@@ -124,9 +124,6 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
 
     private void clickListenerDate() {
         Calendar tomorrow = Calendar.getInstance();
-        tomorrow.set(Calendar.getInstance().get(Calendar.YEAR),
-        Calendar.getInstance().get(Calendar.MONTH),
-        Calendar.DAY_OF_MONTH);
         dpd.setMaxDate(tomorrow);
         dpd.show(fragmentManager, "Datepickerdialog");
     }

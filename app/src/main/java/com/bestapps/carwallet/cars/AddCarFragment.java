@@ -429,7 +429,6 @@ public class AddCarFragment extends Fragment {
     }
 
     private void initializeImageList() {
-        // TODO Auto-generated method stub
         for (int i = 0; i < imageNameDatabase.length; i++) {
             imageMap = new HashMap<String, Object>();
 
