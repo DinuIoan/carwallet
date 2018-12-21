@@ -1,12 +1,6 @@
 package com.bestapps.carwallet.service;
 
-import android.app.Service;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +17,6 @@ import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +31,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ServiceFragment extends Fragment implements RecyclerItemTouchHelperListener {
-    private TextView licenseNoTextView;
-    private ImageView imageView;
+    private TextView activeCarLicenseNoTextView;
+    private TextView activeCarManufacturerTextView;
+    private TextView activeCarModelTextView;
+    private TextView activeCarVinTextView;
     private FloatingActionButton serviceFab;
 
     private DatabaseHandler databaseHandler;
@@ -71,10 +66,10 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
         Car car = databaseHandler.getActiveCar();
 
         if (car != null) {
-            licenseNoTextView.setText(car.getLicenseNo());
-            if (getActivity().getResources().getResourceName(car.getImage()) != null) {
-                imageView.setImageResource(car.getImage());
-            }
+            activeCarLicenseNoTextView.setText("License no: " + car.getLicenseNo());
+            activeCarModelTextView.setText(car.getModel());
+            activeCarManufacturerTextView.setText(car.getManufacturer());
+            activeCarVinTextView.setText("VIN: " + car.getVin());
             serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
 
             mRecyclerView = view.findViewById(R.id.service_recycler_view);
@@ -102,8 +97,6 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
-            String title = serviceEntries.get(viewHolder.getAdapterPosition()).getTitle();
-
             ServiceEntry deletedServiceEntry = serviceEntries.get(viewHolder.getAdapterPosition());
             int deleteIndex = viewHolder.getAdapterPosition();
 
@@ -122,8 +115,10 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     }
 
     private void initializeViews(View view) {
-        licenseNoTextView = view.findViewById(R.id.active_car_license_no);
-        imageView = view.findViewById(R.id.active_car_image);
+        activeCarLicenseNoTextView = view.findViewById(R.id.active_car_license_no);
+        activeCarManufacturerTextView = view.findViewById(R.id.active_car_manufacturer);
+        activeCarModelTextView = view.findViewById(R.id.active_car_model);
+        activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         serviceFab = view.findViewById(R.id.service_fab);
         rootLayout = view.findViewById(R.id.root_layout);
     }

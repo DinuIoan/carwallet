@@ -31,25 +31,56 @@
                     app:layout_collapseMode="pin"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/active_car_manufacturer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="30dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="0dp"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/active_car_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/active_car_manufacturer"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="-"
+                        />
                     <TextView
                         android:id="@+id/active_car_license_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
+                        android:layout_below="@+id/active_car_model"
                         android:layout_centerHorizontal="true"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"
-                        android:text="IL21DNU"
+                        android:textAlignment="center"
+                        android:text="-"
                         />
-                    <ImageView
-                        android:id="@+id/active_car_image"
+                    <TextView
+                        android:id="@+id/active_car_vin"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/active_car_license_no"
-                        android:src="@mipmap/ic_green_car"
-                        android:layout_centerInParent="true"
-                        android:layout_height="wrap_content"/>
+                        android:paddingBottom="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:text="-"
+                        />
                 </RelativeLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
