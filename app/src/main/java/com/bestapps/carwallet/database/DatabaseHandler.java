@@ -48,6 +48,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String MAINTENANCE_MILEAGE = "mileage";
     private static final String MAINTENANCE_PRICE = "price";
     private static final String MAINTENANCE_DATE = "date";
+    private static final String MAINTENANCE_HOUR = "hour";
+    private static final String MAINTENANCE_MIN = "min";
     private static final String MAINTENANCE_NOTIFICATIONS = "notification_active";
     private static final String MAINTENANCE_CAR_ID = "car_id";
 
@@ -93,6 +95,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + MAINTENANCE_MILEAGE + " integer, "
                 + MAINTENANCE_PRICE + " integer, "
                 + MAINTENANCE_DATE + " text, "
+                + MAINTENANCE_HOUR + " integer, "
+                + MAINTENANCE_MIN + " integer, "
                 + MAINTENANCE_NOTIFICATIONS + " integer, "
                 + MAINTENANCE_CAR_ID + " integer " + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
@@ -300,6 +304,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + maintenance.getMileage() + "', '"
                 + maintenance.getPrice() + "', '"
                 + maintenance.getDate() + "', '"
+                + maintenance.getHour() + "', '"
+                + maintenance.getMin() + "', '"
                 + maintenance.isNotificationActive() + "', '"
                 + maintenance.getCarId() + "')";
         sqLiteDatabase.execSQL(ADD_MAINTENANCE);
@@ -327,8 +333,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         maintenance.setMileage(cursor.getInt(3));
         maintenance.setPrice(cursor.getDouble(4));
         maintenance.setDate(cursor.getString(5));
-        maintenance.setNotificationActive(cursor.getInt(6));
-        maintenance.setCarId(cursor.getLong(7));
+        maintenance.setHour(cursor.getInt(6));
+        maintenance.setMin(cursor.getInt(7));
+        maintenance.setNotificationActive(cursor.getInt(8));
+        maintenance.setCarId(cursor.getLong(9));
         return maintenance;
+    }
+
+    public void deleteMaintenance(Long id) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String DELETE_MAINTENANCE = "delete from " + MAINTENANCE_TABLE +
+                " where " + ID + " = " + id;
+        sqLiteDatabase.execSQL(DELETE_MAINTENANCE);
     }
 }

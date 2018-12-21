@@ -5,23 +5,23 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.Maintenance;
-import com.bestapps.carwallet.model.ServiceEntry;
-import com.bestapps.carwallet.service.AddServiceEntryFragment;
-import com.bestapps.carwallet.service.ServiceFragment;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,6 +40,8 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     private DatePickerDialog dpd;
     private Button btnAdd;
     private CheckBox checkBoxNotification;
+    private Spinner minSpinner;
+    private Spinner hourSpinner;
 
     private String title;
     private String description;
@@ -47,6 +49,7 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     private double price;
     private String date;
     private boolean notificationActive;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,7 +147,9 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
                     maintenance.setDescription(description);
                     maintenance.setMileage(mileage);
                     maintenance.setPrice(price);
-                    maintenance.setDate(date);
+                    maintenance.setDate(dateEdt.getText().toString());
+                    maintenance.setHour(Integer.parseInt(hourSpinner.getSelectedItem().toString()));
+                    maintenance.setMin(Integer.parseInt(minSpinner.getSelectedItem().toString()));
                     maintenance.setCarId(car.getId());
                     if (notificationActive) {
                         maintenance.setNotificationActive(1);
@@ -175,6 +180,35 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
         calendarImage = view.findViewById(R.id.calendar_image);
         btnAdd = view.findViewById(R.id.btn_add_service_entry);
         checkBoxNotification = view.findViewById(R.id.enable_notifications_check_box);
+        minSpinner = view.findViewById(R.id.input_min);
+        hourSpinner = view.findViewById(R.id.input_hour);
+        setHourSpinner();
+        setMinSpinner();
+    }
+
+    private void setHourSpinner() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, buildTime(0, 25, 1));
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hourSpinner.setAdapter(arrayAdapter);
+    }
+
+    private void setMinSpinner() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, buildTime(0, 60, 5));
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        minSpinner.setAdapter(arrayAdapter);
+    }
+
+    private List<String> buildTime(int min, int max, int step) {
+        List<String> time = new ArrayList<>();
+        for(int i = min; i < max; i += step) {
+            if (i >= 0 && i < 10)
+                time.add("0" + i);
+            else
+                time.add("" + i);
+        }
+        return time;
     }
 
     private String buildNowDate() {

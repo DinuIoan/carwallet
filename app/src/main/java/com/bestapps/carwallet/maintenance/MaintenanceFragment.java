@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.alertdialog.DeleteMaintenanceDialog;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.Maintenance;
@@ -92,7 +93,7 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
         maintenanceFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFragment(new AddMaintenanceFragment());
+                changeFragment(new AddMaintenanceFragment(), null);
             }
         });
     }
@@ -103,9 +104,12 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
         maintenanceFab = view.findViewById(R.id.maintenance_fab);
     }
 
-    private void changeFragment(Fragment fragment) {
+    private void changeFragment(Fragment fragment, Maintenance maintenance) {
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("maintenance", maintenance);
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
     }
@@ -119,7 +123,7 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
             int deleteIndex = viewHolder.getAdapterPosition();
 
             mAdapter.removeItem(deleteIndex);
-//            changeFragment(null, deletedMaintenance);
+            changeFragment(new DeleteMaintenanceDialog(), deletedMaintenance);
         }
     }
 }

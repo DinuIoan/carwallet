@@ -1,12 +1,16 @@
 package com.bestapps.carwallet.model;
 
-public class Maintenance {
+import java.io.Serializable;
+
+public class Maintenance implements Serializable {
     private Long id;
     private String title;
     private String description;
     private int mileage;
     private double price;
     private String date;
+    private int hour;
+    private int min;
     private int notificationActive;
     private Long carId;
 
@@ -56,6 +60,22 @@ public class Maintenance {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
     }
 
     public int isNotificationActive() {

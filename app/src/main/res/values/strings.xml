@@ -20,6 +20,8 @@
     <string name="hint_service_description">Description</string>
     <string name="hint_service_price">Price</string>
     <string name="hint_service_date">Date</string>
+    <string name="mins">Min</string>
+    <string name="hour">Hour</string>
 
     <string-array name="shapes">
         <item>Select vehicle type...</item>

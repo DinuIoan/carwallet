@@ -50,7 +50,7 @@ public static class MyViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
         String mileageText = "Mileage: " + maintenanceList.get(i).getMileage() + " km";
-        String priceText = "" + maintenanceList.get(i).getMileage() + "$";
+        String priceText = "" + maintenanceList.get(i).getPrice() + "$";
         myViewHolder.title.setText(maintenanceList.get(i).getTitle());
         myViewHolder.description.setText(maintenanceList.get(i).getDescription());
         myViewHolder.mileage.setText(mileageText);
