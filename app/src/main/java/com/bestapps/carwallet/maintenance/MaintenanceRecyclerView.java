@@ -1,8 +1,10 @@
 package com.bestapps.carwallet.maintenance;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ public static class MyViewHolder extends RecyclerView.ViewHolder {
     public TextView description;
     public TextView price;
     public TextView mileage;
+    public TextView date;
+    private ImageView alarm;
     public RelativeLayout background, foreground;
 
     public MyViewHolder(FrameLayout v) {
@@ -32,6 +36,8 @@ public static class MyViewHolder extends RecyclerView.ViewHolder {
         mileage = v.findViewById(R.id.recycler_view_item_mileage);
         background = v.findViewById(R.id.view_background);
         foreground = v.findViewById(R.id.view_foreground);
+        date = v.findViewById(R.id.date);
+        alarm = v.findViewById(R.id.alarm_on_off);
     }
 }
 
@@ -49,12 +55,26 @@ public static class MyViewHolder extends RecyclerView.ViewHolder {
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-        String mileageText = "Mileage: " + maintenanceList.get(i).getMileage() + " km";
+        String mileageText = "";
+        if (maintenanceList.get(i).getMileage() != 0) {
+           mileageText = "" + maintenanceList.get(i).getMileage() + " km";
+        }
+        if (maintenanceList.get(i).isNotificationActive() == 1) {
+            myViewHolder.alarm.setImageResource(R.drawable.ic_alarm_on);
+        } else {
+            myViewHolder.alarm.setImageResource(R.drawable.ic_alarm_off);
+        }
         String priceText = "" + maintenanceList.get(i).getPrice() + "$";
         myViewHolder.title.setText(maintenanceList.get(i).getTitle());
-        myViewHolder.description.setText(maintenanceList.get(i).getDescription());
+        if (maintenanceList.get(i).getDescription().isEmpty()) {
+            myViewHolder.description.setVisibility(View.GONE);
+        } else {
+            myViewHolder.description.setVisibility(View.VISIBLE);
+            myViewHolder.description.setText(maintenanceList.get(i).getDescription());
+        }
         myViewHolder.mileage.setText(mileageText);
         myViewHolder.price.setText(priceText);
+        myViewHolder.date.setText(maintenanceList.get(i).getDate());
     }
 
     public void removeItem(int position) {

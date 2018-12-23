@@ -84,10 +84,7 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
             titleEdt.setError("");
         }
 
-        if (mileageEdt.getText().toString().isEmpty()) {
-            isValid = false;
-            mileageEdt.setError("");
-        } else {
+        if (!mileageEdt.getText().toString().isEmpty()) {
             mileage = Integer.parseInt(mileageEdt.getText().toString());
         }
 
@@ -212,12 +209,12 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     }
 
     private String buildNowDate() {
-        return Calendar.getInstance().get(Calendar.YEAR) + "/" +
-                (1 + Calendar.getInstance().get(Calendar.MONTH)) + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        return Calendar.getInstance().get(Calendar.YEAR) + "-" +
+                (1 + Calendar.getInstance().get(Calendar.MONTH)) + "-" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
     private String buildDate(int year, int monthOfYear, int dayOfMonth) {
-        return year + "/" + (1 + monthOfYear) + "/" + dayOfMonth;
+        return year + "-" + (1 + monthOfYear) + "-" + dayOfMonth;
     }
 
     private void createCalendar() {

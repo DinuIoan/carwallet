@@ -30,8 +30,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHelperListener {
-    private TextView licenseNoTextView;
-    private ImageView imageView;
+    private TextView activeCarLicenseNoTextView;
+    private TextView activeCarManufacturerTextView;
+    private TextView activeCarModelTextView;
+    private TextView activeCarVinTextView;
     private FloatingActionButton maintenanceFab;
     private FragmentManager fragmentManager;
     private DatabaseHandler databaseHandler;
@@ -59,12 +61,13 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
 
         Car car = databaseHandler.getActiveCar();
         if (car != null) {
-            licenseNoTextView.setText(car.getLicenseNo());
-            if (getActivity().getResources().getResourceName(car.getImage()) != null) {
-                imageView.setImageResource(car.getImage());
-            }
+            activeCarLicenseNoTextView.setText("License no: " + car.getLicenseNo());
+            activeCarModelTextView.setText(car.getModel());
+            activeCarManufacturerTextView.setText(car.getManufacturer());
+            activeCarVinTextView.setText("VIN: " + car.getVin());
 
             maintenanceList = databaseHandler.findAllMaintenance(car.getId());
+            List<Maintenance> maintenanceListOrdered = orderByDate(maintenanceList);
 
             mRecyclerView = view.findViewById(R.id.maintenance_recycler_view);
 
@@ -78,7 +81,7 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
                     DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
-            mAdapter = new MaintenanceRecyclerView(maintenanceList);
+            mAdapter = new MaintenanceRecyclerView(maintenanceListOrdered);
             mRecyclerView.setAdapter(mAdapter);
 
             ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -99,8 +102,10 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
     }
 
     private void initializeViews(View view) {
-        licenseNoTextView = view.findViewById(R.id.active_car_license_no);
-        imageView = view.findViewById(R.id.active_car_image);
+        activeCarLicenseNoTextView = view.findViewById(R.id.active_car_license_no);
+        activeCarManufacturerTextView = view.findViewById(R.id.active_car_manufacturer);
+        activeCarModelTextView = view.findViewById(R.id.active_car_model);
+        activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         maintenanceFab = view.findViewById(R.id.maintenance_fab);
     }
 
@@ -125,5 +130,34 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
             mAdapter.removeItem(deleteIndex);
             changeFragment(new DeleteMaintenanceDialog(), deletedMaintenance);
         }
+    }
+
+    private List<Maintenance> orderByDate(List<Maintenance> maintenanceList) {
+        List<Maintenance> maintenanceListOrdered = new ArrayList<>();
+        for(int i = 0; i < maintenanceList.size(); i++) {
+            Maintenance maintenance = maintenanceList.get(i);
+            String[] splittedDate = maintenance.getDate().split("-");
+            int year = Integer.parseInt(splittedDate[0]);
+            int month = Integer.parseInt(splittedDate[1]);
+            int day = Integer.parseInt(splittedDate[2]);
+            Maintenance minMaintenance = maintenance;
+
+            for (int j = i + 1; j < maintenanceList.size(); j++) {
+                Maintenance comparedMaintenance = maintenanceList.get(i);
+                String[] comparedSplittedDate = comparedMaintenance .getDate().split("-");
+                int comparedYear = Integer.parseInt(comparedSplittedDate[0]);
+                int comparedMonth = Integer.parseInt(comparedSplittedDate[1]);
+                int comparedDay = Integer.parseInt(comparedSplittedDate[2]);
+                if (comparedYear <= year ) {
+                    if (comparedMonth <= month ) {
+                        if (comparedDay <= day) {
+                            minMaintenance = comparedMaintenance;
+                        }
+                    }
+                }
+            }
+            maintenanceListOrdered.add(minMaintenance);
+        }
+        return maintenanceListOrdered;
     }
 }

@@ -71,6 +71,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             activeCarManufacturerTextView.setText(car.getManufacturer());
             activeCarVinTextView.setText("VIN: " + car.getVin());
             serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
+            List<ServiceEntry> serviceEntriesOrdered = orderByDate(serviceEntries);
 
             mRecyclerView = view.findViewById(R.id.service_recycler_view);
 
@@ -84,7 +85,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
                     DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
-            mAdapter = new ServiceRecyclerView(serviceEntries);
+            mAdapter = new ServiceRecyclerView(serviceEntriesOrdered);
             mRecyclerView.setAdapter(mAdapter);
 
             ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -92,6 +93,35 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             new ItemTouchHelper(item).attachToRecyclerView(mRecyclerView);
         }
         return view;
+    }
+
+    private List<ServiceEntry> orderByDate(List<ServiceEntry> serviceEntries) {
+        List<ServiceEntry> serviceEntriesOrdered = new ArrayList<>();
+        for(int i = 0; i < serviceEntries.size(); i++) {
+            ServiceEntry serviceEntry = serviceEntries.get(i);
+            String[] splittedDate = serviceEntry.getDate().split("-");
+            int year = Integer.parseInt(splittedDate[0]);
+            int month = Integer.parseInt(splittedDate[1]);
+            int day = Integer.parseInt(splittedDate[2]);
+            ServiceEntry minServiceEntry = serviceEntry;
+
+            for (int j = i + 1; j < serviceEntries.size(); j++) {
+                ServiceEntry comparedServiceEntry = serviceEntries.get(i);
+                String[] comparedSplittedDate = comparedServiceEntry .getDate().split("-");
+                int comparedYear = Integer.parseInt(comparedSplittedDate[0]);
+                int comparedMonth = Integer.parseInt(comparedSplittedDate[1]);
+                int comparedDay = Integer.parseInt(comparedSplittedDate[2]);
+                if (comparedYear >= year ) {
+                    if (comparedMonth >= month ) {
+                        if (comparedDay >= day) {
+                            minServiceEntry = comparedServiceEntry;
+                        }
+                    }
+                }
+            }
+            serviceEntriesOrdered.add(minServiceEntry);
+        }
+        return serviceEntriesOrdered;
     }
 
     @Override
@@ -104,6 +134,8 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             changeFragment(new DeleteServiceEntryDialog(), deletedServiceEntry);
         }
     }
+
+
 
     private void initializeOnClickListeners() {
         serviceFab.setOnClickListener(new View.OnClickListener() {

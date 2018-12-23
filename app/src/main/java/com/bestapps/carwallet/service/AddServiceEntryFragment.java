@@ -140,12 +140,12 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     }
 
     private String buildNowDate() {
-        return Calendar.getInstance().get(Calendar.YEAR) + "/" +
-                (1 + Calendar.getInstance().get(Calendar.MONTH)) + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        return Calendar.getInstance().get(Calendar.YEAR) + "-" +
+                (1 + Calendar.getInstance().get(Calendar.MONTH)) + "-" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
 
     private String buildDate(int year, int monthOfYear, int dayOfMonth) {
-        return year + "/" + (1 + monthOfYear) + "/" + dayOfMonth;
+        return year + "-" + (1 + monthOfYear) + "-" + dayOfMonth;
     }
 
     private void createCalendar() {

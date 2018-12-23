@@ -25,6 +25,7 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
         public TextView description;
         public TextView price;
         public TextView mileage;
+        public TextView date;
         public RelativeLayout background, foreground;
 
         public MyViewHolder(FrameLayout v) {
@@ -35,7 +36,9 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
             mileage = v.findViewById(R.id.recycler_view_item_mileage);
             background = v.findViewById(R.id.view_background);
             foreground = v.findViewById(R.id.view_foreground);
+            date = v.findViewById(R.id.date);
         }
+
     }
 
     public ServiceRecyclerView(List<ServiceEntry> serviceEntries) {
@@ -52,12 +55,13 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-        String mileageText = "Mileage: " + serviceEntries.get(i).getMileage() + " km";
-        String priceText = "" + serviceEntries.get(i).getMileage() + "$";
+        String mileageText = "" + serviceEntries.get(i).getMileage() + " km";
+        String priceText = "" + serviceEntries.get(i).getPrice() + "$";
         myViewHolder.title.setText(serviceEntries.get(i).getTitle());
         myViewHolder.description.setText(serviceEntries.get(i).getDescription());
         myViewHolder.mileage.setText(mileageText);
         myViewHolder.price.setText(priceText);
+        myViewHolder.date.setText(serviceEntries.get(i).getDate());
     }
 
     public void removeItem(int position) {
