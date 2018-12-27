@@ -7,7 +7,7 @@
             <solid android:color="#BDBDBD"/>
         </shape>
     </item>
-    <item >
+    <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <corners android:radius="5dp"/>
             <solid android:color="@color/colorSecondaryReplyOrange"/>

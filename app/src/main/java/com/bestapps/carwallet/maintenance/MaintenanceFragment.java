@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHelperListener {
+public class MaintenanceFragment extends Fragment {
     private TextView activeCarLicenseNoTextView;
     private TextView activeCarManufacturerTextView;
     private TextView activeCarModelTextView;
@@ -77,16 +77,10 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
             mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                    DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
-            mAdapter = new MaintenanceRecyclerView(maintenanceListOrdered);
+            mAdapter = new MaintenanceRecyclerView(maintenanceListOrdered, fragmentManager);
             mRecyclerView.setAdapter(mAdapter);
-
-            ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-
-            new ItemTouchHelper(item).attachToRecyclerView(mRecyclerView);
 
         }
         return view;
@@ -113,23 +107,11 @@ public class MaintenanceFragment extends Fragment implements RecyclerItemTouchHe
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
+        bundle.putSerializable("type", "add");
         bundle.putSerializable("maintenance", maintenance);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof MaintenanceRecyclerView.MyViewHolder) {
-            String title = maintenanceList.get(viewHolder.getAdapterPosition()).getTitle();
-
-            Maintenance deletedMaintenance = maintenanceList.get(viewHolder.getAdapterPosition());
-            int deleteIndex = viewHolder.getAdapterPosition();
-
-            mAdapter.removeItem(deleteIndex);
-            changeFragment(new DeleteMaintenanceDialog(), deletedMaintenance);
-        }
     }
 
     private List<Maintenance> orderByDate(List<Maintenance> maintenanceList) {

@@ -1,6 +1,7 @@
 package com.bestapps.carwallet.alertdialog;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -68,6 +69,19 @@ public class SetActiveAlertDialogFragment extends Fragment {
             }
         });
         AlertDialog dialog = builder.create();
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    changeFragment(new CarsFragment());
+                    dialog.dismiss();
+                }
+                return true;
+            }
+        });
         dialog.show();
         return view;
     }

@@ -9,8 +9,8 @@ public class Maintenance implements Serializable {
     private int mileage;
     private double price;
     private String date;
-    private int hour;
-    private int min;
+    private String hour;
+    private String min;
     private int notificationActive;
     private Long carId;
 
@@ -62,19 +62,19 @@ public class Maintenance implements Serializable {
         this.date = date;
     }
 
-    public int getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
-    public int getMin() {
+    public String getMin() {
         return min;
     }
 
-    public void setMin(int min) {
+    public void setMin(String min) {
         this.min = min;
     }
 

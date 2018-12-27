@@ -39,10 +39,20 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private int mileage;
     private double price;
     private String date;
+    private boolean isEdit = false;
+    private ServiceEntry serviceEntryEdit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String message;
+        message = (String) getArguments().getSerializable("type");
+        if (message.equals("edit")) {
+            serviceEntryEdit = (ServiceEntry) getArguments().getSerializable("serviceEntry");
+            isEdit = true;
+        } else {
+            isEdit = false;
+        }
     }
 
     @Override
@@ -57,6 +67,13 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         createCalendar();
         initializeViews(view);
         handleClickListeners();
+        if (isEdit) {
+            titleEdt.setText(serviceEntryEdit.getTitle());
+            descriptionEdt.setText(serviceEntryEdit.getDescription());
+            dateEdt.setText(serviceEntryEdit.getDate());
+            mileageEdt.setText("" + serviceEntryEdit.getMileage());
+            priceEdt.setText("" + serviceEntryEdit.getPrice());
+        }
 
 
         return view;
@@ -81,13 +98,18 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                 if (validate()) {
                     Car car = databaseHandler.getActiveCar();
                     ServiceEntry serviceEntry = new ServiceEntry();
+                    serviceEntry.setCarId(car.getId());
                     serviceEntry.setTitle(title);
                     serviceEntry.setDescription(description);
                     serviceEntry.setMileage(mileage);
                     serviceEntry.setPrice(price);
                     serviceEntry.setDate(dateEdt.getText().toString());
-                    serviceEntry.setCarId(car.getId());
-                    databaseHandler.addServiceEntry(serviceEntry);
+                    if (isEdit) {
+                        serviceEntry.setId(serviceEntryEdit.getId());
+                        databaseHandler.updateServiceEntry(serviceEntry);
+                    } else {
+                        databaseHandler.addServiceEntry(serviceEntry);
+                    }
                     changeFragment(new ServiceFragment());
                 }
             }
@@ -137,6 +159,11 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         dateEdt.setText(buildNowDate());
         calendarImage = view.findViewById(R.id.calendar_image);
         btnAdd = view.findViewById(R.id.btn_add_service_entry);
+        if (isEdit) {
+            btnAdd.setText("Edit");
+        } else {
+            btnAdd.setText("Add");
+        }
     }
 
     private String buildNowDate() {
@@ -150,11 +177,23 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
 
     private void createCalendar() {
         Calendar now = Calendar.getInstance();
-        dpd = DatePickerDialog.newInstance(AddServiceEntryFragment.this,
-                now.get(Calendar.YEAR), // Initial year selection
-                now.get(Calendar.MONTH), // Initial month selection
-                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
-        );
+        if (isEdit) {
+            String[] splittedDate = serviceEntryEdit.getDate().split("-");
+            int year = Integer.parseInt(splittedDate[0]);
+            int month = Integer.parseInt(splittedDate[1]);
+            int day = Integer.parseInt(splittedDate[2]);
+            dpd = DatePickerDialog.newInstance(AddServiceEntryFragment.this,
+                    year,
+                    month,
+                    day
+                    );
+        } else {
+            dpd = DatePickerDialog.newInstance(AddServiceEntryFragment.this,
+                    now.get(Calendar.YEAR), // Initial year selection
+                    now.get(Calendar.MONTH), // Initial month selection
+                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+            );
+        }
         // If you're calling this from a support Fragment
 
     }

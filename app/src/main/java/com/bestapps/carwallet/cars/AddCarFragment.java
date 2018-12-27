@@ -248,8 +248,20 @@ public class AddCarFragment extends Fragment {
                         android.R.layout.simple_spinner_item, modelsArray);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 modelSpinner.setAdapter(arrayAdapter);
+                modelSpinner.setSelection(getPosition(modelsArray));
             }
         }
+    }
+
+    private int getPosition(Object[] modelsArray) {
+        int count = 0;
+        for (Object model: modelsArray) {
+            if (model.toString().equals(editCar.getModel())) {
+                return count;
+            }
+            count++;
+        }
+        return 0;
     }
 
     private void createAlertDialogExistingLicenseNo() {

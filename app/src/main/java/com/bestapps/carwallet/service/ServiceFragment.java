@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -85,7 +86,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
                     DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
-            mAdapter = new ServiceRecyclerView(serviceEntriesOrdered);
+            mAdapter = new ServiceRecyclerView(serviceEntries, fragmentManager);
             mRecyclerView.setAdapter(mAdapter);
 
             ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -105,15 +106,15 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             int day = Integer.parseInt(splittedDate[2]);
             ServiceEntry minServiceEntry = serviceEntry;
 
-            for (int j = i + 1; j < serviceEntries.size(); j++) {
-                ServiceEntry comparedServiceEntry = serviceEntries.get(i);
+            for (int j = 0; j < serviceEntries.size(); j++) {
+                ServiceEntry comparedServiceEntry = serviceEntries.get(j);
                 String[] comparedSplittedDate = comparedServiceEntry .getDate().split("-");
                 int comparedYear = Integer.parseInt(comparedSplittedDate[0]);
                 int comparedMonth = Integer.parseInt(comparedSplittedDate[1]);
                 int comparedDay = Integer.parseInt(comparedSplittedDate[2]);
-                if (comparedYear >= year ) {
-                    if (comparedMonth >= month ) {
-                        if (comparedDay >= day) {
+                if (comparedYear <= year ) {
+                    if (comparedMonth <= month ) {
+                        if (comparedDay <= day) {
                             minServiceEntry = comparedServiceEntry;
                         }
                     }
@@ -160,6 +161,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
                 fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putSerializable("serviceEntry", serviceEntry);
+        bundle.putSerializable("type", "add");
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();

@@ -95,8 +95,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + MAINTENANCE_MILEAGE + " integer, "
                 + MAINTENANCE_PRICE + " integer, "
                 + MAINTENANCE_DATE + " text, "
-                + MAINTENANCE_HOUR + " integer, "
-                + MAINTENANCE_MIN + " integer, "
+                + MAINTENANCE_HOUR + " text, "
+                + MAINTENANCE_MIN + " text, "
                 + MAINTENANCE_NOTIFICATIONS + " integer, "
                 + MAINTENANCE_CAR_ID + " integer " + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
@@ -333,8 +333,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         maintenance.setMileage(cursor.getInt(3));
         maintenance.setPrice(cursor.getDouble(4));
         maintenance.setDate(cursor.getString(5));
-        maintenance.setHour(cursor.getInt(6));
-        maintenance.setMin(cursor.getInt(7));
+        maintenance.setHour(cursor.getString(6));
+        maintenance.setMin(cursor.getString(7));
         maintenance.setNotificationActive(cursor.getInt(8));
         maintenance.setCarId(cursor.getLong(9));
         return maintenance;
@@ -345,5 +345,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String DELETE_MAINTENANCE = "delete from " + MAINTENANCE_TABLE +
                 " where " + ID + " = " + id;
         sqLiteDatabase.execSQL(DELETE_MAINTENANCE);
+    }
+
+    public void updateServiceEntry(ServiceEntry serviceEntry) {
+        SQLiteDatabase database = getWritableDatabase();
+        String UPDATE_SERVICE_ENTRY = "update " + SERVICE_ENTRY_TABLE + " set " +
+                SERVICE_ENTRY_TITLE + " = '" + serviceEntry.getTitle() + "', " +
+                SERVICE_ENTRY_DESCRIPTION + " = '" + serviceEntry.getDescription() + "', " +
+                SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
+                SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
+                SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
+                SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() +
+                " where " + ID + " = " + serviceEntry.getId();
+        database.execSQL(UPDATE_SERVICE_ENTRY);
+        database.close();
+    }
+
+    public void updateMaintenance(Maintenance maintenance) {
+        SQLiteDatabase database = getWritableDatabase();
+        String UPDATE_MAINTENANCE = "update " + MAINTENANCE_TABLE + " set " +
+                MAINTENANCE_TITLE + " = '" + maintenance.getTitle() + "', " +
+                MAINTENANCE_DESCRIPTION + " = '" + maintenance.getDescription() + "', " +
+                MAINTENANCE_MILEAGE + " = " + maintenance.getMileage()+ ", " +
+                MAINTENANCE_PRICE + " = " + maintenance.getPrice() + ", " +
+                MAINTENANCE_DATE+ " = '" + maintenance.getDate()+ "', " +
+                MAINTENANCE_HOUR+ " = '" + maintenance.getHour()+ "', " +
+                MAINTENANCE_MIN+ " = '" + maintenance.getMin()+ "', " +
+                MAINTENANCE_CAR_ID + " = " + maintenance.getCarId() +
+                " where " + ID + " = " + maintenance.getId();
+        database.execSQL(UPDATE_MAINTENANCE);
+        database.close();
     }
 }
