@@ -3,6 +3,8 @@
     <string name="service">Service</string>
     <string name="maintenance">Maintenance</string>
     <string name="car">Cars</string>
+    <string name="statistics">Statistics</string>
+    <string name="trip">Trip</string>
     <string name="hint_manufacturer">Manufacturer</string>
     <string name="hint_model">Model</string>
     <string name="hint_shape">Vehicle type</string>
@@ -22,6 +24,10 @@
     <string name="hint_service_date">Date</string>
     <string name="mins">Min</string>
     <string name="hour">Hour</string>
+    <string name="byMonth">By month</string>
+    <string name="byCar">By car</string>
+    <string name="mostExpensiveCar">Most expensive car</string>
+    <string name="mostExpensiveServiceHistory">Most expensive repair done</string>
 
     <string-array name="shapes">
         <item>Select vehicle type...</item>

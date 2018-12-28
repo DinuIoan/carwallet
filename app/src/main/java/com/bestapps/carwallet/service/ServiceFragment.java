@@ -20,7 +20,11 @@ import com.bestapps.carwallet.model.ServiceEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -86,7 +90,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
                     DividerItemDecoration.VERTICAL));
 
             // specify an adapter (see also next example)
-            mAdapter = new ServiceRecyclerView(serviceEntries, fragmentManager);
+            mAdapter = new ServiceRecyclerView(serviceEntriesOrdered, fragmentManager);
             mRecyclerView.setAdapter(mAdapter);
 
             ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -97,31 +101,13 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     }
 
     private List<ServiceEntry> orderByDate(List<ServiceEntry> serviceEntries) {
-        List<ServiceEntry> serviceEntriesOrdered = new ArrayList<>();
+        SortedMap<Long, ServiceEntry> serviceEntrySortedMap = new TreeMap<>();
         for(int i = 0; i < serviceEntries.size(); i++) {
             ServiceEntry serviceEntry = serviceEntries.get(i);
-            String[] splittedDate = serviceEntry.getDate().split("-");
-            int year = Integer.parseInt(splittedDate[0]);
-            int month = Integer.parseInt(splittedDate[1]);
-            int day = Integer.parseInt(splittedDate[2]);
-            ServiceEntry minServiceEntry = serviceEntry;
-
-            for (int j = 0; j < serviceEntries.size(); j++) {
-                ServiceEntry comparedServiceEntry = serviceEntries.get(j);
-                String[] comparedSplittedDate = comparedServiceEntry .getDate().split("-");
-                int comparedYear = Integer.parseInt(comparedSplittedDate[0]);
-                int comparedMonth = Integer.parseInt(comparedSplittedDate[1]);
-                int comparedDay = Integer.parseInt(comparedSplittedDate[2]);
-                if (comparedYear <= year ) {
-                    if (comparedMonth <= month ) {
-                        if (comparedDay <= day) {
-                            minServiceEntry = comparedServiceEntry;
-                        }
-                    }
-                }
-            }
-            serviceEntriesOrdered.add(minServiceEntry);
+            serviceEntrySortedMap.put(serviceEntry.getTimestamp(), serviceEntry);
         }
+        List<ServiceEntry> serviceEntriesOrdered = new ArrayList<>(serviceEntrySortedMap.values());
+        Collections.reverse(serviceEntriesOrdered);
         return serviceEntriesOrdered;
     }
 

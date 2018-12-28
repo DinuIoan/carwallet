@@ -1,6 +1,11 @@
 package com.bestapps.carwallet.maintenance;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +28,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import static android.app.Notification.VISIBILITY_PUBLIC;
+import static com.bestapps.carwallet.Notifications.CHANNEL_ID;
 
 public class AddMaintenanceFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private DatabaseHandler databaseHandler;
@@ -52,6 +62,9 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     private Maintenance maintenanceEdit;
     private List<String> hours = new ArrayList<>();
     private List<String> mins = new ArrayList<>();
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -187,9 +200,10 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
                     if (isEdit) {
                         maintenance.setId(maintenanceEdit.getId());
                         databaseHandler.updateMaintenance(maintenance);
+//                        updateNotification();
                     } else {
-
                         databaseHandler.addMaintenance(maintenance);
+                        addNotification(maintenance);
                     }
                     changeFragment(new MaintenanceFragment());
                 }
@@ -274,5 +288,21 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         dateEdt.setText(buildDate(year, monthOfYear, dayOfMonth));
+    }
+
+    private void addNotification(Maintenance maintenance) {
+
+//        alarmMgr = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        alarmIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+//        Calendar calendar = Calendar.getInstance();
+//        String[] splittedDate = maintenance.getDate().split("-");
+//        int year = Integer.parseInt(splittedDate[0]);
+//        int month = Integer.parseInt(splittedDate[1]);
+//        int day = Integer.parseInt(splittedDate[2]);
+//        calendar.set(year, month - 1, day,
+//                Integer.parseInt(maintenance.getHour()), Integer.parseInt(maintenance.getMin()));
+//        alarmMgr.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,  SystemClock.elapsedRealtime() +
+//                60 * 1000, alarmIntent);
     }
 }

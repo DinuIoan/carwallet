@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Space;
 
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.Maintenance;
@@ -13,6 +12,7 @@ import com.bestapps.carwallet.model.ServiceEntry;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "carwalletdb";
@@ -41,6 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SERVICE_ENTRY_PRICE = "price";
     private static final String SERVICE_ENTRY_DATE = "date";
     private static final String SERVICE_ENTRY_CAR_ID = "car_id";
+    private static final String TIMESTAMP = "timestamp";
 
     private static final String MAINTENANCE_TABLE = "maintenance";
     private static final String MAINTENANCE_TITLE= "title";
@@ -84,7 +85,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + SERVICE_ENTRY_MILEAGE + " integer, "
                 + SERVICE_ENTRY_PRICE + " integer, "
                 + SERVICE_ENTRY_DATE + " text, "
-                + SERVICE_ENTRY_CAR_ID + " integer " +
+                + SERVICE_ENTRY_CAR_ID + " integer, "
+                + TIMESTAMP + " integer " +
                 " ) ";
 
         String CREATE_MAINTENANCE_TABLE = "create table " + MAINTENANCE_TABLE +
@@ -98,7 +100,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + MAINTENANCE_HOUR + " text, "
                 + MAINTENANCE_MIN + " text, "
                 + MAINTENANCE_NOTIFICATIONS + " integer, "
-                + MAINTENANCE_CAR_ID + " integer " + " ) ";
+                + MAINTENANCE_CAR_ID + " integer, "
+                + TIMESTAMP + " integer " +
+                " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
         sqLiteDatabase.execSQL(CREATE_MAINTENANCE_TABLE);
@@ -234,9 +238,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         return serviceEntries;
     }
+    public List<ServiceEntry> findAllServiceEntries() {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_SERVICE_ENTRIES = "select * from " + SERVICE_ENTRY_TABLE;
+        Cursor cursor = database.rawQuery(FIND_ALL_SERVICE_ENTRIES, null);
+        List<ServiceEntry> serviceEntries = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            serviceEntries.add(buildServiceEntryFromCursor(cursor));
+        }
+        cursor.close();
+        return serviceEntries;
+    }
 
     public void addServiceEntry(ServiceEntry serviceEntry) {
         SQLiteDatabase database = getWritableDatabase();
+        String[] splittedDate = serviceEntry.getDate().split("-");
+        int year = Integer.parseInt(splittedDate[0]);
+        int month = Integer.parseInt(splittedDate[1]);
+        int day = Integer.parseInt(splittedDate[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, getRandomInt(),getRandomInt(), getRandomInt());
+        long timestamp = calendar.getTimeInMillis();
         String ADD_SERVICE_ENTRY = "insert into " + SERVICE_ENTRY_TABLE +
                 " values(null, '"
                 + serviceEntry.getTitle() + "', '"
@@ -244,9 +267,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + serviceEntry.getMileage() + "', '"
                 + serviceEntry.getPrice() + "', '"
                 + serviceEntry.getDate() + "', '"
-                + serviceEntry.getCarId() + "')";
+                + serviceEntry.getCarId() + "', '"
+                + timestamp + "')";
         database.execSQL(ADD_SERVICE_ENTRY);
-
     }
 
     private ServiceEntry buildServiceEntryFromCursor(Cursor cursor) {
@@ -258,6 +281,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         serviceEntry.setPrice(cursor.getDouble(4));
         serviceEntry.setDate(cursor.getString(5));
         serviceEntry.setCarId(cursor.getLong(6));
+        serviceEntry.setTimestamp(cursor.getLong(7));
         return serviceEntry;
     }
 
@@ -297,6 +321,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addMaintenance(Maintenance maintenance) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String[] splittedDate = maintenance.getDate().split("-");
+        int year = Integer.parseInt(splittedDate[0]);
+        int month = Integer.parseInt(splittedDate[1]);
+        int day = Integer.parseInt(splittedDate[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, Integer.parseInt(maintenance.getHour())
+                ,Integer.parseInt(maintenance.getMin()), getRandomInt());
+        long timestamp = calendar.getTimeInMillis();
         String ADD_MAINTENANCE = "insert into " + MAINTENANCE_TABLE +
                 " values(null, '"
                 + maintenance.getTitle() + "', '"
@@ -307,7 +339,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + maintenance.getHour() + "', '"
                 + maintenance.getMin() + "', '"
                 + maintenance.isNotificationActive() + "', '"
-                + maintenance.getCarId() + "')";
+                + maintenance.getCarId() + "', '"
+                + timestamp + "')";
         sqLiteDatabase.execSQL(ADD_MAINTENANCE);
     }
 
@@ -337,6 +370,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         maintenance.setMin(cursor.getString(7));
         maintenance.setNotificationActive(cursor.getInt(8));
         maintenance.setCarId(cursor.getLong(9));
+        maintenance.setTimestamp(cursor.getLong(10));
         return maintenance;
     }
 
@@ -349,13 +383,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void updateServiceEntry(ServiceEntry serviceEntry) {
         SQLiteDatabase database = getWritableDatabase();
+        String[] splittedDate = serviceEntry.getDate().split("-");
+        int year = Integer.parseInt(splittedDate[0]);
+        int month = Integer.parseInt(splittedDate[1]);
+        int day = Integer.parseInt(splittedDate[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, getRandomInt(),getRandomInt(), getRandomInt());
+        long timestamp = calendar.getTimeInMillis();
         String UPDATE_SERVICE_ENTRY = "update " + SERVICE_ENTRY_TABLE + " set " +
                 SERVICE_ENTRY_TITLE + " = '" + serviceEntry.getTitle() + "', " +
                 SERVICE_ENTRY_DESCRIPTION + " = '" + serviceEntry.getDescription() + "', " +
                 SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
                 SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
                 SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
-                SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() +
+                SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() + ", " +
+                TIMESTAMP + " = " + timestamp +
                 " where " + ID + " = " + serviceEntry.getId();
         database.execSQL(UPDATE_SERVICE_ENTRY);
         database.close();
@@ -363,6 +405,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void updateMaintenance(Maintenance maintenance) {
         SQLiteDatabase database = getWritableDatabase();
+        String[] splittedDate = maintenance.getDate().split("-");
+        int year = Integer.parseInt(splittedDate[0]);
+        int month = Integer.parseInt(splittedDate[1]);
+        int day = Integer.parseInt(splittedDate[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, Integer.parseInt(maintenance.getHour())
+                ,Integer.parseInt(maintenance.getMin()), getRandomInt());
+        long timestamp = calendar.getTimeInMillis();
         String UPDATE_MAINTENANCE = "update " + MAINTENANCE_TABLE + " set " +
                 MAINTENANCE_TITLE + " = '" + maintenance.getTitle() + "', " +
                 MAINTENANCE_DESCRIPTION + " = '" + maintenance.getDescription() + "', " +
@@ -372,8 +422,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 MAINTENANCE_HOUR+ " = '" + maintenance.getHour()+ "', " +
                 MAINTENANCE_MIN+ " = '" + maintenance.getMin()+ "', " +
                 MAINTENANCE_CAR_ID + " = " + maintenance.getCarId() +
+                TIMESTAMP + " = " + timestamp +
                 " where " + ID + " = " + maintenance.getId();
         database.execSQL(UPDATE_MAINTENANCE);
         database.close();
+    }
+
+    private int getRandomInt() {
+        return ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
     }
 }

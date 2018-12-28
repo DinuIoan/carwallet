@@ -18,7 +18,11 @@ import com.bestapps.carwallet.service.RecyclerItemTouchHelperListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -115,31 +119,14 @@ public class MaintenanceFragment extends Fragment {
     }
 
     private List<Maintenance> orderByDate(List<Maintenance> maintenanceList) {
-        List<Maintenance> maintenanceListOrdered = new ArrayList<>();
+        SortedMap<Long, Maintenance> maintenanceSortedMap = new TreeMap<>();
         for(int i = 0; i < maintenanceList.size(); i++) {
             Maintenance maintenance = maintenanceList.get(i);
-            String[] splittedDate = maintenance.getDate().split("-");
-            int year = Integer.parseInt(splittedDate[0]);
-            int month = Integer.parseInt(splittedDate[1]);
-            int day = Integer.parseInt(splittedDate[2]);
-            Maintenance minMaintenance = maintenance;
 
-            for (int j = i + 1; j < maintenanceList.size(); j++) {
-                Maintenance comparedMaintenance = maintenanceList.get(i);
-                String[] comparedSplittedDate = comparedMaintenance .getDate().split("-");
-                int comparedYear = Integer.parseInt(comparedSplittedDate[0]);
-                int comparedMonth = Integer.parseInt(comparedSplittedDate[1]);
-                int comparedDay = Integer.parseInt(comparedSplittedDate[2]);
-                if (comparedYear <= year ) {
-                    if (comparedMonth <= month ) {
-                        if (comparedDay <= day) {
-                            minMaintenance = comparedMaintenance;
-                        }
-                    }
-                }
-            }
-            maintenanceListOrdered.add(minMaintenance);
+            maintenanceSortedMap.put(maintenance.getTimestamp(), maintenance);
         }
-        return maintenanceListOrdered;
+        return new ArrayList<>(maintenanceSortedMap.values());
     }
+
+
 }

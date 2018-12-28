@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimaryReplyBlue</item>
         <item name="colorPrimaryDark">@color/colorPrimaryReplyBlueDark</item>
         <item name="colorAccent">@color/colorPrimaryReplyBlueAccent</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
 
 </resources>

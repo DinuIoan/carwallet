@@ -8,6 +8,7 @@ import android.view.View;
 import com.bestapps.carwallet.cars.CarsFragment;
 import com.bestapps.carwallet.maintenance.MaintenanceFragment;
 import com.bestapps.carwallet.service.ServiceFragment;
+import com.bestapps.carwallet.statistics.StatisticsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
                     changeFragment(new MaintenanceFragment());
                     return true;
                 case R.id.navigation_cars:
+                    changeFragment(new CarsFragment());
+                    return true;
+                case R.id.navigation_charts:
+                    changeFragment(new StatisticsFragment());
+                    return true;
+                case R.id.navigation_trip:
                     changeFragment(new CarsFragment());
                     return true;
             }

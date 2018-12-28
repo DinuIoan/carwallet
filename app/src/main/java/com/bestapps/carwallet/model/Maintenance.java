@@ -13,6 +13,7 @@ public class Maintenance implements Serializable {
     private String min;
     private int notificationActive;
     private Long carId;
+    private Long timestamp;
 
     public Long getId() {
         return id;
@@ -92,5 +93,13 @@ public class Maintenance implements Serializable {
 
     public void setCarId(Long carId) {
         this.carId = carId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

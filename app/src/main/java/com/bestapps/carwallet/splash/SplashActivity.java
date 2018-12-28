@@ -1,11 +1,15 @@
 package com.bestapps.carwallet.splash;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.bestapps.carwallet.MainActivity;
+import com.bestapps.carwallet.Notifications;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.model.CarType;
@@ -20,6 +24,8 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.bestapps.carwallet.Notifications.CHANNEL_ID;
+
 public class SplashActivity extends AppCompatActivity {
     private static Resources resources;
 
@@ -29,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         resources = getApplicationContext().getResources();
         initializeCarTypes();
+        createNotificationChannel();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -38,6 +45,20 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 1500);
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, Notifications.CHANNEL_NAME, importance);
+            channel.setDescription(Notifications.CHANNEL_DESCRIPTION);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void initializeCarTypes() {

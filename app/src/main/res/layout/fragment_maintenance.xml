@@ -87,7 +87,7 @@
             android:id="@+id/maintenance_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="15dp"
+            android:layout_marginBottom="50dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:scrollbars="vertical" />
 

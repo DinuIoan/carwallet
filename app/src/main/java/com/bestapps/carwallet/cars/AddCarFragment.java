@@ -248,7 +248,8 @@ public class AddCarFragment extends Fragment {
                         android.R.layout.simple_spinner_item, modelsArray);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 modelSpinner.setAdapter(arrayAdapter);
-                modelSpinner.setSelection(getPosition(modelsArray));
+                if(isEdit)
+                    modelSpinner.setSelection(getPosition(modelsArray));
             }
         }
     }

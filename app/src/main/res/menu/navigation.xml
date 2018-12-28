@@ -16,4 +16,14 @@
         android:icon="@mipmap/ic_car"
         android:title="@string/car" />
 
+    <item
+    android:id="@+id/navigation_charts"
+    android:icon="@drawable/ic_insert_chart"
+    android:title="@string/statistics" />
+
+    <item
+        android:id="@+id/navigation_trip"
+        android:icon="@drawable/ic_local_gas_station"
+        android:title="@string/trip" />
+
 </menu>

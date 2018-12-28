@@ -10,6 +10,7 @@ public class ServiceEntry implements Serializable {
     private double price;
     private String date;
     private Long carId;
+    private Long timestamp;
 
     public Long getId() {
         return id;
@@ -65,5 +66,13 @@ public class ServiceEntry implements Serializable {
 
     public void setCarId(Long carId) {
         this.carId = carId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }
