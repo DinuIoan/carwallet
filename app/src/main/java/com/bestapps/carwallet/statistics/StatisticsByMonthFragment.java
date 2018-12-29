@@ -1,6 +1,7 @@
 package com.bestapps.carwallet.statistics;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class StatisticsByMonthFragment extends Fragment {
     private BarChart chart;
@@ -39,10 +41,11 @@ public class StatisticsByMonthFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_statistics_by_month, container, false);
         initializeViews(view);
+        handleOnBackPressed(view);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
         activeCar = databaseHandler.getActiveCar();
-        initializeChart();
+        createChart();
         return view;
     }
 
@@ -50,7 +53,7 @@ public class StatisticsByMonthFragment extends Fragment {
         chart = view.findViewById(R.id.chart);
     }
 
-    private void initializeChart() {
+    private void createChart() {
         List<BarEntry> entries = new ArrayList<BarEntry>();
         List<ServiceEntry> serviceEntries =
                 databaseHandler.findAllServiceEntriesByCarId(activeCar.getId());
@@ -75,5 +78,28 @@ public class StatisticsByMonthFragment extends Fragment {
         chart.getXAxis().setDrawGridLinesBehindData(false);
         chart.getAxisRight().setEnabled(false);
         chart.invalidate();
+    }
+
+    private void handleOnBackPressed(View view) {
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new StatisticsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
+        fragmentTransaction.commit();
     }
 }

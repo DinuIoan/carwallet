@@ -50,6 +50,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     private int backCount = 0;
     private Paint p = new Paint();
     private List<ServiceEntry> serviceEntries = new ArrayList<>();
+    private List<ServiceEntry> serviceEntriesOrdered = new ArrayList<>();
     private FrameLayout rootLayout;
 
     @Override
@@ -76,7 +77,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             activeCarManufacturerTextView.setText(car.getManufacturer());
             activeCarVinTextView.setText("VIN: " + car.getVin());
             serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
-            List<ServiceEntry> serviceEntriesOrdered = orderByDate(serviceEntries);
+            serviceEntriesOrdered = orderByDate(serviceEntries);
 
             mRecyclerView = view.findViewById(R.id.service_recycler_view);
 
@@ -114,7 +115,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
-            ServiceEntry deletedServiceEntry = serviceEntries.get(viewHolder.getAdapterPosition());
+            ServiceEntry deletedServiceEntry = serviceEntriesOrdered.get(viewHolder.getAdapterPosition());
             int deleteIndex = viewHolder.getAdapterPosition();
 
             mAdapter.removeItem(deleteIndex);

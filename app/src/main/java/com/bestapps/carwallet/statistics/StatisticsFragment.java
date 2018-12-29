@@ -32,15 +32,10 @@ public class StatisticsFragment extends Fragment {
     private TextView activeCarModelTextView;
     private TextView activeCarVinTextView;
     private LinearLayout byMonthLinearLayout;
+    private LinearLayout expensesLinearLayout;
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
-    private TextView mostExpensiveServiceHistoryTitle;
-    private TextView mostExpensiveServiceHistoryDate;
-    private TextView mostExpensiveServiceHistoryPrice;
-    private TextView mostExpensiveCarManufacturer;
-    private TextView mostExpensiveCarModel;
-    private TextView mostExpensiveCarLicenseNo;
-    private TextView mostExpensiveCarAmountSpent;
+
 
     private Car activeCar;
 
@@ -67,52 +62,11 @@ public class StatisticsFragment extends Fragment {
             activeCarManufacturerTextView.setText(activeCar.getManufacturer());
             activeCarVinTextView.setText("VIN: " + activeCar.getVin());
         }
-        calculateMostExpensiveServiceHistory();
-        calculateMostExpensiveCar();
 
         return view;
     }
 
-    private void calculateMostExpensiveCar() {
-        List<Car> cars = databaseHandler.findAllCars();
-        List<Double> amounts = new ArrayList<>();
-        for (Car car: cars) {
-            List<ServiceEntry> serviceEntries =
-                    databaseHandler.findAllServiceEntriesByCarId(car.getId());
-            double amountSpent = 0.0;
-            for (ServiceEntry serviceEntry: serviceEntries) {
-                amountSpent += serviceEntry.getPrice();
-            }
-            amounts.add(amountSpent);
-        }
-        double max = 0.0;
-        int maxPos = 0;
-        for (int i = 0; i < amounts.size(); i++) {
-            if (amounts.get(i) > max) {
-                max = amounts.get(i);
-                maxPos = i;
-            }
-        }
-        mostExpensiveCarManufacturer.setText(cars.get(maxPos).getManufacturer());
-        mostExpensiveCarModel.setText(cars.get(maxPos).getModel());
-        mostExpensiveCarLicenseNo.setText(cars.get(maxPos).getLicenseNo());
-        mostExpensiveCarAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
-    }
 
-    private void calculateMostExpensiveServiceHistory() {
-        List<ServiceEntry> serviceEntries = databaseHandler.findAllServiceEntries();
-        ServiceEntry mostExpensiveServiceEntry = new ServiceEntry();
-        double max = 0.0;
-        for (ServiceEntry serviceEntry: serviceEntries) {
-            if (serviceEntry.getPrice() > max) {
-                max = serviceEntry.getPrice();
-                mostExpensiveServiceEntry = serviceEntry;
-            }
-        }
-        mostExpensiveServiceHistoryTitle.setText(mostExpensiveServiceEntry.getTitle());
-        mostExpensiveServiceHistoryDate.setText(mostExpensiveServiceEntry.getDate());
-        mostExpensiveServiceHistoryPrice.setText("" + mostExpensiveServiceEntry.getPrice() + "$");
-    }
 
     private void handleOnClickListeners() {
         byMonthLinearLayout.setClickable(true);
@@ -122,6 +76,13 @@ public class StatisticsFragment extends Fragment {
                 changeFragment(new StatisticsByMonthFragment());
             }
         });
+
+        expensesLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new ExpensesStatsFragment());
+            }
+        });
     }
 
     private void initializeViews(View view) {
@@ -129,14 +90,8 @@ public class StatisticsFragment extends Fragment {
         activeCarManufacturerTextView = view.findViewById(R.id.active_car_manufacturer);
         activeCarModelTextView = view.findViewById(R.id.active_car_model);
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);
-        mostExpensiveServiceHistoryTitle = view.findViewById(R.id.most_expensive_service_history_title);
-        mostExpensiveServiceHistoryPrice = view.findViewById(R.id.most_expensive_service_history_price);
-        mostExpensiveServiceHistoryDate = view.findViewById(R.id.most_expensive_service_history_date);
-        mostExpensiveCarManufacturer = view.findViewById(R.id.most_expensive_manufacturer);
-        mostExpensiveCarModel = view.findViewById(R.id.most_expensive_model);
-        mostExpensiveCarLicenseNo = view.findViewById(R.id.most_expensive_license_no);
         byMonthLinearLayout = view.findViewById(R.id.by_month_linear_layout);
-        mostExpensiveCarAmountSpent = view.findViewById(R.id.most_expensive_amount_spent);
+        expensesLinearLayout = view.findViewById(R.id.expenses_linear_layout);
     }
 
     private void changeFragment(Fragment fragment) {

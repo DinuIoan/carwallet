@@ -154,6 +154,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cars;
     }
 
+    public Car findCarById(Long id) {
+        SQLiteDatabase database = getReadableDatabase();
+        String FIND_ALL_CARS = "select * from " + CAR_TABLE +
+                " where id = " + id;
+        Cursor cursor = database.rawQuery(FIND_ALL_CARS, null);
+        Car car = new Car();
+
+        if (cursor.moveToNext()) {
+            car = buildCarFromCursor(cursor);
+        }
+        cursor.close();
+        return car;
+    }
+
     public void updateCar(Car car) {
         SQLiteDatabase database = getWritableDatabase();
         String UPDATE_CAR = "update " + CAR_TABLE + " set " +
@@ -258,7 +272,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int month = Integer.parseInt(splittedDate[1]);
         int day = Integer.parseInt(splittedDate[2]);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, getRandomInt(),getRandomInt(), getRandomInt());
+        calendar.set(year, month, day,
+                calendar.getTime().getHours(),
+                calendar.getTime().getMinutes(),
+                calendar.getTime().getSeconds());
         long timestamp = calendar.getTimeInMillis();
         String ADD_SERVICE_ENTRY = "insert into " + SERVICE_ENTRY_TABLE +
                 " values(null, '"
@@ -327,7 +344,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int day = Integer.parseInt(splittedDate[2]);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day, Integer.parseInt(maintenance.getHour())
-                ,Integer.parseInt(maintenance.getMin()), getRandomInt());
+                ,Integer.parseInt(maintenance.getMin()), calendar.getTime().getSeconds());
         long timestamp = calendar.getTimeInMillis();
         String ADD_MAINTENANCE = "insert into " + MAINTENANCE_TABLE +
                 " values(null, '"
@@ -349,6 +366,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String FIND_ALL_MAINTENANCE_BY_CAR_ID = "select * from " + MAINTENANCE_TABLE +
                 " where " + MAINTENANCE_CAR_ID + " = " + id;
         Cursor cursor = database.rawQuery(FIND_ALL_MAINTENANCE_BY_CAR_ID, null);
+        List<Maintenance> maintenanceList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            maintenanceList.add(buildMaintenanceFromCursor(cursor));
+        }
+        cursor.close();
+        return maintenanceList;
+    }
+
+    public List<Maintenance> findAllMaintenance() {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_MAINTENANCE = "select * from " + MAINTENANCE_TABLE;
+        Cursor cursor = database.rawQuery(FIND_ALL_MAINTENANCE, null);
         List<Maintenance> maintenanceList = new ArrayList<>();
 
         while (cursor.moveToNext()) {

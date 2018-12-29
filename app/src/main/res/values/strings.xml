@@ -24,10 +24,12 @@
     <string name="hint_service_date">Date</string>
     <string name="mins">Min</string>
     <string name="hour">Hour</string>
-    <string name="byMonth">By month</string>
-    <string name="byCar">By car</string>
-    <string name="mostExpensiveCar">Most expensive car</string>
+    <string name="byMonth">Month stats</string>
+    <string name="byCar">Car stats</string>
+    <string name="mostExpensiveCarRepairCosts">Most expensive car by repair costs</string>
+    <string name="mostExpensiveCarMaintenanceCosts">Most expensive car by maintenance costs</string>
     <string name="mostExpensiveServiceHistory">Most expensive repair done</string>
+    <string name="expenses">Expenses</string>
 
     <string-array name="shapes">
         <item>Select vehicle type...</item>
