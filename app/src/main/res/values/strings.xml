@@ -2,7 +2,7 @@
     <string name="app_name">Car Wallet</string>
     <string name="service">Service</string>
     <string name="maintenance">Maintenance</string>
-    <string name="car">Cars</string>
+    <string name="garage">Garage</string>
     <string name="statistics">Statistics</string>
     <string name="trip">Trip</string>
     <string name="hint_manufacturer">Manufacturer</string>
@@ -56,4 +56,18 @@
     <string name="ok">Ok, got it</string>
     <string name="changeActiveCar">Atention</string>
     <string name="licenseNoUniquieConstraint">You can`t have two cars with same license no. License no must be unique.</string>
+    <string name="selectYear">Select year:</string>
+    <string name="noDataAvailable">No data available.</string>
+    <string name="january">January</string>
+    <string name="march">March</string>
+    <string name="february">February</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
 </resources>

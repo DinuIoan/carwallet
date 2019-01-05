@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -21,10 +21,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
                 android:textSize="20sp"
                 android:text="@string/mostExpensiveCarRepairCosts"
-                android:layout_marginBottom="5dp"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/select_year"
+                android:textColor="@color/colorSecondaryReplyOrange"
+                android:textStyle="bold"
+                android:elevation="8dp"
+                android:padding="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -32,8 +36,8 @@
                     android:orientation="vertical"
                     android:showDividers="middle"
                     android:divider="@drawable/divider"
-                    android:elevation="8dp"
-                    android:layout_marginBottom="10dp">
+                    android:elevation="4dp"
+                    android:layout_margin="20dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -97,10 +101,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
                 android:textSize="20sp"
                 android:text="@string/mostExpensiveCarMaintenanceCosts"
-                android:layout_marginBottom="5dp"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/select_year"
+                android:textColor="@color/colorSecondaryReplyOrange"
+                android:textStyle="bold"
+                android:elevation="8dp"
+                android:padding="10dp"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,8 +117,8 @@
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/divider"
-                android:elevation="8dp"
-                android:layout_marginBottom="10dp">
+                android:elevation="4dp"
+                android:layout_margin="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -174,10 +183,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="15dp"
                 android:textSize="20sp"
                 android:text="@string/mostExpensiveServiceHistory"
-                android:layout_marginBottom="5dp"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/select_year"
+                android:textColor="@color/colorSecondaryReplyOrange"
+                android:textStyle="bold"
+                android:elevation="8dp"
+                android:padding="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -186,8 +199,8 @@
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/divider"
-                android:elevation="8dp"
-                android:layout_marginBottom="10dp">
+                android:elevation="4dp"
+                android:layout_margin="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

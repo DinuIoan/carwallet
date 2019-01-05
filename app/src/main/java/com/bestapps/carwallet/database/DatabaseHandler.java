@@ -40,6 +40,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SERVICE_ENTRY_MILEAGE = "mileage";
     private static final String SERVICE_ENTRY_PRICE = "price";
     private static final String SERVICE_ENTRY_DATE = "date";
+    private static final String SERVICE_ENTRY_YEAR = "year";
+    private static final String SERVICE_ENTRY_MONTH = "month";
+    private static final String SERVICE_ENTRY_DAY = "day";
     private static final String SERVICE_ENTRY_CAR_ID = "car_id";
     private static final String TIMESTAMP = "timestamp";
 
@@ -85,6 +88,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + SERVICE_ENTRY_MILEAGE + " integer, "
                 + SERVICE_ENTRY_PRICE + " integer, "
                 + SERVICE_ENTRY_DATE + " text, "
+                + SERVICE_ENTRY_YEAR + " integer, "
+                + SERVICE_ENTRY_MONTH + " integer, "
+                + SERVICE_ENTRY_DAY + " integer, "
                 + SERVICE_ENTRY_CAR_ID + " integer, "
                 + TIMESTAMP + " integer " +
                 " ) ";
@@ -246,15 +252,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(FIND_ALL_SERVICE_ENTRIES_BY_CAR_ID, null);
         List<ServiceEntry> serviceEntries = new ArrayList<>();
 
+        while (cursor != null && cursor.moveToNext()) {
+            serviceEntries.add(buildServiceEntryFromCursor(cursor));
+        }
+        cursor.close();
+        return serviceEntries;
+    }
+
+    public List<ServiceEntry> findAllServiceEntries() {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_SERVICE_ENTRIES = "select * from " + SERVICE_ENTRY_TABLE;
+        Cursor cursor = database.rawQuery(FIND_ALL_SERVICE_ENTRIES, null);
+        List<ServiceEntry> serviceEntries = new ArrayList<>();
+
         while (cursor.moveToNext()) {
             serviceEntries.add(buildServiceEntryFromCursor(cursor));
         }
         cursor.close();
         return serviceEntries;
     }
-    public List<ServiceEntry> findAllServiceEntries() {
+
+    public List<ServiceEntry> findAllServiceEntriesByYearAndCarId(Long carId, Integer year) {
         SQLiteDatabase database = getWritableDatabase();
-        String FIND_ALL_SERVICE_ENTRIES = "select * from " + SERVICE_ENTRY_TABLE;
+        String FIND_ALL_SERVICE_ENTRIES = "select * from " + SERVICE_ENTRY_TABLE +
+                " where " + SERVICE_ENTRY_CAR_ID + " = " + carId +
+                " and " + SERVICE_ENTRY_YEAR + " = " + year;
         Cursor cursor = database.rawQuery(FIND_ALL_SERVICE_ENTRIES, null);
         List<ServiceEntry> serviceEntries = new ArrayList<>();
 
@@ -284,6 +306,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + serviceEntry.getMileage() + "', '"
                 + serviceEntry.getPrice() + "', '"
                 + serviceEntry.getDate() + "', '"
+                + serviceEntry.getYear() + "', '"
+                + serviceEntry.getMonth() + "', '"
+                + serviceEntry.getDay() + "', '"
                 + serviceEntry.getCarId() + "', '"
                 + timestamp + "')";
         database.execSQL(ADD_SERVICE_ENTRY);
@@ -297,8 +322,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         serviceEntry.setMileage(cursor.getInt(3));
         serviceEntry.setPrice(cursor.getDouble(4));
         serviceEntry.setDate(cursor.getString(5));
-        serviceEntry.setCarId(cursor.getLong(6));
-        serviceEntry.setTimestamp(cursor.getLong(7));
+        serviceEntry.setYear(cursor.getInt(6));
+        serviceEntry.setMonth(cursor.getInt(7));
+        serviceEntry.setDay(cursor.getInt(8));
+        serviceEntry.setCarId(cursor.getLong(9));
+        serviceEntry.setTimestamp(cursor.getLong(10));
         return serviceEntry;
     }
 
@@ -426,6 +454,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
                 SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
                 SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
+                SERVICE_ENTRY_YEAR+ " = " + serviceEntry.getYear() + ", " +
+                SERVICE_ENTRY_MONTH+ " = " + serviceEntry.getMonth() + ", " +
+                SERVICE_ENTRY_DAY + " = " + serviceEntry.getDay() + ", " +
                 SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() + ", " +
                 TIMESTAMP + " = " + timestamp +
                 " where " + ID + " = " + serviceEntry.getId();

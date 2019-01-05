@@ -63,69 +63,88 @@ public class ExpensesStatsFragment extends Fragment {
 
     private void calculateMostExpensiveMaintenanceCar() {
         List<Car> cars = databaseHandler.findAllCars();
-        List<Double> amounts = new ArrayList<>();
-        for (Car car: cars) {
-            List<Maintenance> maintenanceList =
-                    databaseHandler.findAllMaintenance(car.getId());
-            double amountSpent = 0.0;
-            for (Maintenance maintenance: maintenanceList) {
-                amountSpent += maintenance.getPrice();
+        if (cars.isEmpty()) {
+            mostExpensiveMaintenanceCar.setText("-");
+            mostExpensiveCarMaintenanceLicenseNo.setText("-");
+            mostExpensiveCarMaintenanceAmountSpent.setText("-");
+        } else {
+            List<Double> amounts = new ArrayList<>();
+            for (Car car : cars) {
+                List<Maintenance> maintenanceList =
+                        databaseHandler.findAllMaintenance(car.getId());
+                double amountSpent = 0.0;
+                for (Maintenance maintenance : maintenanceList) {
+                    amountSpent += maintenance.getPrice();
+                }
+                amounts.add(amountSpent);
             }
-            amounts.add(amountSpent);
-        }
-        double max = 0.0;
-        int maxPos = 0;
-        for (int i = 0; i < amounts.size(); i++) {
-            if (amounts.get(i) > max) {
-                max = amounts.get(i);
-                maxPos = i;
+            double max = 0.0;
+            int maxPos = 0;
+            for (int i = 0; i < amounts.size(); i++) {
+                if (amounts.get(i) > max) {
+                    max = amounts.get(i);
+                    maxPos = i;
+                }
             }
+            mostExpensiveMaintenanceCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
+            mostExpensiveCarMaintenanceLicenseNo.setText(cars.get(maxPos).getLicenseNo());
+            mostExpensiveCarMaintenanceAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
         }
-        mostExpensiveMaintenanceCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
-        mostExpensiveCarMaintenanceLicenseNo.setText(cars.get(maxPos).getLicenseNo());
-        mostExpensiveCarMaintenanceAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
     }
 
     private void calculateMostExpensiveCar() {
         List<Car> cars = databaseHandler.findAllCars();
-        List<Double> amounts = new ArrayList<>();
-        for (Car car: cars) {
-            List<ServiceEntry> serviceEntries =
-                    databaseHandler.findAllServiceEntriesByCarId(car.getId());
-            double amountSpent = 0.0;
-            for (ServiceEntry serviceEntry: serviceEntries) {
-                amountSpent += serviceEntry.getPrice();
+        if (cars.isEmpty()) {
+            mostExpensiveCar.setText("-");
+            mostExpensiveCarLicenseNo.setText("-");
+            mostExpensiveCarAmountSpent.setText("-");
+        } else {
+            List<Double> amounts = new ArrayList<>();
+            for (Car car : cars) {
+                List<ServiceEntry> serviceEntries =
+                        databaseHandler.findAllServiceEntriesByCarId(car.getId());
+                double amountSpent = 0.0;
+                for (ServiceEntry serviceEntry : serviceEntries) {
+                    amountSpent += serviceEntry.getPrice();
+                }
+                amounts.add(amountSpent);
             }
-            amounts.add(amountSpent);
-        }
-        double max = 0.0;
-        int maxPos = 0;
-        for (int i = 0; i < amounts.size(); i++) {
-            if (amounts.get(i) > max) {
-                max = amounts.get(i);
-                maxPos = i;
+            double max = 0.0;
+            int maxPos = 0;
+            for (int i = 0; i < amounts.size(); i++) {
+                if (amounts.get(i) > max) {
+                    max = amounts.get(i);
+                    maxPos = i;
+                }
             }
+            mostExpensiveCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
+            mostExpensiveCarLicenseNo.setText(cars.get(maxPos).getLicenseNo());
+            mostExpensiveCarAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
         }
-        mostExpensiveCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
-        mostExpensiveCarLicenseNo.setText(cars.get(maxPos).getLicenseNo());
-        mostExpensiveCarAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
     }
 
     private void calculateMostExpensiveServiceHistory() {
         List<ServiceEntry> serviceEntries = databaseHandler.findAllServiceEntries();
-        ServiceEntry mostExpensiveServiceEntry = new ServiceEntry();
-        double max = 0.0;
-        for (ServiceEntry serviceEntry: serviceEntries) {
-            if (serviceEntry.getPrice() > max) {
-                max = serviceEntry.getPrice();
-                mostExpensiveServiceEntry = serviceEntry;
+        if (serviceEntries.isEmpty()) {
+            mostExpensiveServiceHistoryCar.setText("-");
+            mostExpensiveServiceHistoryTitle.setText("-");
+            mostExpensiveServiceHistoryDate.setText("-");
+            mostExpensiveServiceHistoryPrice.setText("-");
+        } else {
+            ServiceEntry mostExpensiveServiceEntry = new ServiceEntry();
+            double max = 0.0;
+            for (ServiceEntry serviceEntry : serviceEntries) {
+                if (serviceEntry.getPrice() > max) {
+                    max = serviceEntry.getPrice();
+                    mostExpensiveServiceEntry = serviceEntry;
+                }
             }
+            Car car = databaseHandler.findCarById(mostExpensiveServiceEntry.getCarId());
+            mostExpensiveServiceHistoryCar.setText(car.getManufacturer() + " " + car.getModel());
+            mostExpensiveServiceHistoryTitle.setText(mostExpensiveServiceEntry.getTitle());
+            mostExpensiveServiceHistoryDate.setText(mostExpensiveServiceEntry.getDate());
+            mostExpensiveServiceHistoryPrice.setText("Price: " + mostExpensiveServiceEntry.getPrice() + "$");
         }
-        Car car = databaseHandler.findCarById(mostExpensiveServiceEntry.getCarId());
-        mostExpensiveServiceHistoryCar.setText(car.getManufacturer() + " " + car.getModel());
-        mostExpensiveServiceHistoryTitle.setText(mostExpensiveServiceEntry.getTitle());
-        mostExpensiveServiceHistoryDate.setText(mostExpensiveServiceEntry.getDate());
-        mostExpensiveServiceHistoryPrice.setText("Price: " + mostExpensiveServiceEntry.getPrice() + "$");
     }
 
     private void initializeViews(View view) {

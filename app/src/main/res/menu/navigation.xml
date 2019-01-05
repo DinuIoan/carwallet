@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_cars"
         android:icon="@mipmap/ic_car"
-        android:title="@string/car" />
+        android:title="@string/garage" />
 
     <item
     android:id="@+id/navigation_charts"

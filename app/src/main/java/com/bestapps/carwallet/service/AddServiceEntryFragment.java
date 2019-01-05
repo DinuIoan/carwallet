@@ -39,6 +39,9 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private int mileage;
     private double price;
     private String date;
+    private int year;
+    private int month;
+    private int day;
     private boolean isEdit = false;
     private ServiceEntry serviceEntryEdit;
 
@@ -104,6 +107,9 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                     serviceEntry.setMileage(mileage);
                     serviceEntry.setPrice(price);
                     serviceEntry.setDate(dateEdt.getText().toString());
+                    serviceEntry.setYear(year);
+                    serviceEntry.setMonth(month);
+                    serviceEntry.setDay(day);
                     if (isEdit) {
                         serviceEntry.setId(serviceEntryEdit.getId());
                         databaseHandler.updateServiceEntry(serviceEntry);
@@ -222,6 +228,9 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
         dateEdt.setText(buildDate(year, monthOfYear, dayOfMonth));
     }
 }

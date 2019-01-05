@@ -7,13 +7,473 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/chart"
+
+            <RelativeLayout
+                android:id="@+id/select_year_relative_layout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/select_year"
+                android:elevation="8dp"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/input_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/selectYear"
+                    android:textColor="@color/colorSecondaryReplyOrange"
+                    android:textStyle="bold"/>
+
+                <Spinner
+                    android:id="@+id/input_year"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="50dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/january"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/select_year_relative_layout">
+
+                <TextView
+                    android:id="@+id/january_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/january"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorPrimaryReplyBlue"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/january_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/january_title"/>
+
+                <TextView
+                    android:id="@+id/january_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/january_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/february"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/january">
+
+                <TextView
+                    android:id="@+id/february_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/february"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/february_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/february_title"/>
+
+                <TextView
+                    android:id="@+id/february_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/february_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/march"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/february">
+
+                <TextView
+                    android:id="@+id/march_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/march"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/march_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/march_title"/>
+
+                <TextView
+                    android:id="@+id/march_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/march_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/april"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/march">
+                <TextView
+                    android:id="@+id/april_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/april"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/april_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/april_title"/>
+
+                <TextView
+                    android:id="@+id/april_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/april_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/may"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/april">
+                <TextView
+                    android:id="@+id/may_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/may"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/may_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/may_title"/>
+
+                <TextView
+                    android:id="@+id/may_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/may_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/june"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/may">
+                <TextView
+                    android:id="@+id/june_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/june_title"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/june"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/june_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/june_title"/>
+
+                <TextView
+                    android:id="@+id/june_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/june_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/july"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/june">
+                <TextView
+                    android:id="@+id/july_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/july"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/july_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/july_title"/>
+
+                <TextView
+                    android:id="@+id/july_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/july_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/august"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/july">
+                <TextView
+                    android:id="@+id/august_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/august"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/august_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/august_title"/>
+
+                <TextView
+                    android:id="@+id/august_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/august_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/september"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/august">
+                <TextView
+                    android:id="@+id/september_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/september"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/september_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/september_title"/>
+
+                <TextView
+                    android:id="@+id/september_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/september_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/october"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/august">
+                <TextView
+                    android:id="@+id/october_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/october"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/october_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/october_title"/>
+
+                <TextView
+                    android:id="@+id/october_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/october_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/november"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/october">
+                <TextView
+                    android:id="@+id/november_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/november"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/november_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/november_title"/>
+
+                <TextView
+                    android:id="@+id/november_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/november_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/december"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/november">
+                <TextView
+                    android:id="@+id/december_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/most_expensive_style"
+                    android:text="@string/december"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:elevation="2dp"
+                    android:textColor="@color/colorPrimaryReplyBlue"
+                    android:gravity="center_horizontal"/>
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/december_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/december_title"/>
+
+                <TextView
+                    android:id="@+id/december_chart_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_below="@id/december_title"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    android:text="@string/noDataAvailable"/>
+            </RelativeLayout>
+
         </RelativeLayout>
+
+
+    </ScrollView>
+
+
 
 </FrameLayout>
