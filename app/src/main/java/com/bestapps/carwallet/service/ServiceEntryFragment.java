@@ -23,6 +23,7 @@ public class ServiceEntryFragment extends Fragment {
     private TextView mileage;
     private TextView date;
     private TextView description;
+    private TextView serviceName;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -47,6 +48,7 @@ public class ServiceEntryFragment extends Fragment {
             mileage.setText("Mileage: " + serviceEntry.getMileage() + " km");
             date.setText("Date: " + serviceEntry.getDate());
             description.setText(serviceEntry.getDescription());
+            serviceName.setText("Service name: " + serviceEntry.getServiceName());
         }
         return view;
     }
@@ -66,6 +68,7 @@ public class ServiceEntryFragment extends Fragment {
         mileage = view.findViewById(R.id.service_entry_mileage);
         date = view.findViewById(R.id.service_entry_date);
         description = view.findViewById(R.id.service_entry_description);
+        serviceName = view.findViewById(R.id.service_entry_service_name);
         floatingActionButton = view.findViewById(R.id.service_entry_fab_edit);
     }
 

@@ -27,6 +27,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private FragmentManager fragmentManager;
     private EditText titleEdt;
     private EditText descriptionEdt;
+    private EditText serviceNameEdt;
     private EditText mileageEdt;
     private EditText priceEdt;
     private EditText dateEdt;
@@ -36,6 +37,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
 
     private String title;
     private String description;
+    private String serviceName;
     private int mileage;
     private double price;
     private String date;
@@ -65,14 +67,15 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         View view = inflater.inflate(R.layout.fragment_add_service_entry, container, false);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
-        MainActivity.backCount = 0;
-        handleOnBackPressed(view);
+        MainActivity.backCount = 22;
         createCalendar();
         initializeViews(view);
+        handleOnBackPressed(view);
         handleClickListeners();
         if (isEdit) {
             titleEdt.setText(serviceEntryEdit.getTitle());
             descriptionEdt.setText(serviceEntryEdit.getDescription());
+            serviceNameEdt.setText(serviceEntryEdit.getServiceName());
             dateEdt.setText(serviceEntryEdit.getDate());
             mileageEdt.setText("" + serviceEntryEdit.getMileage());
             priceEdt.setText("" + serviceEntryEdit.getPrice());
@@ -104,6 +107,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                     serviceEntry.setCarId(car.getId());
                     serviceEntry.setTitle(title);
                     serviceEntry.setDescription(description);
+                    serviceEntry.setServiceName(serviceName);
                     serviceEntry.setMileage(mileage);
                     serviceEntry.setPrice(price);
                     serviceEntry.setDate(dateEdt.getText().toString());
@@ -126,6 +130,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private boolean validate() {
         title = titleEdt.getText().toString();
         description = descriptionEdt.getText().toString();
+        serviceName = serviceNameEdt.getText().toString();
         boolean isValid = true;
 
         if (title.isEmpty()) {
@@ -159,6 +164,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     private void initializeViews(View view) {
         titleEdt = view.findViewById(R.id.input_title);
         descriptionEdt = view.findViewById(R.id.input_description);
+        serviceNameEdt = view.findViewById(R.id.input_service_name);
         mileageEdt = view.findViewById(R.id.input_service_mileage);
         priceEdt = view.findViewById(R.id.input_price);
         dateEdt = view.findViewById(R.id.input_date);
@@ -211,6 +217,14 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
+        dateEdt.setText(buildDate(year, monthOfYear, dayOfMonth));
+    }
+
     private void handleOnBackPressed(View view) {
         view.setFocusableInTouchMode(true);
         view.requestFocus();
@@ -224,13 +238,56 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                 return false;
             }
         });
-    }
+        titleEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new ServiceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        descriptionEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new ServiceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        serviceNameEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new ServiceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        mileageEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new ServiceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        priceEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new ServiceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
 
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        this.year = year;
-        this.month = monthOfYear;
-        this.day = dayOfMonth;
-        dateEdt.setText(buildDate(year, monthOfYear, dayOfMonth));
     }
 }

@@ -87,9 +87,9 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
         MainActivity.backCount = 0;
-        handleOnBackPressed(view);
         createCalendar();
         initializeViews(view);
+        handleOnBackPressed(view);
         handleClickListeners();
         if (isEdit) {
             titleEdt.setText(maintenanceEdit.getTitle());
@@ -158,6 +158,46 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new MaintenanceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        titleEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new MaintenanceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        descriptionEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new MaintenanceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        mileageEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new MaintenanceFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        priceEdt.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {

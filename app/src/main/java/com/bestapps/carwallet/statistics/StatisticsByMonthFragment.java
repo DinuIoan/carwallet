@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,12 +14,9 @@ import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.ServiceEntry;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
@@ -64,6 +60,8 @@ public class StatisticsByMonthFragment extends Fragment {
     private TextView octoberNoData;
     private TextView novemberNoData;
     private TextView decemberNoData;
+    private TextView noDataAvailableTextView;
+    private TextView selectYearTextView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +82,13 @@ public class StatisticsByMonthFragment extends Fragment {
         List<ServiceEntry> serviceEntryList = databaseHandler.findAllServiceEntriesByCarId(activeCar.getId());
 
         if (serviceEntryList.isEmpty()) {
-
+            noDataAvailableTextView.setVisibility(View.VISIBLE);
+            selectYearTextView.setVisibility(View.GONE);
+            inputYear.setVisibility(View.GONE);
         } else {
+            noDataAvailableTextView.setVisibility(View.GONE);
+            selectYearTextView.setVisibility(View.VISIBLE);
+            inputYear.setVisibility(View.VISIBLE);
             Set<Integer> years = getYears(serviceEntryList);
             ArrayAdapter<Object> adapter = new ArrayAdapter<>(getContext(),
                     R.layout.select_year_spinner_item, years.toArray());
@@ -313,6 +316,8 @@ public class StatisticsByMonthFragment extends Fragment {
         novemberNoData = view.findViewById(R.id.november_chart_text_view);
         decemberNoData = view.findViewById(R.id.december_chart_text_view);
 
+        noDataAvailableTextView = view.findViewById(R.id.no_data_available_text_view);
+        selectYearTextView = view.findViewById(R.id.input_title);
         inputYear = view.findViewById(R.id.input_year);
     }
 

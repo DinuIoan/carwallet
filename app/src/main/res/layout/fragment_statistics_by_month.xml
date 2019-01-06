@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/select_year_relative_layout"
@@ -23,6 +23,20 @@
                 android:background="@drawable/select_year"
                 android:elevation="8dp"
                 android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/no_data_available_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:padding="10dp"
+                    android:text="@string/noDataAvailable"
+                    android:textColor="@color/colorSecondaryReplyOrange"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/input_title"

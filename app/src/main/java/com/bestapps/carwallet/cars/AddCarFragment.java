@@ -512,5 +512,85 @@ public class AddCarFragment extends Fragment {
                 return false;
             }
         });
+        manufacturerEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        modelEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        engineEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        powerEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        yearEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        vinEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        mileageEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        licenseNoEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

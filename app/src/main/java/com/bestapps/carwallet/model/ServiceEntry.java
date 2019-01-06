@@ -6,6 +6,7 @@ public class ServiceEntry implements Serializable {
     private Long id;
     private String title;
     private String description;
+    private String serviceName;
     private int mileage;
     private double price;
     private String date;
@@ -37,6 +38,14 @@ public class ServiceEntry implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public int getMileage() {

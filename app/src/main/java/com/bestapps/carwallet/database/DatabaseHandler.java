@@ -37,6 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String SERVICE_ENTRY_TABLE = "service_entry";
     private static final String SERVICE_ENTRY_TITLE = "title";
     private static final String SERVICE_ENTRY_DESCRIPTION = "description";
+    private static final String SERVICE_ENTRY_SERVICE_NAME = "service_name";
     private static final String SERVICE_ENTRY_MILEAGE = "mileage";
     private static final String SERVICE_ENTRY_PRICE = "price";
     private static final String SERVICE_ENTRY_DATE = "date";
@@ -85,6 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ID + " integer primary key autoincrement, "
                 + SERVICE_ENTRY_TITLE + " text, "
                 + SERVICE_ENTRY_DESCRIPTION + " text, "
+                + SERVICE_ENTRY_SERVICE_NAME + " text, "
                 + SERVICE_ENTRY_MILEAGE + " integer, "
                 + SERVICE_ENTRY_PRICE + " integer, "
                 + SERVICE_ENTRY_DATE + " text, "
@@ -303,6 +305,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " values(null, '"
                 + serviceEntry.getTitle() + "', '"
                 + serviceEntry.getDescription() + "', '"
+                + serviceEntry.getServiceName() + "', '"
                 + serviceEntry.getMileage() + "', '"
                 + serviceEntry.getPrice() + "', '"
                 + serviceEntry.getDate() + "', '"
@@ -319,14 +322,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         serviceEntry.setId(cursor.getLong(0));
         serviceEntry.setTitle(cursor.getString(1));
         serviceEntry.setDescription(cursor.getString(2));
-        serviceEntry.setMileage(cursor.getInt(3));
-        serviceEntry.setPrice(cursor.getDouble(4));
-        serviceEntry.setDate(cursor.getString(5));
-        serviceEntry.setYear(cursor.getInt(6));
-        serviceEntry.setMonth(cursor.getInt(7));
-        serviceEntry.setDay(cursor.getInt(8));
-        serviceEntry.setCarId(cursor.getLong(9));
-        serviceEntry.setTimestamp(cursor.getLong(10));
+        serviceEntry.setServiceName(cursor.getString(3));
+        serviceEntry.setMileage(cursor.getInt(4));
+        serviceEntry.setPrice(cursor.getDouble(5));
+        serviceEntry.setDate(cursor.getString(6));
+        serviceEntry.setYear(cursor.getInt(7));
+        serviceEntry.setMonth(cursor.getInt(8));
+        serviceEntry.setDay(cursor.getInt(9));
+        serviceEntry.setCarId(cursor.getLong(10));
+        serviceEntry.setTimestamp(cursor.getLong(11));
         return serviceEntry;
     }
 
@@ -451,6 +455,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String UPDATE_SERVICE_ENTRY = "update " + SERVICE_ENTRY_TABLE + " set " +
                 SERVICE_ENTRY_TITLE + " = '" + serviceEntry.getTitle() + "', " +
                 SERVICE_ENTRY_DESCRIPTION + " = '" + serviceEntry.getDescription() + "', " +
+                SERVICE_ENTRY_SERVICE_NAME + " = '" + serviceEntry.getServiceName() + "', " +
                 SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
                 SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
                 SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
