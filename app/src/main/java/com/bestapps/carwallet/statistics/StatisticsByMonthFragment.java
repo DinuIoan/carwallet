@@ -23,6 +23,8 @@ import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -90,12 +92,13 @@ public class StatisticsByMonthFragment extends Fragment {
             selectYearTextView.setVisibility(View.VISIBLE);
             inputYear.setVisibility(View.VISIBLE);
             Set<Integer> years = getYears(serviceEntryList);
+            List<Integer> yearsList = new ArrayList<>(years);
+            Collections.reverse(yearsList);
             ArrayAdapter<Object> adapter = new ArrayAdapter<>(getContext(),
-                    R.layout.select_year_spinner_item, years.toArray());
+                    R.layout.select_year_spinner_item, yearsList.toArray());
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             inputYear.setAdapter(adapter);
             inputYear.setSelection(0);
-
             loadChartData((Integer) inputYear.getSelectedItem());
         }
 

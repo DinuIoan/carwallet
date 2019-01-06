@@ -72,4 +72,10 @@
     <string name="december">December</string>
     <string name="hint_service_name">Service name</string>
     <string name="notes">Notes:</string>
+    <string name="trips">Trips</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="avarage_consumption">Avarage consumption</string>
+    <string name="distance">Distance</string>
+    <string name="fuelPrice">Fuel price</string>
 </resources>

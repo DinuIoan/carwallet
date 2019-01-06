@@ -28,8 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class StatisticsFragment extends Fragment {
     private TextView activeCarLicenseNoTextView;
-    private TextView activeCarManufacturerTextView;
-    private TextView activeCarModelTextView;
+    private TextView activeCarName;
     private TextView activeCarVinTextView;
     private LinearLayout byMonthLinearLayout;
     private LinearLayout expensesLinearLayout;
@@ -58,8 +57,7 @@ public class StatisticsFragment extends Fragment {
 
         if (activeCar != null) {
             activeCarLicenseNoTextView.setText("License no: " + activeCar.getLicenseNo());
-            activeCarModelTextView.setText(activeCar.getModel());
-            activeCarManufacturerTextView.setText(activeCar.getManufacturer());
+            activeCarName.setText(activeCar.getManufacturer() + " " + activeCar.getModel());
             activeCarVinTextView.setText("VIN: " + activeCar.getVin());
         }
 
@@ -87,8 +85,7 @@ public class StatisticsFragment extends Fragment {
 
     private void initializeViews(View view) {
         activeCarLicenseNoTextView = view.findViewById(R.id.active_car_license_no);
-        activeCarManufacturerTextView = view.findViewById(R.id.active_car_manufacturer);
-        activeCarModelTextView = view.findViewById(R.id.active_car_model);
+        activeCarName = view.findViewById(R.id.active_car_name);
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         byMonthLinearLayout = view.findViewById(R.id.by_month_linear_layout);
         expensesLinearLayout = view.findViewById(R.id.expenses_linear_layout);

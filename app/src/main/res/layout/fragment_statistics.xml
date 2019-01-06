@@ -18,38 +18,28 @@
             android:background="@color/colorPrimaryReplyBlue">
 
             <TextView
-                android:id="@+id/active_car_manufacturer"
+                android:id="@+id/active_car_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingTop="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="-"
+                android:textSize="17sp"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/active_car_model"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/active_car_manufacturer"
-                android:layout_centerHorizontal="true"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:text="-"
-                />
-            <TextView
                 android:id="@+id/active_car_license_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/active_car_model"
+                android:layout_below="@+id/active_car_name"
                 android:layout_centerHorizontal="true"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
+                android:textSize="17sp"
                 android:textAlignment="center"
                 android:text="-"
                 />
@@ -62,6 +52,8 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_marginBottom="10dp"
                 android:textAlignment="center"
                 android:text="-"
                 />
@@ -85,8 +77,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:background="@drawable/statistics_linear_layout_style"
-                    android:layout_weight="1">
+                    android:background="@drawable/statistics_linear_layout_style">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -94,33 +85,13 @@
                             android:textStyle="bold"
                             android:textAlignment="center"
                             android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryReplyBlue"
                             android:text="@string/byMonth"/>
                         <ImageView
                             android:layout_width="75dp"
                             android:layout_height="75dp"
                             android:src="@mipmap/ic_month_icon"
                             android:layout_gravity="center" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:background="@drawable/statistics_linear_layout_style"
-                        android:layout_weight="1">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:layout_gravity="center"
-                            android:text="@string/byCar"/>
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:src="@mipmap/ic_car_icon"
-                            />
                     </LinearLayout>
             </LinearLayout>
 
@@ -138,8 +109,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:background="@drawable/statistics_linear_layout_style"
-                    android:layout_weight="1">
+                    android:background="@drawable/statistics_linear_layout_style">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,6 +119,7 @@
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorPrimaryReplyBlue"
                         android:text="@string/expenses"/>
                     <ImageView
                         android:layout_width="75dp"

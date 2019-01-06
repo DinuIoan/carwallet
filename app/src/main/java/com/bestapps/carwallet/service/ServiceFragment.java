@@ -37,8 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ServiceFragment extends Fragment implements RecyclerItemTouchHelperListener {
     private TextView activeCarLicenseNoTextView;
-    private TextView activeCarManufacturerTextView;
-    private TextView activeCarModelTextView;
+    private TextView activeCarName;
     private TextView activeCarVinTextView;
     private FloatingActionButton serviceFab;
 
@@ -73,8 +72,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
 
         if (car != null) {
             activeCarLicenseNoTextView.setText("License no: " + car.getLicenseNo());
-            activeCarModelTextView.setText(car.getModel());
-            activeCarManufacturerTextView.setText(car.getManufacturer());
+            activeCarName.setText(car.getManufacturer() + " " + car.getModel());
             activeCarVinTextView.setText("VIN: " + car.getVin());
             serviceEntries = databaseHandler.findAllServiceEntriesByCarId(car.getId());
             serviceEntriesOrdered = orderByDate(serviceEntries);
@@ -136,8 +134,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
 
     private void initializeViews(View view) {
         activeCarLicenseNoTextView = view.findViewById(R.id.active_car_license_no);
-        activeCarManufacturerTextView = view.findViewById(R.id.active_car_manufacturer);
-        activeCarModelTextView = view.findViewById(R.id.active_car_model);
+        activeCarName = view.findViewById(R.id.active_car_name);
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         serviceFab = view.findViewById(R.id.service_fab);
         rootLayout = view.findViewById(R.id.root_layout);

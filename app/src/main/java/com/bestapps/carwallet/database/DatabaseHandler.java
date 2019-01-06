@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.model.ServiceEntry;
+import com.bestapps.carwallet.model.TripData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,6 +58,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String MAINTENANCE_MIN = "min";
     private static final String MAINTENANCE_NOTIFICATIONS = "notification_active";
     private static final String MAINTENANCE_CAR_ID = "car_id";
+
+    private static final String TRIP_TABLE = "trip";
+    private static final String TRIP_FROM = "from_location";
+    private static final String TRIP_TO = "to_location";
+    private static final String TRIP_AVARAGE_CONSUMPTION = "avarage_consumption";
+    private static final String TRIP_DISTANCE = "distance";
+    private static final String TRIP_TOTAL_PRICE = "total_price";
+    private static final String TRIP_FUEL_PRICE = "fuel_price";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -111,9 +120,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + MAINTENANCE_CAR_ID + " integer, "
                 + TIMESTAMP + " integer " +
                 " ) ";
+        String CREATE_TRIP_TABLE = "create table " + TRIP_TABLE +
+                " ( "
+                + ID + " integer primary key autoincrement, "
+                + TRIP_FROM + " text, "
+                + TRIP_TO + " text, "
+                + TRIP_AVARAGE_CONSUMPTION + " integer, "
+                + TRIP_DISTANCE + " integer, "
+                + TRIP_FUEL_PRICE + " integer, "
+                + TRIP_TOTAL_PRICE + " integer, "
+                + TIMESTAMP + " integer"
+                + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
         sqLiteDatabase.execSQL(CREATE_MAINTENANCE_TABLE);
+        sqLiteDatabase.execSQL(CREATE_TRIP_TABLE);
     }
 
     @Override
@@ -492,6 +513,51 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " where " + ID + " = " + maintenance.getId();
         database.execSQL(UPDATE_MAINTENANCE);
         database.close();
+    }
+
+    public void addTrip(TripData tripData) {
+        SQLiteDatabase database = getWritableDatabase();
+        Calendar calendar = Calendar.getInstance();
+        long timestamp = calendar.getTimeInMillis();
+
+        String ADD_TRIP = "insert intro " + TRIP_TABLE +
+                " values(null, '"
+                + tripData.getFromLocation() + "', '"
+                + tripData.getToLocation() + "', '"
+                + tripData.getAvarageConsumption() + "', '"
+                + tripData.getDistance() + "', '"
+                + tripData.getFuelPrice() + "', '"
+                + tripData.getTotalPrice() + "', '"
+                + tripData.getTimestamp() + "')";
+        database.execSQL(ADD_TRIP);
+        database.close();
+    }
+
+    public List<TripData> findAllTrips() {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_ALL_TRIPS = "select * from " + TRIP_TABLE;
+        Cursor cursor = database.rawQuery(FIND_ALL_TRIPS, null);
+        List<TripData> tripDataList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            tripDataList.add(buildTripFromCursor(cursor));
+        }
+        database.close();
+        cursor.close();
+        return tripDataList;
+    }
+
+    private TripData buildTripFromCursor(Cursor cursor) {
+        TripData tripData = new TripData();
+        tripData.setId(cursor.getLong(0));
+        tripData.setFromLocation(cursor.getString(1));
+        tripData.setToLocation(cursor.getString(2));
+        tripData.setAvarageConsumption(cursor.getDouble(3));
+        tripData.setDistance(cursor.getDouble(4));
+        tripData.setFuelPrice(cursor.getDouble(5));
+        tripData.setFuelPrice(cursor.getDouble(6));
+        tripData.setTimestamp(cursor.getLong(7));
+        return tripData;
     }
 
     private int getRandomInt() {

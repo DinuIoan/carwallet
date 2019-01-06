@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.view.View;
 
 
+import com.bestapps.carwallet.trip.TripRecyclerView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,26 +34,46 @@ public class RecyclerItemTouchHelper  extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        View foregroundView =  ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        View foregroundView = null;
+        if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
+            foregroundView =  ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        } else if (viewHolder instanceof TripRecyclerView.MyViewHolder) {
+            foregroundView =  ((TripRecyclerView.MyViewHolder) viewHolder).foreground;
+        }
         getDefaultUIUtil().clearView(foregroundView);
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        View foregroundView = null;
+        if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
+            foregroundView =  ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        } else if (viewHolder instanceof TripRecyclerView.MyViewHolder) {
+            foregroundView =  ((TripRecyclerView.MyViewHolder) viewHolder).foreground;
+        }
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        View foregroundView = null;
+        if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
+            foregroundView =  ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+        } else if (viewHolder instanceof TripRecyclerView.MyViewHolder) {
+            foregroundView =  ((TripRecyclerView.MyViewHolder) viewHolder).foreground;
+        }
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         if(viewHolder != null) {
-            View foregroundView = ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+            View foregroundView = null;
+            if (viewHolder instanceof ServiceRecyclerView.MyViewHolder) {
+                foregroundView =  ((ServiceRecyclerView.MyViewHolder) viewHolder).foreground;
+            } else if (viewHolder instanceof TripRecyclerView.MyViewHolder) {
+                foregroundView =  ((TripRecyclerView.MyViewHolder) viewHolder).foreground;
+            }
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
