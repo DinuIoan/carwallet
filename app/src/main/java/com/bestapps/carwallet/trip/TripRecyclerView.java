@@ -57,7 +57,7 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
                 "Avarage consumption: " + tripDataList.get(i).getAvarageConsumption());
         myViewHolder.distance.setText("Distance: " + tripDataList.get(i).getDistance() + "km");
         myViewHolder.fuelPrice.setText("Fuel price: " + tripDataList.get(i).getFuelPrice() + "$");
-        myViewHolder.totalPrice.setText("Fuel price: " + tripDataList.get(i).getTotalPrice() + "$");
+        myViewHolder.totalPrice.setText("Total price: " + tripDataList.get(i).getTotalPrice() + "$");
     }
 
     @Override

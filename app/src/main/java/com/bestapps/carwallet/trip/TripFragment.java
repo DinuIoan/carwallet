@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -28,6 +30,7 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
     private RecyclerView mRecyclerView;
     private TripRecyclerView mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Button calculateButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,15 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
         MainActivity.backCount = 0;
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
+        calculateButton = view.findViewById(R.id.calculate_button);
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new CalculateTripFragment());
+            }
+        });
+
         List<TripData> tripDataList = databaseHandler.findAllTrips();
         mRecyclerView = view.findViewById(R.id.trip_recycler_view);
 
@@ -68,5 +80,12 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
 
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
+        fragmentTransaction.commit();
     }
 }

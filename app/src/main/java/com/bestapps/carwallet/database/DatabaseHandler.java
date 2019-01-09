@@ -520,7 +520,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Calendar calendar = Calendar.getInstance();
         long timestamp = calendar.getTimeInMillis();
 
-        String ADD_TRIP = "insert intro " + TRIP_TABLE +
+        String ADD_TRIP = "insert into " + TRIP_TABLE +
                 " values(null, '"
                 + tripData.getFromLocation() + "', '"
                 + tripData.getToLocation() + "', '"
@@ -528,7 +528,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + tripData.getDistance() + "', '"
                 + tripData.getFuelPrice() + "', '"
                 + tripData.getTotalPrice() + "', '"
-                + tripData.getTimestamp() + "')";
+                + timestamp + "')";
         database.execSQL(ADD_TRIP);
         database.close();
     }
@@ -555,7 +555,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         tripData.setAvarageConsumption(cursor.getDouble(3));
         tripData.setDistance(cursor.getDouble(4));
         tripData.setFuelPrice(cursor.getDouble(5));
-        tripData.setFuelPrice(cursor.getDouble(6));
+        tripData.setTotalPrice(cursor.getDouble(6));
         tripData.setTimestamp(cursor.getLong(7));
         return tripData;
     }

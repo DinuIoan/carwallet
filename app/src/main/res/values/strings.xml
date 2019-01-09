@@ -78,4 +78,7 @@
     <string name="avarage_consumption">Avarage consumption</string>
     <string name="distance">Distance</string>
     <string name="fuelPrice">Fuel price</string>
+    <string name="save_trip">Save trip</string>
+    <string name="total_price">Total price</string>
+    <string name="calculate">Calculate</string>
 </resources>

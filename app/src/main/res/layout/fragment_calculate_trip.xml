@@ -93,18 +93,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
+                    <Button
+                        android:id="@+id/btn_calculate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/colorPrimaryReplyBlue"
+                        android:text="@string/calculate"
+                        android:textColor="@color/colorSecondaryReplyOrange" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_total_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp">
+                    <EditText
+                        android:id="@+id/input_total_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/total_price"
+                        android:gravity="center"
+                        android:enabled="false"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <Button
-                    android:id="@+id/btn_add_car"
+                    android:id="@+id/btn_save_trip"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorPrimaryReplyBlue"
-                    android:text="@string/btn_add_car"
+                    android:text="@string/save_trip"
                     android:textColor="@color/colorSecondaryReplyOrange" />
-
             </LinearLayout>
 
         </LinearLayout>
