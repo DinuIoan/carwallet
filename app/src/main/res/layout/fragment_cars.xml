@@ -29,17 +29,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     app:layout_collapseMode="pin"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/change_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/ic_settings"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:text="@string/my_garage"
-                    android:layout_gravity="center_vertical|start"
-                    android:paddingStart="25dp"
-                    android:textColor="#FFFFFF"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:text="@string/my_garage"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|start"
+                        android:paddingStart="25dp"
+                        android:textColor="#FFFFFF"
+                        />
+                </RelativeLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

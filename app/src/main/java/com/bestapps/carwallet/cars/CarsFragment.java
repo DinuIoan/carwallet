@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
@@ -26,6 +27,7 @@ public class CarsFragment extends Fragment {
     private FragmentManager fragmentManager ;
     private DatabaseHandler databaseHandler;
     private Button setActiveButton;
+    private ImageView changeCurrency;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,10 @@ public class CarsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cars, container, false);
         serviceFab = view.findViewById(R.id.service_fab);
+        changeCurrency = view.findViewById(R.id.change_currency);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
         MainActivity.backCount = 0;
-        StaticData.setCars(databaseHandler.findAllCars());
         setClickListeners(view);
 
         mRecyclerView = view.findViewById(R.id.cars_recycler_view);
@@ -64,6 +66,13 @@ public class CarsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 changeFragment(new AddCarFragment());
+            }
+        });
+
+        changeCurrency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new SelectCurrencyFragment());
             }
         });
     }

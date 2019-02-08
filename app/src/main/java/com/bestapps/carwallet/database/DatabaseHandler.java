@@ -595,10 +595,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return tripData;
     }
 
-    public void addCurrency(Currency currency) {
+    public void addCurrency(String currency) {
         SQLiteDatabase database = getWritableDatabase();
         String ADD_CURRENCY = "insert into " + CURRENCY_TABLE +
-                " values(0, '" + currency.getCurrency() + "')";
+                " values(0, '" + currency + "')";
         database.execSQL(ADD_CURRENCY);
         database.close();
     }
@@ -618,6 +618,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } else {
             return null;
         }
+    }
+
+    public void updateCurrency(String s) {
+        SQLiteDatabase database = getWritableDatabase();
+        String UPDATE_CURRENCY = "update " + CURRENCY_TABLE+ " set " +
+                CURRENCY + " = '" + s + "' " + " where " + ID + " = 0";
+        database.execSQL(UPDATE_CURRENCY);
+        database.close();
     }
 
     private int getRandomInt() {

@@ -54,7 +54,7 @@ public class FirstTimeActivity extends AppCompatActivity {
                 Currency currency = new Currency();
                 currency.setId(0);
                 currency.setCurrency(currencySpinner.getSelectedItem().toString());
-                databaseHandler.addCurrency(currency);
+                databaseHandler.addCurrency(currency.getCurrency());
                 hideCurrency();
             }
         });
