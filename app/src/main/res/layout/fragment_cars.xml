@@ -29,6 +29,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     app:layout_collapseMode="pin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:text="@string/my_garage"
+                    android:layout_gravity="center_vertical|start"
+                    android:paddingStart="25dp"
+                    android:textColor="#FFFFFF"
+                    />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

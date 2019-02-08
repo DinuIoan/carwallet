@@ -1,6 +1,8 @@
 package com.bestapps.carwallet.model;
 
-public class TripData {
+import java.io.Serializable;
+
+public class TripData implements Serializable{
     private Long id;
     private String fromLocation;
     private String toLocation;
@@ -8,6 +10,7 @@ public class TripData {
     private double distance;
     private double fuelPrice;
     private double totalPrice;
+    private double totalLiters;
     private Long timestamp;
 
     public Long getId() {
@@ -64,6 +67,14 @@ public class TripData {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public double getTotalLiters() {
+        return totalLiters;
+    }
+
+    public void setTotalLiters(double totalLiters) {
+        this.totalLiters = totalLiters;
     }
 
     public Long getTimestamp() {

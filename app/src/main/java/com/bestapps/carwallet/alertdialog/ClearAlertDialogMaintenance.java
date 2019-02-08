@@ -72,11 +72,11 @@ public class ClearAlertDialogMaintenance extends Fragment {
     }
 
     private String buildMessage(Maintenance maintenance) {
-        return "Are you sure you want to delete "
+        return "Are you sure you want to delete '"
                 + maintenance.getTitle()
-                + " from "
-                + maintenance.getDate() + " " + maintenance.getHour() + ":" + maintenance.getMin()
-                + " ?";
+                + "' from '"
+                + maintenance.getDate()
+                + "' ?";
     }
 
     private void changeFragment(Fragment fragment) {

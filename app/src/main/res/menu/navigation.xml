@@ -12,14 +12,15 @@
         android:title="@string/maintenance" />
 
     <item
+        android:id="@+id/navigation_charts"
+        android:icon="@drawable/ic_insert_chart"
+        android:title="@string/statistics" />
+
+    <item
         android:id="@+id/navigation_cars"
         android:icon="@mipmap/ic_car"
         android:title="@string/garage" />
 
-    <item
-    android:id="@+id/navigation_charts"
-    android:icon="@drawable/ic_insert_chart"
-    android:title="@string/statistics" />
 
     <item
         android:id="@+id/navigation_trip"

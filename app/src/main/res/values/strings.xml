@@ -54,7 +54,7 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok, got it</string>
-    <string name="changeActiveCar">Atention</string>
+    <string name="changeActiveCar">Attention</string>
     <string name="licenseNoUniquieConstraint">You can`t have two cars with same license no. License no must be unique.</string>
     <string name="selectYear">Select year:</string>
     <string name="noDataAvailable">No data available.</string>
@@ -81,4 +81,16 @@
     <string name="save_trip">Save trip</string>
     <string name="total_price">Total price</string>
     <string name="calculate">Calculate</string>
+    <string name="total_liters">Total liters</string>
+    <string name="my_garage">My garage</string>
+    <string name="active">Active</string>
+    <string name="set_active">Set active</string>
+    <string name="welcome_message">Welcome ! \n To use all the features in this app please add your car. \n Enjoy :)</string>
+    <string name="start_now">Start now -></string>
+    <string name="please_add_a_car_first">Please add a car first...</string>
+    <string name="currency_message">Welcome !   Let\'s start by selecting your currency:</string>
+    <string name="next"><![CDATA[Next ->]]></string>
+    <string-array name="currecies">
+        <item>Select currency...</item>
+    </string-array>
 </resources>

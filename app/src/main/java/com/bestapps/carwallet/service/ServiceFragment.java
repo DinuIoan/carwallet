@@ -39,6 +39,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     private TextView activeCarLicenseNoTextView;
     private TextView activeCarName;
     private TextView activeCarVinTextView;
+    private TextView addCarFirstMessage;
     private FloatingActionButton serviceFab;
 
     private DatabaseHandler databaseHandler;
@@ -71,6 +72,9 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
         Car car = databaseHandler.getActiveCar();
 
         if (car != null) {
+            serviceFab.setEnabled(true);
+            addCarFirstMessage.setVisibility(View.GONE);
+
             activeCarLicenseNoTextView.setText("License no: " + car.getLicenseNo());
             activeCarName.setText(car.getManufacturer() + " " + car.getModel());
             activeCarVinTextView.setText("VIN: " + car.getVin());
@@ -95,6 +99,9 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
             ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
 
             new ItemTouchHelper(item).attachToRecyclerView(mRecyclerView);
+        } else {
+            serviceFab.setEnabled(false);
+            addCarFirstMessage.setVisibility(View.VISIBLE);
         }
         return view;
     }
@@ -133,6 +140,7 @@ public class ServiceFragment extends Fragment implements RecyclerItemTouchHelper
     }
 
     private void initializeViews(View view) {
+        addCarFirstMessage = view.findViewById(R.id.add_car_first_message);
         activeCarLicenseNoTextView = view.findViewById(R.id.active_car_license_no);
         activeCarName = view.findViewById(R.id.active_car_name);
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);

@@ -17,6 +17,7 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
     private List<TripData> tripDataList;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+
         public RelativeLayout background, foreground;
         public TextView from;
         public TextView to;
@@ -24,7 +25,7 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         public TextView distance;
         public TextView fuelPrice;
         public TextView totalPrice;
-
+        public TextView totalLiters;
         public MyViewHolder(FrameLayout v) {
             super(v);
             background = v.findViewById(R.id.view_background);
@@ -35,9 +36,10 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
             distance = v.findViewById(R.id.distance);
             fuelPrice = v.findViewById(R.id.fuel_price);
             totalPrice = v.findViewById(R.id.total_price);
+            totalLiters = v.findViewById(R.id.total_liters);
         }
-    }
 
+    }
     public TripRecyclerView(List<TripData> tripDataList) {
         this.tripDataList = tripDataList;
     }
@@ -58,6 +60,12 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         myViewHolder.distance.setText("Distance: " + tripDataList.get(i).getDistance() + "km");
         myViewHolder.fuelPrice.setText("Fuel price: " + tripDataList.get(i).getFuelPrice() + "$");
         myViewHolder.totalPrice.setText("Total price: " + tripDataList.get(i).getTotalPrice() + "$");
+        myViewHolder.totalLiters.setText("Total liters: " + tripDataList.get(i).getTotalLiters() + "l");
+    }
+
+    public void removeItem(int position) {
+        tripDataList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override

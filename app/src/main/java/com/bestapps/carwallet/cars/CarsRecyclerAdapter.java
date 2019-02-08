@@ -124,6 +124,9 @@ public class CarsRecyclerAdapter
         if (cars.get(position).getActive() == 1) {
             holder.setActiveButton.setBackgroundColor(R.drawable.button_car_card_set_active);
             holder.setActiveButton.setEnabled(false);
+            holder.setActiveButton.setText(R.string.active);
+        } else {
+            holder.setActiveButton.setText(R.string.set_active);
         }
         holder.setActiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

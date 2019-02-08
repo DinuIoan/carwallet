@@ -12,6 +12,9 @@ import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.Notifications;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
+import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.firsttime.FirstTimeActivity;
+import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.CarType;
 
 import java.io.BufferedReader;
@@ -28,21 +31,30 @@ import static com.bestapps.carwallet.Notifications.CHANNEL_ID;
 
 public class SplashActivity extends AppCompatActivity {
     private static Resources resources;
+    public DatabaseHandler databaseHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         resources = getApplicationContext().getResources();
+        databaseHandler = new DatabaseHandler(this);
+        Car car = databaseHandler.getActiveCar();
         initializeCarTypes();
         createNotificationChannel();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (car == null) {
+                    Intent intent = new Intent(getApplicationContext(), FirstTimeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 1500);
     }

@@ -10,26 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bestapps.carwallet.R;
-import com.bestapps.carwallet.cars.CarsFragment;
 import com.bestapps.carwallet.database.DatabaseHandler;
-import com.bestapps.carwallet.model.Car;
-
-import java.util.List;
+import com.bestapps.carwallet.model.TripData;
+import com.bestapps.carwallet.trip.TripFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class ClearAlertDialog extends Fragment {
+public class DeleteTripAlertDialog extends Fragment {
     private FragmentManager fragmentManager;
-    private Car car;
+    private TripData tripData;
     private DatabaseHandler databaseHandler;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.car = (Car) getArguments().getSerializable("car");
+        this.tripData = (TripData) getArguments().getSerializable("tripData");
     }
 
     @Override
@@ -41,30 +38,17 @@ public class ClearAlertDialog extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         databaseHandler = new DatabaseHandler(getContext());
 
-        builder.setMessage(buildMessage(car))
+        builder.setMessage(buildMessage(tripData))
                 .setTitle(R.string.changeActiveCar);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                List<Car> carList = databaseHandler.findAllCars();
-                for (Car dbCar: carList) {
-                    if (dbCar.getLicenseNo().equals(car.getLicenseNo())) {
-                        if (dbCar.getManufacturer().equals(car.getManufacturer())) {
-                            if (dbCar.getModel().equals(car.getModel())) {
-                                databaseHandler.deleteCar(dbCar.getId());
-                                databaseHandler.deleteServiceEntriesForCarId(dbCar.getId());
-                                if (dbCar.getActive() == 1) {
-                                    setActiveFirstCar();
-                                }
-                            }
-                        }
-                    }
-                }
-                changeFragment(new CarsFragment());
+                databaseHandler.deleteTripData(tripData.getId());
+                changeFragment(new TripFragment());
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                changeFragment(new CarsFragment());
+                changeFragment(new TripFragment());
             }
         });
         AlertDialog dialog = builder.create();
@@ -75,7 +59,7 @@ public class ClearAlertDialog extends Fragment {
                                  KeyEvent event) {
                 // TODO Auto-generated method stub
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    changeFragment(new CarsFragment());
+                    changeFragment(new TripFragment());
                     dialog.dismiss();
                 }
                 return true;
@@ -83,23 +67,15 @@ public class ClearAlertDialog extends Fragment {
         });
         dialog.show();
         return view;
+
     }
 
-    private void setActiveFirstCar() {
-        List<Car> carList = databaseHandler.findAllCars();
-        if (carList.size() != 0) {
-            databaseHandler.updateCarSetActive(carList.get(0).getId(), 1);
-        }
-    }
-
-    private String buildMessage(Car car) {
-        return "Are you sure you want to delete "
-                + car.getManufacturer()
-                + " "
-                + car.getModel()
-                + " - "
-                + car.getLicenseNo()
-                + " ?";
+    private String buildMessage(TripData tripData) {
+        return "Are you sure that you want to delete this trip from '"
+                + tripData.getFromLocation() + "' to '"
+                + tripData.getToLocation() + "' with total price '"
+                + tripData.getTotalPrice()
+                + "' ?";
     }
 
     private void changeFragment(Fragment fragment) {
@@ -116,11 +92,12 @@ public class ClearAlertDialog extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
+                    changeFragment(new TripFragment());
                     return true;
                 }
                 return false;
             }
         });
     }
+
 }

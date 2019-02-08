@@ -44,6 +44,7 @@ public class MaintenanceFragment extends Fragment {
     private MaintenanceRecyclerView mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Maintenance> maintenanceList = new ArrayList<>();
+    private TextView addCarFirstMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,9 @@ public class MaintenanceFragment extends Fragment {
 
         Car car = databaseHandler.getActiveCar();
         if (car != null) {
+            maintenanceFab.setEnabled(true);
+            addCarFirstMessage.setVisibility(View.GONE);
+
             activeCarLicenseNoTextView.setText("License no: " + car.getLicenseNo());
             activeCarName.setText(car.getManufacturer() + " " + car.getModel());
             activeCarVinTextView.setText("VIN: " + car.getVin());
@@ -84,6 +88,9 @@ public class MaintenanceFragment extends Fragment {
             mAdapter = new MaintenanceRecyclerView(maintenanceListOrdered, fragmentManager);
             mRecyclerView.setAdapter(mAdapter);
 
+        } else {
+            maintenanceFab.setEnabled(false);
+            addCarFirstMessage.setVisibility(View.VISIBLE);
         }
         return view;
     }
@@ -102,6 +109,7 @@ public class MaintenanceFragment extends Fragment {
         activeCarName = view.findViewById(R.id.active_car_name);
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         maintenanceFab = view.findViewById(R.id.maintenance_fab);
+        addCarFirstMessage = view.findViewById(R.id.add_car_first_message);
     }
 
     private void changeFragment(Fragment fragment, Maintenance maintenance) {

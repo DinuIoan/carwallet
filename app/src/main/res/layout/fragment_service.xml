@@ -83,6 +83,18 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:scrollbars="vertical" />
 
+        <TextView
+            android:id="@+id/add_car_first_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textStyle="bold|italic"
+            android:textColor="@color/colorPrimaryReplyBlue"
+            android:textSize="20sp"
+            android:text="@string/please_add_a_car_first"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/service_fab"
             android:layout_width="50dp"

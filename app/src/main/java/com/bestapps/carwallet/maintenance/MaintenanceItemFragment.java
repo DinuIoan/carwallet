@@ -22,7 +22,7 @@ public class MaintenanceItemFragment extends Fragment {
     private TextView title;
     private TextView description;
     private TextView date;
-    private TextView hour;
+//    private TextView hour;
     private TextView mileage;
     private TextView price;
     private FloatingActionButton fab;
@@ -49,7 +49,7 @@ public class MaintenanceItemFragment extends Fragment {
             title.setText(maintenance.getTitle());
             description.setText(maintenance.getDescription());
             date.setText(maintenance.getDate());
-            hour.setText("" + maintenance.getHour() + ":" + maintenance.getMin());
+//            hour.setText("" + maintenance.getHour() + ":" + maintenance.getMin());
             price.setText("Price: " + maintenance.getPrice());
             mileage.setText("At mileage: " + maintenance.getMileage() + " km");
         }
@@ -62,7 +62,7 @@ public class MaintenanceItemFragment extends Fragment {
         date = view.findViewById(R.id.maintenance_item_date);
         price = view.findViewById(R.id.maintenance_item_price);
         mileage = view.findViewById(R.id.maintenance_item_mileage);
-        hour = view.findViewById(R.id.maintenance_item_hour);
+//        hour = view.findViewById(R.id.maintenance_item_hour);
         fab = view.findViewById(R.id.maintenance_item_fab_edit);
     }
 

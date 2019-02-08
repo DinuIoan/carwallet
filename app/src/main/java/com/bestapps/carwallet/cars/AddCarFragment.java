@@ -1,18 +1,23 @@
 package com.bestapps.carwallet.cars;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,6 +27,7 @@ import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.CarType;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -49,14 +55,14 @@ public class AddCarFragment extends Fragment {
     private Spinner shapeSpinner;
     private Spinner fuelTypeSpinner;
     private Spinner imageSpinner;
-    private EditText manufacturerEdt;
-    private EditText modelEdt;
-    private EditText yearEdt;
-    private EditText mileageEdt;
-    private EditText vinEdt;
-    private EditText licenseNoEdt;
-    private EditText engineEdt;
-    private EditText powerEdt;
+    private TextInputEditText manufacturerEdt;
+    private TextInputEditText modelEdt;
+    private TextInputEditText yearEdt;
+    private TextInputEditText mileageEdt;
+    private TextInputEditText vinEdt;
+    private TextInputEditText licenseNoEdt;
+    private TextInputEditText engineEdt;
+    private TextInputEditText powerEdt;
     private Integer imageResource;
     private Button addCar;
     private TextInputLayout layoutManufacturer;
@@ -71,6 +77,8 @@ public class AddCarFragment extends Fragment {
     private TextInputLayout layoutEngine;
     private TextInputLayout layoutPower;
     private TextInputLayout layoutFuelType;
+    private TextInputLayout layoutImage;
+    private LinearLayout linearLayout;
 
     private String vin;
     private String manufacturer;
@@ -89,6 +97,7 @@ public class AddCarFragment extends Fragment {
     private boolean isEdit = false;
     private List<String> manufacturers = new ArrayList<>();
     private Object[] modelsArray;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +125,6 @@ public class AddCarFragment extends Fragment {
             addCar.setText(R.string.btn_add_car);
         }
         databaseHandler = new DatabaseHandler(getContext());
-
         return view;
     }
 
@@ -195,9 +203,45 @@ public class AddCarFragment extends Fragment {
                         }
                     }
                 }
+                hideKeyboard();
             }
         });
 
+        manufacturerSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+        modelSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+        imageSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+        fuelTypeSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+        shapeSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
         manufacturerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -238,6 +282,92 @@ public class AddCarFragment extends Fragment {
                 adapterView.setSelection(0);
             }
         });
+
+        manufacturerEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        modelEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        engineEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        powerEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        yearEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        vinEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        mileageEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+        licenseNoEdt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    changeFragment(new CarsFragment());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void hideKeyboard() {
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     private void setModelSpinner(String manufacturer) {
@@ -303,26 +433,44 @@ public class AddCarFragment extends Fragment {
         vin = vinEdt.getText().toString();
         engine = engineEdt.getText().toString();
 
-        if (manufacturerSpinner.getSelectedItem().toString().equals("Select manufacturer...")) {
-            TextView errorText = (TextView)manufacturerSpinner.getSelectedView();
-            errorText.setError("");
-            errorText.setTextColor(Color.RED);
-            errorText.setText("Select manufacturer...");
-            isValid = setError(layoutManufacturer);
-        } else {
-            layoutManufacturer.setErrorEnabled(false);
-            manufacturer = manufacturerSpinner.getSelectedItem().toString();
-        }
+        if (!isOther) {
+            if (manufacturerSpinner.getSelectedItem().toString().equals("Select manufacturer...")) {
+                TextView errorText = (TextView) manufacturerSpinner.getSelectedView();
+                errorText.setError("");
+                errorText.setTextColor(Color.RED);
+                errorText.setText("Select manufacturer...");
+                isValid = setError(layoutManufacturer);
+            } else {
+                layoutManufacturer.setErrorEnabled(false);
+                manufacturer = manufacturerSpinner.getSelectedItem().toString();
+            }
 
-        if (modelSpinner.getSelectedItem().toString().equals("Select model...")) {
-            isValid = setError(layoutManufacturer);
-            TextView errorText = (TextView)modelSpinner.getSelectedView();
-            errorText.setError("");
-            errorText.setTextColor(Color.RED);
-            errorText.setText("Select model...");
+            if (modelSpinner.getSelectedItem().toString().equals("Select model...")) {
+                isValid = setError(layoutManufacturer);
+                TextView errorText = (TextView) modelSpinner.getSelectedView();
+                errorText.setError("");
+                errorText.setTextColor(Color.RED);
+                errorText.setText("Select model...");
+            } else {
+                layoutManufacturer.setErrorEnabled(false);
+                model = modelSpinner.getSelectedItem().toString();
+            }
         } else {
-            layoutManufacturer.setErrorEnabled(false);
-            model = modelSpinner.getSelectedItem().toString();
+            if (manufacturerEdt.getText().toString().isEmpty()) {
+                isValid = false;
+                edtLayoutManufacturer.setError(" ");
+            } else {
+                edtLayoutManufacturer.setErrorEnabled(false);
+                manufacturer = manufacturerEdt.getText().toString();
+            }
+
+            if (modelEdt.getText().toString().isEmpty()) {
+                isValid = false;
+                edtLayoutModel.setError(" ");
+            } else {
+                edtLayoutModel.setErrorEnabled(false);
+                model = modelEdt.getText().toString();
+            }
         }
         if (shapeSpinner.getSelectedItem().toString().equals("Select vehicle type...")) {
             isValid = setError(layoutShape);
@@ -338,7 +486,7 @@ public class AddCarFragment extends Fragment {
         if (licenseNoEdt.getText().toString().isEmpty()) {
 //            isValid = setError(layoutLicenseNo);
             isValid = false;
-            licenseNoEdt.setError("");
+            layoutLicenseNo.setError(" ");
         } else {
             layoutLicenseNo.setErrorEnabled(false);
             licenseNo = licenseNoEdt.getText().toString();
@@ -347,19 +495,19 @@ public class AddCarFragment extends Fragment {
             engine = engineEdt.getText().toString();
         } else {
             isValid = false;
-            engineEdt.setError("");
+            layoutEngine.setError(" ");
         }
 
         if (!powerEdt.getText().toString().isEmpty()) {
             power = Integer.parseInt(powerEdt.getText().toString());
         } else {
             isValid = false;
-            powerEdt.setError("");
+            layoutPower.setError(" ");
         }
         if (yearEdt.getText().toString().isEmpty()) {
 //            isValid = setError(layoutYear);
             isValid = false;
-            yearEdt.setError("");
+            layoutYear.setError(" ");
         } else {
             layoutYear.setErrorEnabled(false);
             year = Integer.parseInt(yearEdt.getText().toString());
@@ -367,7 +515,7 @@ public class AddCarFragment extends Fragment {
         if (mileageEdt.getText().toString().isEmpty()) {
 //            isValid = setError(layoutMileage);
             isValid = false;
-            mileageEdt.setError("");
+            layoutMileage.setError(" ");
         } else {
             layoutMileage.setErrorEnabled(false);
             mileage = Integer.parseInt(mileageEdt.getText().toString());
@@ -385,6 +533,8 @@ public class AddCarFragment extends Fragment {
         }
         return isValid;
     }
+
+
 
     private void initializeViews(View view) {
         manufacturerSpinner = view.findViewById(R.id.input_manufacturer);
@@ -413,6 +563,7 @@ public class AddCarFragment extends Fragment {
         layoutShape = view.findViewById(R.id.input_layout_shape);
         layoutVin = view.findViewById(R.id.input_layout_vin);
         layoutYear = view.findViewById(R.id.input_layout_year);
+        layoutImage = view.findViewById(R.id.input_layout_image);
         edtLayoutManufacturer = view.findViewById(R.id.input_edt_layout_manufacturer);
         edtLayoutModel = view.findViewById(R.id.input_edt_layout_model);
         edtLayoutManufacturer.setVisibility(View.GONE);
@@ -422,6 +573,7 @@ public class AddCarFragment extends Fragment {
         setShapeSpinnerAdapter();
         setFuelTypeSpinnerAdapter();
         setImageSpinnerAdapter();
+        linearLayout = view.findViewById(R.id.linear_layout);
     }
 
     private void setImageSpinnerAdapter() {
@@ -512,85 +664,6 @@ public class AddCarFragment extends Fragment {
                 return false;
             }
         });
-        manufacturerEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        modelEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        engineEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        powerEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        yearEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        vinEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        mileageEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
-        licenseNoEdt.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    changeFragment(new CarsFragment());
-                    return true;
-                }
-                return false;
-            }
-        });
+
     }
 }

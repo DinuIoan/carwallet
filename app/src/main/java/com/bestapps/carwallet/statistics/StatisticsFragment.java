@@ -34,6 +34,7 @@ public class StatisticsFragment extends Fragment {
     private LinearLayout expensesLinearLayout;
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
+    private TextView addCarFirstMessage;
 
 
     private Car activeCar;
@@ -56,9 +57,17 @@ public class StatisticsFragment extends Fragment {
         activeCar = databaseHandler.getActiveCar();
 
         if (activeCar != null) {
+            byMonthLinearLayout.setVisibility(View.VISIBLE);
+            expensesLinearLayout.setVisibility(View.VISIBLE);
+            addCarFirstMessage.setVisibility(View.GONE);
+
             activeCarLicenseNoTextView.setText("License no: " + activeCar.getLicenseNo());
             activeCarName.setText(activeCar.getManufacturer() + " " + activeCar.getModel());
             activeCarVinTextView.setText("VIN: " + activeCar.getVin());
+        } else {
+            byMonthLinearLayout.setVisibility(View.GONE);
+            expensesLinearLayout.setVisibility(View.GONE);
+            addCarFirstMessage.setVisibility(View.VISIBLE);
         }
 
         return view;
@@ -89,6 +98,7 @@ public class StatisticsFragment extends Fragment {
         activeCarVinTextView = view.findViewById(R.id.active_car_vin);
         byMonthLinearLayout = view.findViewById(R.id.by_month_linear_layout);
         expensesLinearLayout = view.findViewById(R.id.expenses_linear_layout);
+        addCarFirstMessage = view.findViewById(R.id.add_car_first_message);
     }
 
     private void changeFragment(Fragment fragment) {

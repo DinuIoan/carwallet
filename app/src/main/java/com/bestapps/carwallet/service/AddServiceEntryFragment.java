@@ -1,10 +1,13 @@
 package com.bestapps.carwallet.service;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.sax.TextElementListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +17,8 @@ import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.ServiceEntry;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -25,15 +30,19 @@ import androidx.fragment.app.FragmentTransaction;
 public class AddServiceEntryFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
-    private EditText titleEdt;
-    private EditText descriptionEdt;
-    private EditText serviceNameEdt;
-    private EditText mileageEdt;
-    private EditText priceEdt;
-    private EditText dateEdt;
+    private TextInputEditText titleEdt;
+    private TextInputEditText descriptionEdt;
+    private TextInputEditText serviceNameEdt;
+    private TextInputEditText mileageEdt;
+    private TextInputEditText priceEdt;
+    private TextInputEditText dateEdt;
     private ImageView calendarImage;
     private DatePickerDialog dpd;
     private Button btnAdd;
+
+    private TextInputLayout titleLayout;
+    private TextInputLayout mileageLayout;
+    private TextInputLayout priceLayout;
 
     private String title;
     private String description;
@@ -122,6 +131,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                     }
                     changeFragment(new ServiceFragment());
                 }
+                hideKeyboard();
             }
         });
 
@@ -135,19 +145,19 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
 
         if (title.isEmpty()) {
             isValid = false;
-            titleEdt.setError("");
+            titleLayout.setError(" ");
         }
 
         if (mileageEdt.getText().toString().isEmpty()) {
             isValid = false;
-            mileageEdt.setError("");
+            mileageLayout.setError(" ");
         } else {
             mileage = Integer.parseInt(mileageEdt.getText().toString());
         }
 
         if (priceEdt.getText().toString().isEmpty()) {
             isValid = false;
-            priceEdt.setError("");
+            priceLayout.setError(" ");
         } else {
             price = Double.parseDouble(priceEdt.getText().toString());
         }
@@ -171,6 +181,10 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
         dateEdt.setText(buildNowDate());
         calendarImage = view.findViewById(R.id.calendar_image);
         btnAdd = view.findViewById(R.id.btn_add_service_entry);
+        titleLayout = view.findViewById(R.id.input_layout_title);
+        mileageLayout = view.findViewById(R.id.input_layout_service_mileage);
+        priceLayout = view.findViewById(R.id.input_layout_service_price);
+
         if (isEdit) {
             btnAdd.setText("Edit");
         } else {
@@ -179,6 +193,7 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
     }
 
     private String buildNowDate() {
+
         return Calendar.getInstance().get(Calendar.YEAR) + "-" +
                 (1 + Calendar.getInstance().get(Calendar.MONTH)) + "-" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
@@ -200,6 +215,9 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
                     day
                     );
         } else {
+            year = now.get(Calendar.YEAR);
+            month = now.get(Calendar.MONTH);
+            day = now.get(Calendar.DAY_OF_MONTH);
             dpd = DatePickerDialog.newInstance(AddServiceEntryFragment.this,
                     now.get(Calendar.YEAR), // Initial year selection
                     now.get(Calendar.MONTH), // Initial month selection
@@ -289,5 +307,10 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
             }
         });
 
+    }
+
+    private void hideKeyboard() {
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }

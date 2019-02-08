@@ -8,11 +8,13 @@ import android.widget.Button;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.alertdialog.DeleteTripAlertDialog;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.TripData;
 import com.bestapps.carwallet.service.RecyclerItemTouchHelper;
 import com.bestapps.carwallet.service.RecyclerItemTouchHelperListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
@@ -31,6 +33,7 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
     private TripRecyclerView mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Button calculateButton;
+    List<TripData> tripDataList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,11 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(new CalculateTripFragment());
+                changeFragment(new CalculateTripFragment(), null);
             }
         });
 
-        List<TripData> tripDataList = databaseHandler.findAllTrips();
+        tripDataList = databaseHandler.findAllTrips();
         mRecyclerView = view.findViewById(R.id.trip_recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -79,12 +82,21 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
 
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof TripRecyclerView.MyViewHolder) {
+            TripData deletedTripData = tripDataList.get(viewHolder.getAdapterPosition());
+            int deleteIndex = viewHolder.getAdapterPosition();
 
+            mAdapter.removeItem(deleteIndex);
+            changeFragment(new DeleteTripAlertDialog(), deletedTripData);
+        }
     }
 
-    private void changeFragment(Fragment fragment) {
+    private void changeFragment(Fragment fragment, TripData tripData) {
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("tripData", tripData);
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_placeholder, fragment);
         fragmentTransaction.commit();
     }

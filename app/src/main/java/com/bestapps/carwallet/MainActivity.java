@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_alerts:
                     changeFragment(new MaintenanceFragment());
                     return true;
-                case R.id.navigation_cars:
-                    changeFragment(new CarsFragment());
-                    return true;
                 case R.id.navigation_charts:
                     changeFragment(new StatisticsFragment());
+                    return true;
+                case R.id.navigation_cars:
+                    changeFragment(new CarsFragment());
                     return true;
                 case R.id.navigation_trip:
                     changeFragment(new TripFragment());
@@ -50,11 +50,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean isFirstTime = getIntent().getBooleanExtra("firstTime", false);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_service);
+        if (isFirstTime) {
+            navigation.setSelectedItemId(R.id.navigation_cars);
+        } else {
+            navigation.setSelectedItemId(R.id.navigation_service);
+        }
     }
 
     private void changeFragment(Fragment fragment) {

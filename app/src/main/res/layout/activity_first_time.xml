@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryReplyBlue"
+    tools:context=".firsttime.FirstTimeActivity">
+
+    <TextView
+        android:id="@+id/currency_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="25sp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/currency_message"/>
+        <Spinner
+            android:id="@+id/input_currency"
+            android:layout_width="fill_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@+id/currency_message"
+            android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/add_car_first_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="@string/welcome_message"/>
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryReplyBlue"
+        android:background="@drawable/button_start_now"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="25dp"
+        android:elevation="4dp"
+        />
+
+    <Button
+        android:id="@+id/start_now_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_now"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryReplyBlue"
+        android:background="@drawable/button_start_now"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="25dp"
+        android:elevation="4dp"
+        />
+
+</RelativeLayout>

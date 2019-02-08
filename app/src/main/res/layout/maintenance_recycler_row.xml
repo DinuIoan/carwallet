@@ -7,10 +7,13 @@
     <RelativeLayout
         android:id="@+id/view_background"
         android:background="#FFFFFF"
-        android:layout_margin="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="8dp">
+        android:elevation="4dp">
 
         <TextView
             android:id="@+id/recycler_view_item_title"
@@ -39,18 +42,20 @@
             android:textStyle="italic"
             android:textSize="12sp"
             android:textColor="@color/colorPrimaryReplyBlue"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/date"
-            android:textStyle="italic"
             android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="@color/colorPrimaryReplyBlue"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="10dp"/>
+        <!--commented until when alarm will be implemented-->
+        <!--<TextView-->
+            <!--android:id="@+id/hour"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_below="@+id/date"-->
+            <!--android:textStyle="italic"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="12sp"-->
+            <!--android:textColor="@color/colorPrimaryReplyBlue"-->
+            <!--android:layout_marginBottom="15dp"/>-->
 
         <ImageView
             android:id="@+id/delete_notification"

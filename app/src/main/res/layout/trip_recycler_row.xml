@@ -54,8 +54,8 @@
             android:layout_toEndOf="@+id/gas_icon"
             android:textColor="@color/colorPrimaryReplyBlue"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:textSize="15sp"/>
+            android:textStyle="bold"
+            android:textSize="17sp"/>
 
         <TextView
             android:id="@+id/to"
@@ -66,7 +66,8 @@
             android:textColor="@color/colorPrimaryReplyBlue"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
-            android:textSize="15sp"/>
+            android:textStyle="bold"
+            android:textSize="17sp"/>
         <TextView
             android:id="@+id/avarage_consumption"
             android:layout_width="wrap_content"
@@ -86,7 +87,7 @@
             android:layout_toEndOf="@id/gas_icon"
             android:layout_marginEnd="20dp"
             android:textColor="@color/colorPrimaryReplyBlue"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:textSize="13sp"/>
         <TextView
@@ -97,7 +98,7 @@
             android:layout_toEndOf="@id/gas_icon"
             android:layout_marginEnd="20dp"
             android:textColor="@color/colorPrimaryReplyBlue"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:textSize="13sp"/>
 
@@ -111,6 +112,26 @@
             android:textColor="#FFFFFF"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="2dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:elevation="4dp"
+            android:background="@drawable/service_date_style"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/total_liters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total_price"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="20dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             android:paddingStart="5dp"

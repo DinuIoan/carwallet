@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.bestapps.carwallet.model.TripData;
@@ -19,6 +20,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "carwalletdb";
     private static final int DATABASE_VERSION = 1;
     private static final String ID = "id";
+
+    private static final String CURRENCY_TABLE = "currency_table";
+    private static final String CURRENCY = "currency";
 
     private static final String CAR_TABLE = "car";
     private static final String CAR_MANUFACTURER = "manufacturer";
@@ -66,6 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TRIP_DISTANCE = "distance";
     private static final String TRIP_TOTAL_PRICE = "total_price";
     private static final String TRIP_FUEL_PRICE = "fuel_price";
+    private static final String TRIP_TOTAL_LITERS = "total_liters";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -129,12 +134,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TRIP_DISTANCE + " integer, "
                 + TRIP_FUEL_PRICE + " integer, "
                 + TRIP_TOTAL_PRICE + " integer, "
+                + TRIP_TOTAL_LITERS + " integer, "
                 + TIMESTAMP + " integer"
+                + " ) ";
+
+        String CREATE_CURRENCY_TABLE = "create table " + CURRENCY_TABLE +
+                " ( "
+                + ID + " integer primary key autoincrement, "
+                + CURRENCY + " text"
                 + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
         sqLiteDatabase.execSQL(CREATE_MAINTENANCE_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRIP_TABLE);
+        sqLiteDatabase.execSQL(CREATE_CURRENCY_TABLE);
     }
 
     @Override
@@ -142,6 +155,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + CAR_TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + SERVICE_ENTRY_TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + MAINTENANCE_TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + CURRENCY_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -355,6 +369,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return serviceEntry;
     }
 
+    public void updateServiceEntry(ServiceEntry serviceEntry) {
+        SQLiteDatabase database = getWritableDatabase();
+        String[] splittedDate = serviceEntry.getDate().split("-");
+        int year = Integer.parseInt(splittedDate[0]);
+        int month = Integer.parseInt(splittedDate[1]);
+        int day = Integer.parseInt(splittedDate[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, getRandomInt(),getRandomInt(), getRandomInt());
+        long timestamp = calendar.getTimeInMillis();
+        String UPDATE_SERVICE_ENTRY = "update " + SERVICE_ENTRY_TABLE + " set " +
+                SERVICE_ENTRY_TITLE + " = '" + serviceEntry.getTitle() + "', " +
+                SERVICE_ENTRY_DESCRIPTION + " = '" + serviceEntry.getDescription() + "', " +
+                SERVICE_ENTRY_SERVICE_NAME + " = '" + serviceEntry.getServiceName() + "', " +
+                SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
+                SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
+                SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
+                SERVICE_ENTRY_YEAR+ " = " + serviceEntry.getYear() + ", " +
+                SERVICE_ENTRY_MONTH+ " = " + serviceEntry.getMonth() + ", " +
+                SERVICE_ENTRY_DAY + " = " + serviceEntry.getDay() + ", " +
+                SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() + ", " +
+                TIMESTAMP + " = " + timestamp +
+                " where " + ID + " = " + serviceEntry.getId();
+        database.execSQL(UPDATE_SERVICE_ENTRY);
+        database.close();
+    }
+
     private Car buildCarFromCursor(Cursor cursor) {
         Car car = new Car();
         car.setId(cursor.getLong(0));
@@ -464,32 +504,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DELETE_MAINTENANCE);
     }
 
-    public void updateServiceEntry(ServiceEntry serviceEntry) {
-        SQLiteDatabase database = getWritableDatabase();
-        String[] splittedDate = serviceEntry.getDate().split("-");
-        int year = Integer.parseInt(splittedDate[0]);
-        int month = Integer.parseInt(splittedDate[1]);
-        int day = Integer.parseInt(splittedDate[2]);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, getRandomInt(),getRandomInt(), getRandomInt());
-        long timestamp = calendar.getTimeInMillis();
-        String UPDATE_SERVICE_ENTRY = "update " + SERVICE_ENTRY_TABLE + " set " +
-                SERVICE_ENTRY_TITLE + " = '" + serviceEntry.getTitle() + "', " +
-                SERVICE_ENTRY_DESCRIPTION + " = '" + serviceEntry.getDescription() + "', " +
-                SERVICE_ENTRY_SERVICE_NAME + " = '" + serviceEntry.getServiceName() + "', " +
-                SERVICE_ENTRY_MILEAGE + " = " + serviceEntry.getMileage()+ ", " +
-                SERVICE_ENTRY_PRICE+ " = " + serviceEntry.getPrice() + ", " +
-                SERVICE_ENTRY_DATE+ " = '" + serviceEntry.getDate() + "', " +
-                SERVICE_ENTRY_YEAR+ " = " + serviceEntry.getYear() + ", " +
-                SERVICE_ENTRY_MONTH+ " = " + serviceEntry.getMonth() + ", " +
-                SERVICE_ENTRY_DAY + " = " + serviceEntry.getDay() + ", " +
-                SERVICE_ENTRY_CAR_ID + " = " + serviceEntry.getCarId() + ", " +
-                TIMESTAMP + " = " + timestamp +
-                " where " + ID + " = " + serviceEntry.getId();
-        database.execSQL(UPDATE_SERVICE_ENTRY);
-        database.close();
-    }
-
     public void updateMaintenance(Maintenance maintenance) {
         SQLiteDatabase database = getWritableDatabase();
         String[] splittedDate = maintenance.getDate().split("-");
@@ -528,6 +542,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + tripData.getDistance() + "', '"
                 + tripData.getFuelPrice() + "', '"
                 + tripData.getTotalPrice() + "', '"
+                + tripData.getTotalLiters() + "', '"
                 + timestamp + "')";
         database.execSQL(ADD_TRIP);
         database.close();
@@ -547,6 +562,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return tripDataList;
     }
 
+    public void deleteTripData(Long id) {
+        SQLiteDatabase database = getWritableDatabase();
+        String DELETE_TRIP = "delete from " + TRIP_TABLE+
+                " where " + ID + " = " + id;
+        database.execSQL(DELETE_TRIP);
+        database.close();
+    }
+
     private TripData buildTripFromCursor(Cursor cursor) {
         TripData tripData = new TripData();
         tripData.setId(cursor.getLong(0));
@@ -556,8 +579,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         tripData.setDistance(cursor.getDouble(4));
         tripData.setFuelPrice(cursor.getDouble(5));
         tripData.setTotalPrice(cursor.getDouble(6));
-        tripData.setTimestamp(cursor.getLong(7));
+        tripData.setTotalLiters(cursor.getDouble(7));
+        tripData.setTimestamp(cursor.getLong(8));
         return tripData;
+    }
+
+    public void addCurrency(Currency currency) {
+        SQLiteDatabase database = getWritableDatabase();
+        String ADD_CURRENCY = "insert into " + CURRENCY_TABLE +
+                " values(0, '" + currency.getCurrency() + "')";
+        database.execSQL(ADD_CURRENCY);
+        database.close();
+    }
+
+    public Currency findCurrency() {
+        SQLiteDatabase database = getWritableDatabase();
+        String FIND_CURRENCY = "select * from " + CURRENCY_TABLE + " where id = 0";
+        Cursor cursor = database.rawQuery(FIND_CURRENCY, null);
+        Currency currency = new Currency();
+
+        if (cursor.moveToFirst()) {
+            currency.setId(0);
+            currency.setCurrency(cursor.getString(1));
+            database.close();
+            cursor.close();
+            return currency;
+        } else {
+            return null;
+        }
     }
 
     private int getRandomInt() {

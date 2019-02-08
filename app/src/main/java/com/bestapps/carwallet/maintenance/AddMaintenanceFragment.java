@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,6 +23,8 @@ import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
 import com.bestapps.carwallet.model.Maintenance;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
@@ -41,17 +44,24 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
 
-    private EditText titleEdt;
-    private EditText descriptionEdt;
-    private EditText mileageEdt;
-    private EditText priceEdt;
-    private EditText dateEdt;
+    private TextInputEditText titleEdt;
+    private TextInputEditText descriptionEdt;
+    private TextInputEditText mileageEdt;
+    private TextInputEditText priceEdt;
+    private TextInputEditText dateEdt;
     private ImageView calendarImage;
     private DatePickerDialog dpd;
     private Button btnAdd;
     private CheckBox checkBoxNotification;
-    private Spinner minSpinner;
-    private Spinner hourSpinner;
+    //commented until when alarm will be implemented
+//    private Spinner minSpinner;
+//    private Spinner hourSpinner;
+
+    private TextInputLayout inputLayoutTitle;
+    private TextInputLayout inputLayoutDescription;
+    private TextInputLayout inputLayoutServiceMileage;
+    private TextInputLayout inputLayoutServicePrice;
+    private TextInputLayout inputLayoutServiceDate;
 
     private String title;
     private String description;
@@ -97,8 +107,8 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
             dateEdt.setText(maintenanceEdit.getDate());
             mileageEdt.setText("" + maintenanceEdit.getMileage());
             priceEdt.setText("" + maintenanceEdit.getPrice());
-            hourSpinner.setSelection(getPosition(hours, "hour"));
-            minSpinner.setSelection(getPosition(mins, "min"));
+            //hourSpinner.setSelection(getPosition(hours, "hour"));
+            //minSpinner.setSelection(getPosition(mins, "min"));
         }
         return view;
     }
@@ -129,7 +139,7 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
 
         if (title.isEmpty()) {
             isValid = false;
-            titleEdt.setError("");
+            inputLayoutTitle.setError(" ");
         }
 
         if (!mileageEdt.getText().toString().isEmpty()) {
@@ -138,7 +148,7 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
 
         if (priceEdt.getText().toString().isEmpty()) {
             isValid = false;
-            priceEdt.setError("");
+            inputLayoutServicePrice.setError(" ");
         } else {
             price = Double.parseDouble(priceEdt.getText().toString());
         }
@@ -233,8 +243,10 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
                     maintenance.setMileage(mileage);
                     maintenance.setPrice(price);
                     maintenance.setDate(dateEdt.getText().toString());
-                    maintenance.setHour(hourSpinner.getSelectedItem().toString());
-                    maintenance.setMin(minSpinner.getSelectedItem().toString());
+                    //hardcoded until when alarm will be implemented
+                    maintenance.setHour("0");
+                    maintenance.setMin("0");
+                    //
                     maintenance.setCarId(car.getId());
                     maintenance.setNotificationActive(1);
                     if (isEdit) {
@@ -247,6 +259,7 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
                     }
                     changeFragment(new MaintenanceFragment());
                 }
+                hideKeyboard();
             }
         });
 
@@ -272,27 +285,34 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
         } else {
             btnAdd.setText("Add");
         }
-        minSpinner = view.findViewById(R.id.input_min);
-        hourSpinner = view.findViewById(R.id.input_hour);
-        setHourSpinner();
-        setMinSpinner();
+        //commented until when alarm will be implemented
+        //minSpinner = view.findViewById(R.id.input_min);
+        //hourSpinner = view.findViewById(R.id.input_hour);
+        //setHourSpinner();
+        //setMinSpinner();
+        inputLayoutTitle = view.findViewById(R.id.input_layout_title);
+        inputLayoutDescription = view.findViewById(R.id.input_layout_description);
+        inputLayoutServiceDate = view.findViewById(R.id.input_layout_service_date);
+        inputLayoutServiceMileage = view.findViewById(R.id.input_layout_mileage);
+        inputLayoutServicePrice = view.findViewById(R.id.input_layout_service_price);
     }
 
-    private void setHourSpinner() {
-        hours = buildTime(0, 25, 1);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, hours);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hourSpinner.setAdapter(arrayAdapter);
-    }
-
-    private void setMinSpinner() {
-        mins = buildTime(0, 60, 5);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, mins);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        minSpinner.setAdapter(arrayAdapter);
-    }
+    //commented until when alarm will be implemented
+//    private void setHourSpinner() {
+//        hours = buildTime(0, 25, 1);
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+//                android.R.layout.simple_spinner_item, hours);
+//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        hourSpinner.setAdapter(arrayAdapter);
+//    }
+//
+//    private void setMinSpinner() {
+//        mins = buildTime(0, 60, 5);
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+//                android.R.layout.simple_spinner_item, mins);
+//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        minSpinner.setAdapter(arrayAdapter);
+//    }
 
     private List<String> buildTime(int min, int max, int step) {
         List<String> time = new ArrayList<>();
@@ -344,5 +364,10 @@ public class AddMaintenanceFragment extends Fragment implements DatePickerDialog
 //                Integer.parseInt(maintenance.getHour()), Integer.parseInt(maintenance.getMin()));
 //        alarmMgr.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,  SystemClock.elapsedRealtime() +
 //                60 * 1000, alarmIntent);
+    }
+
+    private void hideKeyboard() {
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }

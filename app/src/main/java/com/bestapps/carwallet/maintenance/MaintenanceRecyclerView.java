@@ -39,7 +39,8 @@ private List<Maintenance> maintenanceList;
         super(v);
         title = v.findViewById(R.id.recycler_view_item_title);
         date = v.findViewById(R.id.date);
-        hour = v.findViewById(R.id.hour);
+        //commented until when alarm will be implemented
+// hour = v.findViewById(R.id.hour);
         alarm = v.findViewById(R.id.alarm_on_off);
         deleteButton = v.findViewById(R.id.delete_notification);
     }
@@ -61,13 +62,14 @@ private List<Maintenance> maintenanceList;
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
         if (maintenanceList.get(i).isNotificationActive() == 1) {
-            myViewHolder.alarm.setImageResource(R.drawable.ic_alarm_on);
+            myViewHolder.alarm.setImageResource(R.drawable.ic_event_orange);
         } else {
-            myViewHolder.alarm.setImageResource(R.drawable.ic_alarm_off);
+            myViewHolder.alarm.setImageResource(R.drawable.ic_event_orange);
         }
         myViewHolder.title.setText(maintenanceList.get(i).getTitle());
         myViewHolder.date.setText(maintenanceList.get(i).getDate());
-        myViewHolder.hour.setText(maintenanceList.get(i).getHour() + ":" + maintenanceList.get(i).getMin());
+        //commented until when alarm will be implemented
+//        myViewHolder.hour.setText(maintenanceList.get(i).getHour() + ":" + maintenanceList.get(i).getMin());
         myViewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -60,6 +60,19 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/add_car_first_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/active_car_relative_layout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textStyle="bold|italic"
+            android:textColor="@color/colorPrimaryReplyBlue"
+            android:textSize="20sp"
+            android:text="@string/please_add_a_car_first"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
