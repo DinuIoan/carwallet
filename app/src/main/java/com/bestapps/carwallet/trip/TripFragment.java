@@ -10,6 +10,7 @@ import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.alertdialog.DeleteTripAlertDialog;
 import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.TripData;
 import com.bestapps.carwallet.service.RecyclerItemTouchHelper;
 import com.bestapps.carwallet.service.RecyclerItemTouchHelperListener;
@@ -50,6 +51,7 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
         calculateButton = view.findViewById(R.id.calculate_button);
+        Currency currency = databaseHandler.findCurrency();
 
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +73,7 @@ public class TripFragment extends Fragment implements RecyclerItemTouchHelperLis
                 DividerItemDecoration.VERTICAL));
 
         // specify an adapter (see also next example)
-        mAdapter = new TripRecyclerView(tripDataList);
+        mAdapter = new TripRecyclerView(tripDataList, currency.getCurrency());
         mRecyclerView.setAdapter(mAdapter);
 
         ItemTouchHelper.SimpleCallback item = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);

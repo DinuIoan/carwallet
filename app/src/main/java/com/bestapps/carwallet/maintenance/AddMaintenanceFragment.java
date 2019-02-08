@@ -22,6 +22,7 @@ import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.Maintenance;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

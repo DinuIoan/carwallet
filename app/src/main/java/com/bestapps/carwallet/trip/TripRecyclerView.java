@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyViewHolder> {
     private List<TripData> tripDataList;
+    private String currency;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -40,8 +41,9 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         }
 
     }
-    public TripRecyclerView(List<TripData> tripDataList) {
+    public TripRecyclerView(List<TripData> tripDataList, String currency) {
         this.tripDataList = tripDataList;
+        this.currency = currency;
     }
 
     @Override
@@ -58,8 +60,8 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         myViewHolder.avarageConsumption.setText(
                 "Avarage consumption: " + tripDataList.get(i).getAvarageConsumption());
         myViewHolder.distance.setText("Distance: " + tripDataList.get(i).getDistance() + "km");
-        myViewHolder.fuelPrice.setText("Fuel price: " + tripDataList.get(i).getFuelPrice() + "$");
-        myViewHolder.totalPrice.setText("Total price: " + tripDataList.get(i).getTotalPrice() + "$");
+        myViewHolder.fuelPrice.setText("Fuel price: " + tripDataList.get(i).getFuelPrice() + currency);
+        myViewHolder.totalPrice.setText("Total price: " + tripDataList.get(i).getTotalPrice() + currency);
         myViewHolder.totalLiters.setText("Total liters: " + tripDataList.get(i).getTotalLiters() + "l");
     }
 

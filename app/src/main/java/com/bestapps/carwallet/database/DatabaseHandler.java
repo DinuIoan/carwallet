@@ -208,6 +208,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             car = buildCarFromCursor(cursor);
         }
         cursor.close();
+        database.close();
         return car;
     }
 
@@ -279,6 +280,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
            return car;
         }
         cursor.close();
+        database.close();
         return null;
     }
 
@@ -293,6 +295,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             serviceEntries.add(buildServiceEntryFromCursor(cursor));
         }
         cursor.close();
+        database.close();
         return serviceEntries;
     }
 
@@ -306,6 +309,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             serviceEntries.add(buildServiceEntryFromCursor(cursor));
         }
         cursor.close();
+        database.close();
         return serviceEntries;
     }
 
@@ -321,6 +325,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             serviceEntries.add(buildServiceEntryFromCursor(cursor));
         }
         cursor.close();
+        database.close();
         return serviceEntries;
     }
 
@@ -350,6 +355,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + serviceEntry.getCarId() + "', '"
                 + timestamp + "')";
         database.execSQL(ADD_SERVICE_ENTRY);
+        database.close();
     }
 
     private ServiceEntry buildServiceEntryFromCursor(Cursor cursor) {
@@ -427,6 +433,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String DELETE_SERVICE_ENTRY = "delete from " + SERVICE_ENTRY_TABLE +
                 " where " + ID + " = " + id;
         sqLiteDatabase.execSQL(DELETE_SERVICE_ENTRY);
+        sqLiteDatabase.close();
     }
 
     public void addMaintenance(Maintenance maintenance) {
@@ -452,6 +459,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + maintenance.getCarId() + "', '"
                 + timestamp + "')";
         sqLiteDatabase.execSQL(ADD_MAINTENANCE);
+        sqLiteDatabase.close();
     }
 
     public List<Maintenance> findAllMaintenance(Long id) {
@@ -465,6 +473,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             maintenanceList.add(buildMaintenanceFromCursor(cursor));
         }
         cursor.close();
+        database.close();
         return maintenanceList;
     }
 
@@ -478,6 +487,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             maintenanceList.add(buildMaintenanceFromCursor(cursor));
         }
         cursor.close();
+        database.close();
         return maintenanceList;
     }
 
@@ -502,6 +512,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String DELETE_MAINTENANCE = "delete from " + MAINTENANCE_TABLE +
                 " where " + ID + " = " + id;
         sqLiteDatabase.execSQL(DELETE_MAINTENANCE);
+        sqLiteDatabase.close();
     }
 
     public void updateMaintenance(Maintenance maintenance) {

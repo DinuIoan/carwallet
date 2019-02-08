@@ -11,6 +11,7 @@ import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.bestapps.carwallet.service.ServiceFragment;
@@ -37,6 +38,8 @@ public class ExpensesStatsFragment extends Fragment {
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
 
+    private Currency currency;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class ExpensesStatsFragment extends Fragment {
         initializeViews(view);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
+        currency = databaseHandler.findCurrency();
         handleOnBackPressed(view);
 
         calculateMostExpensiveServiceHistory();
@@ -88,7 +92,8 @@ public class ExpensesStatsFragment extends Fragment {
             }
             mostExpensiveMaintenanceCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
             mostExpensiveCarMaintenanceLicenseNo.setText(cars.get(maxPos).getLicenseNo());
-            mostExpensiveCarMaintenanceAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
+            mostExpensiveCarMaintenanceAmountSpent.setText("Amount spent: " + amounts.get(maxPos)
+                    + " " + currency.getCurrency());
         }
     }
 
@@ -119,7 +124,8 @@ public class ExpensesStatsFragment extends Fragment {
             }
             mostExpensiveCar.setText(cars.get(maxPos).getManufacturer() + " " + cars.get(maxPos).getModel());
             mostExpensiveCarLicenseNo.setText(cars.get(maxPos).getLicenseNo());
-            mostExpensiveCarAmountSpent.setText("Amount spent: " + amounts.get(maxPos) + "$");
+            mostExpensiveCarAmountSpent.setText("Amount spent: " + amounts.get(maxPos)
+                    + " " + currency.getCurrency());
         }
     }
 
@@ -143,7 +149,9 @@ public class ExpensesStatsFragment extends Fragment {
             mostExpensiveServiceHistoryCar.setText(car.getManufacturer() + " " + car.getModel());
             mostExpensiveServiceHistoryTitle.setText(mostExpensiveServiceEntry.getTitle());
             mostExpensiveServiceHistoryDate.setText(mostExpensiveServiceEntry.getDate());
-            mostExpensiveServiceHistoryPrice.setText("Price: " + mostExpensiveServiceEntry.getPrice() + "$");
+            mostExpensiveServiceHistoryPrice.setText(
+                    "Price: " + mostExpensiveServiceEntry.getPrice()
+                    + " " + currency.getCurrency());
         }
     }
 

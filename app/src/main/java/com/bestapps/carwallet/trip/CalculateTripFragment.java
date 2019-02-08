@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.TripData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -51,6 +52,7 @@ public class CalculateTripFragment extends Fragment {
 
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
+    private Currency currency;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class CalculateTripFragment extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
         handleOnBackPressed(view);
         handleClickListeners();
+        currency = databaseHandler.findCurrency();
 
         return view;
     }
@@ -78,8 +81,8 @@ public class CalculateTripFragment extends Fragment {
                 if (validate("calculate")) {
                     calculateTotalPrice();
                     calculateTotalLiters();
-                    totalPriceEdt.setText(String.format(Locale.US, "%.2f", totalPrice));
-                    totalLitersEdt.setText(String.format(Locale.US, "%.2f", totalLiters));
+                    totalPriceEdt.setText(String.format(Locale.US, "%.2f", totalPrice) + currency.getCurrency());
+                    totalLitersEdt.setText(String.format(Locale.US, "%.2f", totalLiters) + currency.getCurrency());
                 }
                 hideKeyboard();
             }
@@ -140,7 +143,6 @@ public class CalculateTripFragment extends Fragment {
                 totalPriceLayout.setError(" ");
             } else {
                 totalPriceLayout.setErrorEnabled(false);
-                totalPrice = Double.parseDouble(totalPriceEdt.getText().toString());
             }
         }
 

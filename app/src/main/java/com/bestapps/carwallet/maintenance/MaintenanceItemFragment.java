@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.service.AddServiceEntryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,6 +28,7 @@ public class MaintenanceItemFragment extends Fragment {
     private TextView mileage;
     private TextView price;
     private FloatingActionButton fab;
+    private DatabaseHandler databaseHandler;
 
 
     @Override
@@ -40,17 +43,18 @@ public class MaintenanceItemFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_maintenance_item, container, false);
         fragmentManager = getActivity().getSupportFragmentManager();
+        databaseHandler = new DatabaseHandler(getContext());
         initializeViews(view);
         handleOnBackPressed(view);
         handleOnClickListeners();
-
+        Currency currency = databaseHandler.findCurrency();
 
         if (maintenance != null) {
             title.setText(maintenance.getTitle());
             description.setText(maintenance.getDescription());
             date.setText(maintenance.getDate());
 //            hour.setText("" + maintenance.getHour() + ":" + maintenance.getMin());
-            price.setText("Price: " + maintenance.getPrice());
+            price.setText("Price: " + maintenance.getPrice() + " " + currency.getCurrency());
             mileage.setText("At mileage: " + maintenance.getMileage() + " km");
         }
         return view;
