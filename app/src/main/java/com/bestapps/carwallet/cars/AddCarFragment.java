@@ -97,6 +97,7 @@ public class AddCarFragment extends Fragment {
     private boolean isEdit = false;
     private List<String> manufacturers = new ArrayList<>();
     private Object[] modelsArray;
+    private boolean isModelOther = false;
 
 
     @Override
@@ -275,6 +276,15 @@ public class AddCarFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 model = adapterView.getItemAtPosition(i).toString();
+
+                if (model.equals("Other...")) {
+                    isModelOther = true;
+                    edtLayoutModel.setVisibility(View.VISIBLE);
+                } else {
+                    isModelOther = false;
+                    modelEdt.setText("");
+                    edtLayoutModel.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -373,7 +383,9 @@ public class AddCarFragment extends Fragment {
     private void setModelSpinner(String manufacturer) {
         for (CarType carType: StaticData.getCarTypes()) {
             if (carType.getManufacturer().equals(manufacturer)) {
-                modelsArray = carType.getModels().toArray();
+                List<String> modelsList = carType.getModels();
+                modelsList.add("Other...");
+                modelsArray = modelsList.toArray();
                 ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(getContext(),
                         android.R.layout.simple_spinner_item, modelsArray);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -464,6 +476,16 @@ public class AddCarFragment extends Fragment {
                 manufacturer = manufacturerEdt.getText().toString();
             }
 
+            if (modelEdt.getText().toString().isEmpty()) {
+                isValid = false;
+                edtLayoutModel.setError(" ");
+            } else {
+                edtLayoutModel.setErrorEnabled(false);
+                model = modelEdt.getText().toString();
+            }
+        }
+
+        if (isModelOther) {
             if (modelEdt.getText().toString().isEmpty()) {
                 isValid = false;
                 edtLayoutModel.setError(" ");

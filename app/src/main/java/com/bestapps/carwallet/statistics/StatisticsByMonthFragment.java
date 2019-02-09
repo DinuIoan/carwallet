@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
-import com.bestapps.carwallet.model.Currency;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.Description;
@@ -24,7 +24,6 @@ import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +64,7 @@ public class StatisticsByMonthFragment extends Fragment {
     private TextView decemberNoData;
     private TextView noDataAvailableTextView;
     private TextView selectYearTextView;
-    private Currency currency;
+    private ParametersSettings parametersSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +82,7 @@ public class StatisticsByMonthFragment extends Fragment {
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
         activeCar = databaseHandler.getActiveCar();
-        currency = databaseHandler.findCurrency();
+        parametersSettings = databaseHandler.findSettings();
 
         List<ServiceEntry> serviceEntryList = databaseHandler.findAllServiceEntriesByCarId(activeCar.getId());
 
@@ -337,7 +336,7 @@ public class StatisticsByMonthFragment extends Fragment {
 
             entries.add(new BarEntry(day, Float.parseFloat("" + serviceEntry.getPrice())));
         }
-        ScatterDataSet dataSet = new ScatterDataSet(entries, "Price " + currency.getCurrency()); // add entries to dataset
+        ScatterDataSet dataSet = new ScatterDataSet(entries, "Price " + parametersSettings.getCurrency()); // add entries to dataset
         dataSet.setColor(R.color.colorSecondaryReplyOrange);
 
         ScatterData scatterData = new ScatterData(dataSet);

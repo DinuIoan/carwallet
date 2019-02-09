@@ -3,26 +3,20 @@ package com.bestapps.carwallet.maintenance;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
-import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.Maintenance;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -32,14 +26,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import static android.app.Notification.VISIBILITY_PUBLIC;
-import static com.bestapps.carwallet.Notifications.CHANNEL_ID;
 
 public class AddMaintenanceFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private DatabaseHandler databaseHandler;

@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.TripData;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyViewHolder> {
     private List<TripData> tripDataList;
     private String currency;
+    private String distance;
+    private String volume;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,9 +44,11 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         }
 
     }
-    public TripRecyclerView(List<TripData> tripDataList, String currency) {
+    public TripRecyclerView(List<TripData> tripDataList, ParametersSettings parametersSettings) {
         this.tripDataList = tripDataList;
-        this.currency = currency;
+        this.currency = parametersSettings.getCurrency();
+        this.distance = parametersSettings.getDistance();
+        this.volume = parametersSettings.getVolume();
     }
 
     @Override
@@ -59,10 +64,10 @@ public class TripRecyclerView extends RecyclerView.Adapter<TripRecyclerView.MyVi
         myViewHolder.to.setText("To: " + tripDataList.get(i).getToLocation());
         myViewHolder.avarageConsumption.setText(
                 "Avarage consumption: " + tripDataList.get(i).getAvarageConsumption());
-        myViewHolder.distance.setText("Distance: " + tripDataList.get(i).getDistance() + "km");
+        myViewHolder.distance.setText("Distance: " + tripDataList.get(i).getDistance() + distance);
         myViewHolder.fuelPrice.setText("Fuel price: " + tripDataList.get(i).getFuelPrice() + currency);
         myViewHolder.totalPrice.setText("Total price: " + tripDataList.get(i).getTotalPrice() + currency);
-        myViewHolder.totalLiters.setText("Total liters: " + tripDataList.get(i).getTotalLiters() + "l");
+        myViewHolder.totalLiters.setText("Total liters: " + tripDataList.get(i).getTotalLiters() + volume);
     }
 
     public void removeItem(int position) {

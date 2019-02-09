@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
-import com.bestapps.carwallet.model.Currency;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.Maintenance;
-import com.bestapps.carwallet.service.AddServiceEntryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.fragment.app.Fragment;
@@ -47,15 +46,15 @@ public class MaintenanceItemFragment extends Fragment {
         initializeViews(view);
         handleOnBackPressed(view);
         handleOnClickListeners();
-        Currency currency = databaseHandler.findCurrency();
+        ParametersSettings parametersSettings = databaseHandler.findSettings();
 
         if (maintenance != null) {
             title.setText(maintenance.getTitle());
             description.setText(maintenance.getDescription());
             date.setText(maintenance.getDate());
 //            hour.setText("" + maintenance.getHour() + ":" + maintenance.getMin());
-            price.setText("Price: " + maintenance.getPrice() + " " + currency.getCurrency());
-            mileage.setText("At mileage: " + maintenance.getMileage() + " km");
+            price.setText("Price: " + maintenance.getPrice() + " " + parametersSettings.getCurrency());
+            mileage.setText("At mileage: " + maintenance.getMileage() + parametersSettings.getDistance());
         }
         return view;
     }

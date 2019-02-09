@@ -2,21 +2,18 @@ package com.bestapps.carwallet.service;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.sax.TextElementListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
-import com.bestapps.carwallet.model.Currency;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

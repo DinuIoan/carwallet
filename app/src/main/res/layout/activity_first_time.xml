@@ -9,26 +9,104 @@
     tools:context=".firsttime.FirstTimeActivity">
 
     <TextView
-        android:id="@+id/currency_message"
+        android:id="@+id/welcome_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:textStyle="bold"
         android:textColor="@color/colorSecondaryReplyOrange"
-        android:textSize="25sp"
-        android:layout_above="@+id/input_currency"
+        android:textSize="20sp"
         android:gravity="center"
-        android:text="@string/currency_message"/>
-        <Spinner
-            android:id="@+id/input_currency"
-            android:layout_width="fill_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_centerInParent="true"
-            android:layout_height="50dp" />
+        android:text="@string/welcome_message"/>
+
+    <TextView
+        android:id="@+id/currency_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="20sp"
+        android:layout_below="@+id/welcome_message"
+        android:text="@string/parametersSettings"/>
+
+    <Spinner
+        android:id="@+id/input_currency"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/currency_message"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <TextView
+        android:id="@+id/distance_measurement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="20sp"
+        android:layout_below="@+id/input_currency"
+        android:text="@string/distance_measurement"/>
+
+    <Spinner
+        android:id="@+id/input_distance_measurement"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/distance_measurement"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <TextView
+        android:id="@+id/volume_measurement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="20sp"
+        android:layout_below="@+id/input_distance_measurement"
+        android:text="@string/volume_measurement"/>
+
+    <Spinner
+        android:id="@+id/input_volume_measurement"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/volume_measurement"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <TextView
+        android:id="@+id/change_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold|italic"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="15sp"
+        android:layout_below="@+id/input_volume_measurement"
+        android:text="@string/you_can_change_them_anytime_from_your_garage"/>
 
     <TextView
         android:id="@+id/add_car_first_message"
@@ -40,7 +118,7 @@
         android:textColor="@color/colorSecondaryReplyOrange"
         android:textSize="25sp"
         android:gravity="center"
-        android:text="@string/welcome_message"/>
+        android:text="@string/add_car_message"/>
 
     <Button
         android:id="@+id/next_button"

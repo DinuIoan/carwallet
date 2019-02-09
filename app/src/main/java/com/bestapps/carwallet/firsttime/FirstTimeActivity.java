@@ -1,9 +1,7 @@
 package com.bestapps.carwallet.firsttime;
 
 import android.content.Intent;
-import android.location.GnssMeasurementsEvent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,13 +12,10 @@ import android.widget.TextView;
 import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
-import com.bestapps.carwallet.model.Currency;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.bestapps.carwallet.model.ParametersSettings;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class FirstTimeActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
@@ -28,9 +23,15 @@ public class FirstTimeActivity extends AppCompatActivity {
     private Button nextButton;
     private TextView addCarTextViewMessage;
     private TextView selectCurrencyViewMessage;
+    private TextView currencyTextView;
+    private TextView volumeMeasurementTextView;
+    private TextView distanceMeasurementTextView;
+    private TextView changeHint;
     private DatabaseHandler databaseHandler;
     private Spinner currencySpinner;
-    private Currency currency;
+    private Spinner distanceSpinner;
+    private Spinner volumeSpinner;
+    private ParametersSettings parametersSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +43,30 @@ public class FirstTimeActivity extends AppCompatActivity {
         startNowButton = findViewById(R.id.start_now_button);
         nextButton = findViewById(R.id.next_button);
         addCarTextViewMessage = findViewById(R.id.add_car_first_message);
-        selectCurrencyViewMessage = findViewById(R.id.currency_message);
+        selectCurrencyViewMessage = findViewById(R.id.welcome_message);
         currencySpinner = findViewById(R.id.input_currency);
+        distanceSpinner = findViewById(R.id.input_distance_measurement);
+        volumeSpinner = findViewById(R.id.input_volume_measurement);
+        currencyTextView = findViewById(R.id.currency_message);
+        volumeMeasurementTextView = findViewById(R.id.volume_measurement);
+        distanceMeasurementTextView = findViewById(R.id.distance_measurement);
+        changeHint = findViewById(R.id.change_hint);
 
         setCurrencySpinnerAdapter();
-        currency = databaseHandler.findCurrency();
+        setDistanceSpinnerAdapter();
+        setVolumeSpinnerAdapter();
+        parametersSettings = databaseHandler.findSettings();
+        nextButton.setVisibility(View.GONE);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Currency currency = new Currency();
-                currency.setId(0);
-                currency.setCurrency(currencySpinner.getSelectedItem().toString());
-                databaseHandler.addCurrency(currency.getCurrency());
+                ParametersSettings parametersSettings = new ParametersSettings();
+                parametersSettings.setId(0);
+                parametersSettings.setCurrency(currencySpinner.getSelectedItem().toString());
+                parametersSettings.setDistance(distanceSpinner.getSelectedItem().toString());
+                parametersSettings.setVolume(volumeSpinner.getSelectedItem().toString());
+                databaseHandler.addSettings(parametersSettings);
                 hideCurrency();
             }
         });
@@ -71,7 +83,27 @@ public class FirstTimeActivity extends AppCompatActivity {
         currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 0) {
+                if (    i != 0 &&
+                        distanceSpinner.getSelectedItemPosition() != 0 &&
+                        volumeSpinner.getSelectedItemPosition() != 0) {
+
+                            nextButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        distanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (    i != 0 &&
+                        currencySpinner.getSelectedItemPosition() != 0 &&
+                        volumeSpinner.getSelectedItemPosition() != 0) {
+
                     nextButton.setVisibility(View.VISIBLE);
                 }
             }
@@ -82,7 +114,24 @@ public class FirstTimeActivity extends AppCompatActivity {
             }
         });
 
-        if (currency == null) {
+        volumeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (    i != 0 &&
+                        currencySpinner.getSelectedItemPosition() != 0  &&
+                        distanceSpinner.getSelectedItemPosition() != 0) {
+
+                    nextButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        if (parametersSettings == null) {
             hideAddCarMessage();
         } else {
             hideCurrency();
@@ -93,12 +142,13 @@ public class FirstTimeActivity extends AppCompatActivity {
         startNowButton.setVisibility(View.GONE);
         addCarTextViewMessage.setVisibility(View.GONE);
         selectCurrencyViewMessage.setVisibility(View.VISIBLE);
-
-        if (currencySpinner.getSelectedItem().toString().equals("Select currency...")) {
-            nextButton.setVisibility(View.GONE);
-        } else {
-            nextButton.setVisibility(View.VISIBLE);
-        }
+        currencySpinner.setVisibility(View.VISIBLE);
+        distanceSpinner.setVisibility(View.VISIBLE);
+        volumeSpinner.setVisibility(View.VISIBLE);
+        currencyTextView.setVisibility(View.VISIBLE);
+        distanceMeasurementTextView.setVisibility(View.VISIBLE);
+        volumeMeasurementTextView.setVisibility(View.VISIBLE);
+        changeHint.setVisibility(View.VISIBLE);
     }
 
     private void hideCurrency() {
@@ -107,6 +157,12 @@ public class FirstTimeActivity extends AppCompatActivity {
         selectCurrencyViewMessage.setVisibility(View.GONE);
         nextButton.setVisibility(View.GONE);
         currencySpinner.setVisibility(View.GONE);
+        distanceSpinner.setVisibility(View.GONE);
+        volumeSpinner.setVisibility(View.GONE);
+        currencyTextView.setVisibility(View.GONE);
+        distanceMeasurementTextView.setVisibility(View.GONE);
+        volumeMeasurementTextView.setVisibility(View.GONE);
+        changeHint.setVisibility(View.GONE);
     }
 
     private void setCurrencySpinnerAdapter() {
@@ -115,5 +171,21 @@ public class FirstTimeActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(adapter);
         currencySpinner.setSelection(0);
+    }
+
+    private void setDistanceSpinnerAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.distance_measurement_units, R.layout.simple_item_spinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        distanceSpinner.setAdapter(adapter);
+        distanceSpinner.setSelection(0);
+    }
+
+    private void setVolumeSpinnerAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.volume_measurement_units, R.layout.simple_item_spinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        volumeSpinner.setAdapter(adapter);
+        volumeSpinner.setSelection(0);
     }
 }

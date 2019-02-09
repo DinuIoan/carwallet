@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
-import com.bestapps.carwallet.model.Currency;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,12 +45,12 @@ public class ServiceEntryFragment extends Fragment {
         initializeViews(view);
         handleOnClickListeners();
         databaseHandler = new DatabaseHandler(getContext());
-        Currency currency = databaseHandler.findCurrency();
+        ParametersSettings parametersSettings = databaseHandler.findSettings();
 
         if (serviceEntry != null) {
             title.setText(serviceEntry.getTitle());
-            price.setText("Price: " + serviceEntry.getPrice() + " " + currency.getCurrency());
-            mileage.setText("Mileage: " + serviceEntry.getMileage() + " km");
+            price.setText("Price: " + serviceEntry.getPrice() + " " + parametersSettings.getCurrency());
+            mileage.setText("Mileage: " + serviceEntry.getMileage() + parametersSettings.getDistance());
             date.setText("Date: " + serviceEntry.getDate());
             description.setText(serviceEntry.getDescription());
             serviceName.setText("Service name: " + serviceEntry.getServiceName());

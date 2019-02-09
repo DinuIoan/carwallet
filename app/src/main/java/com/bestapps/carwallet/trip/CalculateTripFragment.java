@@ -8,16 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.database.DatabaseHandler;
-import com.bestapps.carwallet.model.Currency;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.TripData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import androidx.fragment.app.Fragment;
@@ -52,7 +50,7 @@ public class CalculateTripFragment extends Fragment {
 
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
-    private Currency currency;
+    private ParametersSettings parametersSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,12 +62,12 @@ public class CalculateTripFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calculate_trip, container, false);
-        initiateViews(view);
-        databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
+        databaseHandler = new DatabaseHandler(getContext());
+        parametersSettings = databaseHandler.findSettings();
+        initiateViews(view);
         handleOnBackPressed(view);
         handleClickListeners();
-        currency = databaseHandler.findCurrency();
 
         return view;
     }
@@ -81,8 +79,8 @@ public class CalculateTripFragment extends Fragment {
                 if (validate("calculate")) {
                     calculateTotalPrice();
                     calculateTotalLiters();
-                    totalPriceEdt.setText(String.format(Locale.US, "%.2f", totalPrice) + currency.getCurrency());
-                    totalLitersEdt.setText(String.format(Locale.US, "%.2f", totalLiters) + currency.getCurrency());
+                    totalPriceEdt.setText(String.format(Locale.US, "%.2f", totalPrice) + parametersSettings.getCurrency());
+                    totalLitersEdt.setText(String.format(Locale.US, "%.2f", totalLiters) + parametersSettings.getVolume());
                 }
                 hideKeyboard();
             }
@@ -181,7 +179,12 @@ public class CalculateTripFragment extends Fragment {
         fuelPriceEdt = view.findViewById(R.id.input_fuel_price);
         totalPriceEdt = view.findViewById(R.id.input_total_price);
         totalLitersEdt = view.findViewById(R.id.input_total_liters);
-        calculateButton = view.findViewById(R.id.btn_calculate);
+        if (parametersSettings.getVolume().equals("l")) {
+            totalLitersEdt.setHint("Total liters");
+        } else if (parametersSettings.getVolume().equals("gal")) {
+            totalLitersEdt.setHint("Total gallons");
+        }
+            calculateButton = view.findViewById(R.id.btn_calculate);
         saveButton = view.findViewById(R.id.btn_save_trip);
 
         toLayout = view.findViewById(R.id.input_layout_to);

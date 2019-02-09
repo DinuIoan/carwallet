@@ -10,21 +10,61 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:textStyle="bold"
         android:textColor="@color/colorSecondaryReplyOrange"
-        android:textSize="25sp"
-        android:layout_above="@+id/input_currency"
-        android:gravity="center"
-        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
         android:text="@string/selectCurrency"/>
     <Spinner
         android:id="@+id/input_currency"
         android:layout_width="fill_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/currency_message"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/distance_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="20sp"
+        android:layout_below="@id/input_currency"
+        android:text="@string/selectDistance"/>
+    <Spinner
+        android:id="@+id/input_distance"
+        android:layout_width="fill_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/distance_message"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/volume_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorSecondaryReplyOrange"
+        android:textSize="20sp"
+        android:layout_below="@+id/input_distance"
+        android:text="@string/selectVolume"/>
+    <Spinner
+        android:id="@+id/input_volume"
+        android:layout_width="fill_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/volume_message"
         android:layout_height="50dp" />
 
     <Button

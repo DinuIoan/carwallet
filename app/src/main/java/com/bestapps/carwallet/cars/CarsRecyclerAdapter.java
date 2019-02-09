@@ -14,6 +14,7 @@ import com.bestapps.carwallet.alertdialog.ClearAlertDialog;
 import com.bestapps.carwallet.alertdialog.SetActiveAlertDialogFragment;
 import com.bestapps.carwallet.database.DatabaseHandler;
 import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.ParametersSettings;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class CarsRecyclerAdapter
     private List<Car> cars;
     private DatabaseHandler databaseHandler;
     private FragmentManager fragmentManager;
+    public String distance;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -48,6 +50,8 @@ public class CarsRecyclerAdapter
         public Button editButton;
         public Button setActiveButton;
         public Button clearButton;
+
+
 
         public MyViewHolder(LinearLayout v) {
             super(v);
@@ -71,10 +75,12 @@ public class CarsRecyclerAdapter
     // Provide a suitable constructor (depends on the kind of dataset)
     public CarsRecyclerAdapter(List<Car> cars,
                                DatabaseHandler databaseHandler,
-                               FragmentManager fragmentManager) {
+                               FragmentManager fragmentManager,
+                               ParametersSettings parametersSettings) {
         this.cars = cars;
         this.databaseHandler = databaseHandler;
         this.fragmentManager = fragmentManager;
+        this.distance = parametersSettings.getDistance();
     }
 
     // Create new views (invoked by the layout manager)
@@ -97,7 +103,7 @@ public class CarsRecyclerAdapter
         String shapeText = holder.shape.getText() +
                 cars.get(position).getShape();
         String mileageText = holder.mileage.getText() + "" +
-                cars.get(position).getMileage() + " km";
+                cars.get(position).getMileage() + " " + distance;
         String vinText = holder.vin.getText() +
                 cars.get(position).getVin();
         String yearText = holder.year.getText() + "" +

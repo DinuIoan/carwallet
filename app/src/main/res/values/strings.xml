@@ -13,8 +13,8 @@
     <string name="hint_year">Year</string>
     <string name="hint_vin">VIN</string>
     <string name="hint_fuel">Fuel type</string>
-    <string name="hint_mileage">Mileage (km)</string>
-    <string name="hint_at_mileage">At mileage (km)</string>
+    <string name="hint_mileage">Mileage</string>
+    <string name="hint_at_mileage">At mileage</string>
     <string name="hint_license_no">License no</string>
     <string name="btn_add_car">Add</string>
     <string name="btn_add_car_edit">Edit</string>
@@ -85,13 +85,19 @@
     <string name="my_garage">My garage</string>
     <string name="active">Active</string>
     <string name="set_active">Set active</string>
-    <string name="welcome_message">To use all the features in this app please park your first car in app\'s garage. \n\n Enjoy :)</string>
+    <string name="add_car_message">TO USE ALL THE FEATURES IN THIS APP PLEASE PARK YOUR FIRST CAR IN APP\'S GARAGE. \n\n ENJOY :)</string>
     <string name="start_now">Start now -></string>
     <string name="please_add_a_car_first">Please add a car first...</string>
-    <string name="currency_message">Welcome ! \n Let\'s start by selecting your currency:</string>
-    <string name="selectCurrency">Change currency to:</string>
+    <string name="welcome_message">WELCOME ! \n LET\'S START BY CUSTOMIZE YOUR APP:</string>
+    <string name="selectCurrency">Change currency:</string>
+    <string name="selectDistance">Change distance measurement unit:</string>
+    <string name="selectVolume">Change volume measurement unit:</string>
     <string name="next"><![CDATA[Next ->]]></string>
     <string name="save">Save</string>
+    <string name="parametersSettings">Currency: </string>
+    <string name="distance_measurement">Distance measurement unit:</string>
+    <string name="volume_measurement">Volume measurement unit:</string>
+    <string name="you_can_change_them_anytime_from_your_garage">You can change them anytime from your garage.</string>
     <string-array name="currecies">
         <item>Select currency...</item>
         <item>¥</item>
@@ -152,5 +158,18 @@
         <item>UYU</item>
         <item>VEB</item>
         <item>XAF</item>
+    </string-array>
+
+    <string-array name="distance_measurement_units">
+        <item>Select distance measurement unit...</item>
+        <item>km</item>
+        <item>yard</item>
+        <item>mile</item>
+    </string-array>
+
+    <string-array name="volume_measurement_units">
+        <item>Select volume measurement unit...</item>
+        <item>l</item>
+        <item>gal</item>
     </string-array>
 </resources>

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bestapps.carwallet.model.Car;
-import com.bestapps.carwallet.model.Currency;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.bestapps.carwallet.model.Maintenance;
 import com.bestapps.carwallet.model.ServiceEntry;
 import com.bestapps.carwallet.model.TripData;
@@ -21,8 +21,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String ID = "id";
 
-    private static final String CURRENCY_TABLE = "currency_table";
+    private static final String SETTINGS_TABLE = "settings_table";
     private static final String CURRENCY = "currency";
+    private static final String DISTANCE_MEASUREMENT = "distance_measurement";
+    private static final String VOLUME_MEASUREMENT = "volume_measurement";
 
     private static final String CAR_TABLE = "car";
     private static final String CAR_MANUFACTURER = "manufacturer";
@@ -138,10 +140,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + TIMESTAMP + " integer"
                 + " ) ";
 
-        String CREATE_CURRENCY_TABLE = "create table " + CURRENCY_TABLE +
+        String CREATE_CURRENCY_TABLE = "create table " + SETTINGS_TABLE +
                 " ( "
                 + ID + " integer primary key autoincrement, "
-                + CURRENCY + " text"
+                + CURRENCY + " text, "
+                + DISTANCE_MEASUREMENT + " text, "
+                + VOLUME_MEASUREMENT + " text "
                 + " ) ";
         sqLiteDatabase.execSQL(CREATE_CAR_TABLE);
         sqLiteDatabase.execSQL(CREATE_SERVICE_ENTRY);
@@ -155,7 +159,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + CAR_TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + SERVICE_ENTRY_TABLE);
         sqLiteDatabase.execSQL("drop table if exists " + MAINTENANCE_TABLE);
-        sqLiteDatabase.execSQL("drop table if exists " + CURRENCY_TABLE);
+        sqLiteDatabase.execSQL("drop table if exists " + SETTINGS_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -595,35 +599,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return tripData;
     }
 
-    public void addCurrency(String currency) {
+    public void addSettings(ParametersSettings parametersSettings) {
         SQLiteDatabase database = getWritableDatabase();
-        String ADD_CURRENCY = "insert into " + CURRENCY_TABLE +
-                " values(0, '" + currency + "')";
-        database.execSQL(ADD_CURRENCY);
+        String ADD_SETTINGS = "insert into " + SETTINGS_TABLE +
+                " values(0, '"
+                + parametersSettings.getCurrency() + "', '"
+                + parametersSettings.getDistance()+ "', '"
+                + parametersSettings.getVolume() + "') ";
+        database.execSQL(ADD_SETTINGS);
         database.close();
     }
 
-    public Currency findCurrency() {
+    public ParametersSettings findSettings() {
         SQLiteDatabase database = getWritableDatabase();
-        String FIND_CURRENCY = "select * from " + CURRENCY_TABLE + " where id = 0";
-        Cursor cursor = database.rawQuery(FIND_CURRENCY, null);
-        Currency currency = new Currency();
+        String FIND_SETTINGS = "select * from " + SETTINGS_TABLE + " where id = 0";
+        Cursor cursor = database.rawQuery(FIND_SETTINGS, null);
+        ParametersSettings parametersSettings = new ParametersSettings();
 
         if (cursor.moveToFirst()) {
-            currency.setId(0);
-            currency.setCurrency(cursor.getString(1));
+            parametersSettings.setId(0);
+            parametersSettings.setCurrency(cursor.getString(1));
+            parametersSettings.setDistance(cursor.getString(2));
+            parametersSettings.setVolume(cursor.getString(3));
             database.close();
             cursor.close();
-            return currency;
+            return parametersSettings;
         } else {
             return null;
         }
     }
 
-    public void updateCurrency(String s) {
+    public void updateSettings(String currency, String distance, String volume) {
         SQLiteDatabase database = getWritableDatabase();
-        String UPDATE_CURRENCY = "update " + CURRENCY_TABLE+ " set " +
-                CURRENCY + " = '" + s + "' " + " where " + ID + " = 0";
+        String UPDATE_CURRENCY = "update " + SETTINGS_TABLE + " set "
+                + CURRENCY + " = '" + currency + "', "
+                + DISTANCE_MEASUREMENT + " = '" + distance + "', "
+                + VOLUME_MEASUREMENT + " = '" + volume + "'"
+                + " where " + ID + " = 0";
         database.execSQL(UPDATE_CURRENCY);
         database.close();
     }

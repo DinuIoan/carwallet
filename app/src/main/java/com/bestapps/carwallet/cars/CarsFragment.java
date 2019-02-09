@@ -11,7 +11,11 @@ import com.bestapps.carwallet.MainActivity;
 import com.bestapps.carwallet.R;
 import com.bestapps.carwallet.data.StaticData;
 import com.bestapps.carwallet.database.DatabaseHandler;
+import com.bestapps.carwallet.model.Car;
+import com.bestapps.carwallet.model.ParametersSettings;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,6 +47,8 @@ public class CarsFragment extends Fragment {
         changeCurrency = view.findViewById(R.id.change_currency);
         databaseHandler = new DatabaseHandler(getContext());
         fragmentManager = getActivity().getSupportFragmentManager();
+        List<Car> carList = databaseHandler.findAllCars();
+        ParametersSettings parametersSettings = databaseHandler.findSettings();
         MainActivity.backCount = 0;
         setClickListeners(view);
 
@@ -55,7 +61,8 @@ public class CarsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CarsRecyclerAdapter(StaticData.getCars(), databaseHandler, fragmentManager);
+        mAdapter = new CarsRecyclerAdapter(carList,
+                databaseHandler, fragmentManager, parametersSettings);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

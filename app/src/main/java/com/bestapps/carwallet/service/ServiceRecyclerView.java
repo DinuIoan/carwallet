@@ -55,8 +55,6 @@ class ServiceRecyclerView extends RecyclerView.Adapter<ServiceRecyclerView.MyVie
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-        String mileageText = "" + serviceEntries.get(i).getMileage() + " km";
-        String priceText = "" + serviceEntries.get(i).getPrice() + "$";
         myViewHolder.title.setText(serviceEntries.get(i).getTitle());
         myViewHolder.date.setText(serviceEntries.get(i).getDate());
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {

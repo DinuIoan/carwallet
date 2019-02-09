@@ -138,7 +138,6 @@
                             android:id="@+id/input_total_liters"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/total_liters"
                             android:gravity="center"
                             android:enabled="false"
                             android:inputType="numberDecimal" />
