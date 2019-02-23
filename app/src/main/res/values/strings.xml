@@ -54,8 +54,9 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok, got it</string>
-    <string name="changeActiveCar">Attention</string>
+    <string name="attention">Attention</string>
     <string name="licenseNoUniquieConstraint">You can`t have two cars with same license no. License no must be unique.</string>
+    <string name="vinUniquieConstraint">You can`t have two cars with same VIN. VIN must be unique.</string>
     <string name="selectYear">Select year:</string>
     <string name="noDataAvailable">No data available.</string>
     <string name="january">January</string>
@@ -100,24 +101,19 @@
     <string name="you_can_change_them_anytime_from_your_garage">You can change them anytime from your garage.</string>
     <string-array name="currecies">
         <item>Select currency...</item>
-        <item>¥</item>
-        <item>£</item>
-        <item>₹</item>
-        <item>RM</item>
-        <item>Rf</item>
-        <item>₮</item>
-        <item>Rs</item>
-        <item>₩</item>
-        <item>$</item>
-        <item>د.ا</item>
-        <item>₱</item>
-        <item>﷼</item>
-        <item>₽</item>
-        <item>$</item>
-        <item>฿</item>
-        <item>₺</item>
-        <item>₺</item>
         <item>€</item>
+        <item>$</item>
+        <item>£</item>
+        <item>¥</item>
+        <item>₹</item>
+        <item>₮</item>
+        <item>₺</item>
+        <item>₽</item>
+        <item>₱</item>
+        <item>฿</item>
+        <item>₩</item>
+        <item>﷼</item>
+        <item>د.ا</item>
         <item>AED</item>
         <item>BAM</item>
         <item>BGN</item>
@@ -149,7 +145,10 @@
         <item>PEN</item>
         <item>PLN</item>
         <item>PYG</item>
+        <item>Rf</item>
+        <item>RM</item>
         <item>RON</item>
+        <item>Rs</item>
         <item>RSD</item>
         <item>SEK</item>
         <item>SKK</item>
@@ -163,8 +162,8 @@
     <string-array name="distance_measurement_units">
         <item>Select distance measurement unit...</item>
         <item>km</item>
-        <item>yard</item>
         <item>mile</item>
+        <item>yard</item>
     </string-array>
 
     <string-array name="volume_measurement_units">

@@ -127,7 +127,6 @@ public class MaintenanceFragment extends Fragment {
         SortedMap<Long, Maintenance> maintenanceSortedMap = new TreeMap<>();
         for(int i = 0; i < maintenanceList.size(); i++) {
             Maintenance maintenance = maintenanceList.get(i);
-
             maintenanceSortedMap.put(maintenance.getTimestamp(), maintenance);
         }
         return new ArrayList<>(maintenanceSortedMap.values());

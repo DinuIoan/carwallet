@@ -39,7 +39,7 @@ public class DeleteServiceEntryDialog extends Fragment {
         databaseHandler = new DatabaseHandler(getContext());
 
         builder.setMessage(buildMessage(serviceEntry))
-                .setTitle(R.string.changeActiveCar);
+                .setTitle(R.string.attention);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 databaseHandler.deleteServiceEntry(serviceEntry.getId());

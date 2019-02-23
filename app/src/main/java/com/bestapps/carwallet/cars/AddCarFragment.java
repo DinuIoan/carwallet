@@ -10,12 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -31,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,14 +188,18 @@ public class AddCarFragment extends Fragment {
                 if (validate()) {
                     Car newCar = buildCar();
                     if (isEdit) {
-                        if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, true)) {
+                        if (!databaseHandler.checkVINUniqueConstraint(newCar , true)) {
+                            createAlertDialogExistingVIN();
+                        } else if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, true)) {
                             createAlertDialogExistingLicenseNo();
                         } else {
                             databaseHandler.updateCar(newCar);
                             changeFragment(new CarsFragment());
                         }
                     } else {
-                        if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, false)) {
+                        if (!databaseHandler.checkVINUniqueConstraint(newCar , false)) {
+                            createAlertDialogExistingVIN();
+                        } else if (!databaseHandler.checkLicenseNoUniqueConstraint(newCar, false)) {
                             createAlertDialogExistingLicenseNo();
                         } else {
                             databaseHandler.addCar(newCar);
@@ -375,6 +378,18 @@ public class AddCarFragment extends Fragment {
         });
     }
 
+    private void createAlertDialogExistingVIN() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.vinUniquieConstraint)
+                .setTitle(R.string.attention);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void hideKeyboard() {
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -410,7 +425,7 @@ public class AddCarFragment extends Fragment {
     private void createAlertDialogExistingLicenseNo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.licenseNoUniquieConstraint)
-                .setTitle(R.string.changeActiveCar);
+                .setTitle(R.string.attention);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             }
@@ -513,20 +528,24 @@ public class AddCarFragment extends Fragment {
             layoutLicenseNo.setErrorEnabled(false);
             licenseNo = licenseNoEdt.getText().toString();
         }
-        if (!engineEdt.getText().toString().isEmpty()) {
-            engine = engineEdt.getText().toString();
-        } else {
+        if (engineEdt.getText().toString().isEmpty() ||
+                Integer.parseInt(engineEdt.getText().toString()) <= 0 ) {
             isValid = false;
             layoutEngine.setError(" ");
+        } else {
+            engine = engineEdt.getText().toString();
         }
 
-        if (!powerEdt.getText().toString().isEmpty()) {
-            power = Integer.parseInt(powerEdt.getText().toString());
-        } else {
+        if (powerEdt.getText().toString().isEmpty() ||
+                Integer.parseInt(powerEdt.getText().toString()) <= 0) {
             isValid = false;
             layoutPower.setError(" ");
+        } else {
+            power = Integer.parseInt(powerEdt.getText().toString());
         }
-        if (yearEdt.getText().toString().isEmpty()) {
+        if (yearEdt.getText().toString().isEmpty() ||
+                Integer.parseInt(yearEdt.getText().toString()) > Calendar.getInstance().get(Calendar.YEAR) + 1 ||
+                Integer.parseInt(yearEdt.getText().toString()) < 1900) {
 //            isValid = setError(layoutYear);
             isValid = false;
             layoutYear.setError(" ");
@@ -534,7 +553,8 @@ public class AddCarFragment extends Fragment {
             layoutYear.setErrorEnabled(false);
             year = Integer.parseInt(yearEdt.getText().toString());
         }
-        if (mileageEdt.getText().toString().isEmpty()) {
+        if (mileageEdt.getText().toString().isEmpty() ||
+                Integer.parseInt(mileageEdt.getText().toString()) <= 0 ) {
 //            isValid = setError(layoutMileage);
             isValid = false;
             layoutMileage.setError(" ");

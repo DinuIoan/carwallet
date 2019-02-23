@@ -39,7 +39,7 @@ public class DeleteMaintenanceDialog extends Fragment {
         databaseHandler = new DatabaseHandler(getContext());
 
         builder.setMessage(buildMessage(maintenance))
-                .setTitle(R.string.changeActiveCar);
+                .setTitle(R.string.attention);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 databaseHandler.deleteMaintenance(maintenance.getId());

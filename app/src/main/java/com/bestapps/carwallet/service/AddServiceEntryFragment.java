@@ -146,7 +146,8 @@ public class AddServiceEntryFragment extends Fragment implements DatePickerDialo
             titleLayout.setError(" ");
         }
 
-        if (mileageEdt.getText().toString().isEmpty()) {
+        if (mileageEdt.getText().toString().isEmpty() ||
+                Integer.parseInt(mileageEdt.getText().toString()) <= 0 ) {
             isValid = false;
             mileageLayout.setError(" ");
         } else {

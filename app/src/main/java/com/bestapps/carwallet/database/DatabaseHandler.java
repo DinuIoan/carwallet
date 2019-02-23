@@ -273,6 +273,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean checkVINUniqueConstraint(Car car, boolean isEdit) {
+        List<Car> carList = findAllCars();
+        if (isEdit) {
+            for (Car carFromDb : carList) {
+                if (!carFromDb.getId().equals(car.getId()) &&
+                        carFromDb.getVin().toLowerCase().equals(car.getVin().toLowerCase())) {
+                    return false;
+                }
+            }
+        } else {
+            for (Car carFromDb : carList) {
+                if (carFromDb.getVin().toLowerCase().equals(car.getVin().toLowerCase())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public Car getActiveCar() {
         SQLiteDatabase database = getWritableDatabase();
         String GET_ACTIVE_CAR = "select * from " + CAR_TABLE +
@@ -447,8 +466,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int month = Integer.parseInt(splittedDate[1]);
         int day = Integer.parseInt(splittedDate[2]);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, Integer.parseInt(maintenance.getHour())
-                ,Integer.parseInt(maintenance.getMin()), calendar.getTime().getSeconds());
+        //calendar.set(year, month, day, Integer.parseInt(maintenance.getHour())
+                //,Integer.parseInt(maintenance.getMin()), calendar.getTime().getSeconds());
+        calendar.set(year, month, day,
+                calendar.getTime().getHours(),
+                calendar.getTime().getMinutes(),
+                calendar.getTime().getSeconds());
         long timestamp = calendar.getTimeInMillis();
         String ADD_MAINTENANCE = "insert into " + MAINTENANCE_TABLE +
                 " values(null, '"
@@ -537,7 +560,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 MAINTENANCE_DATE+ " = '" + maintenance.getDate()+ "', " +
                 MAINTENANCE_HOUR+ " = '" + maintenance.getHour()+ "', " +
                 MAINTENANCE_MIN+ " = '" + maintenance.getMin()+ "', " +
-                MAINTENANCE_CAR_ID + " = " + maintenance.getCarId() +
+                MAINTENANCE_CAR_ID + " = " + maintenance.getCarId() + ", " +
                 TIMESTAMP + " = " + timestamp +
                 " where " + ID + " = " + maintenance.getId();
         database.execSQL(UPDATE_MAINTENANCE);
@@ -643,4 +666,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private int getRandomInt() {
         return ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
     }
+
 }

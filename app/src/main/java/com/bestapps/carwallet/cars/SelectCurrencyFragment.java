@@ -1,7 +1,6 @@
 package com.bestapps.carwallet.cars;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +64,7 @@ public class SelectCurrencyFragment extends Fragment {
                             currencySpinner.getSelectedItem().toString(),
                             distanceSpinner.getSelectedItem().toString(),
                             volumeSpinner.getSelectedItem().toString());
-                    convertDistanceMeasurementUnit(distanceSpinner.getSelectedItem().toString());
+                    //convert(distanceSpinner.getSelectedItem().toString());
                     changeFragment(new CarsFragment());
                 }
             }
@@ -85,7 +84,7 @@ public class SelectCurrencyFragment extends Fragment {
         return view;
     }
 
-    private void convertDistanceMeasurementUnit(String actualDistance) {
+    private void convert(String actualDistance) {
         List<Car> carList = databaseHandler.findAllCars();
         List<ServiceEntry> serviceEntries = databaseHandler.findAllServiceEntries();
         List<Maintenance> maintenanceList = databaseHandler.findAllMaintenance();
